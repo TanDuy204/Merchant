@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:merchant/common/styles.dart';
 import 'package:merchant/models/schedule_model.dart';
+import 'package:merchant/routes/app_route.dart';
 
 class ScheduleScreen extends StatelessWidget {
   final List<Schedule> schedules;
@@ -215,8 +216,7 @@ class ScheduleScreen extends StatelessWidget {
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    print("Schedule: $schedule");
-                                    Get.toNamed("/collectSchedule",
+                                    Get.toNamed(AppRoutes.collectSchedule,
                                         arguments: schedules);
                                   },
                                   child: Container(

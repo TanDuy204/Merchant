@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:merchant/common/styles.dart';
 import 'package:merchant/views/collected/completed/completed_pickup.dart';
-import 'package:merchant/views/collected/pending_pickup.dart';
+import 'package:merchant/views/collected/pending/pending_pickup.dart';
 import 'package:merchant/views/collected/today_pickup.dart';
 
 import '../../service/uidata.dart';

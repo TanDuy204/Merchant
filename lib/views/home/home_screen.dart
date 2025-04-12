@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:merchant/common/styles.dart';
+import 'package:merchant/routes/app_route.dart';
 
 import '../../service/uidata.dart';
 
@@ -159,7 +160,7 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   buildGridItem(
                       onTap: () {
-                        Get.toNamed("/schedule");
+                        Get.toNamed(AppRoutes.schedule);
                       },
                       label: "Sắp lịch",
                       context: context,
@@ -167,7 +168,7 @@ class HomeScreen extends StatelessWidget {
                       iconPath: 'assets/icons/schedule.png'),
                   buildGridItem(
                       onTap: () {
-                        Get.toNamed("/collected");
+                        Get.toNamed(AppRoutes.collected);
                       },
                       label: "Đã thu gom",
                       context: context,
