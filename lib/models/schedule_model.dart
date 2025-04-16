@@ -8,7 +8,6 @@ class Schedule {
   final String contactPhone;
   final String cargoType;
   final String status;
-
   final DateTime datetime;
   final String note;
   final double price;

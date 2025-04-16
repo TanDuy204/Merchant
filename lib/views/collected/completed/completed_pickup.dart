@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:merchant/controllers/collected_controller.dart';
 import 'package:merchant/models/schedule_model.dart';
 
-import '../../../common/styles.dart';
+import '../../../common/app_style.dart';
 import 'completed_pickup_detail.dart';
 
 class CompletedPickupScreen extends StatelessWidget {
@@ -43,7 +43,7 @@ class CompletedPickupScreen extends StatelessWidget {
 
                     return GestureDetector(
                       onTap: () {
-                        Get.to(() => const ContractDetailScreen());
+                        Get.to(() => const CompletedPickupDetail());
                       },
                       child: Container(
                         margin: const EdgeInsets.symmetric(

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:merchant/common/styles.dart';
+import 'package:merchant/common/app_style.dart';
 import 'package:merchant/views/collected/completed/completed_pickup.dart';
 import 'package:merchant/views/collected/pending/pending_pickup.dart';
-import 'package:merchant/views/collected/today_pickup.dart';
+import 'package:merchant/views/collected/today/today_pickup.dart';
 
 import '../../service/uidata.dart';
 
@@ -35,8 +35,12 @@ class CollectedScreen extends StatelessWidget {
             CompletedPickupScreen(
               schedules: schedules,
             ),
-            const PendingPickupScreen(),
-            const TodayPickupScreen(),
+            PendingPickupScreen(
+              pendingSchedule: mockWasteCollections,
+            ),
+            TodayPickupScreen(
+              schedules: schedules,
+            ),
           ],
         ),
       ),

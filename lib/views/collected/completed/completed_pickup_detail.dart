@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:merchant/common/styles.dart';
+import 'package:merchant/common/app_dimensions.dart';
+import 'package:merchant/common/app_style.dart';
+import 'package:merchant/common/custom_search.dart';
 
 import '../../../service/uidata.dart';
 
-class ContractDetailScreen extends StatefulWidget {
-  const ContractDetailScreen({super.key});
+class CompletedPickupDetail extends StatefulWidget {
+  const CompletedPickupDetail({super.key});
 
   @override
-  State<ContractDetailScreen> createState() => _ContractDetailScreenState();
+  State<CompletedPickupDetail> createState() => _ContractDetailScreenState();
 }
 
-class _ContractDetailScreenState extends State<ContractDetailScreen> {
+class _ContractDetailScreenState extends State<CompletedPickupDetail> {
   final TextEditingController searchController = TextEditingController();
   final TextEditingController searchItemController = TextEditingController();
 
@@ -125,65 +127,44 @@ class _ContractDetailScreenState extends State<ContractDetailScreen> {
                 ),
                 child: Column(
                   children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey.shade400),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Row(
-                        children: [
-                          const Icon(Icons.search),
-                          const SizedBox(width: 8),
-                          Expanded(
-                            child: TextField(
-                              controller: searchController,
-                              decoration: const InputDecoration(
-                                hintText: 'Tìm kiếm...',
-                                border: InputBorder.none,
-                              ),
-                              onChanged: (value) => setState(() {}),
-                            ),
-                          ),
-                        ],
-                      ),
+                    ///Widget search
+                    CustomSearch(
+                      controller: searchController,
+                      onChanged: (value) => setState(() {}),
                     ),
-                    const SizedBox(height: 16),
 
                     ///Danh sách chi phí đi kèm
                     LayoutBuilder(
                       builder: (context, constraints) {
                         final columnWidth = constraints.maxWidth / 4.5;
                         return DataTable(
+                          headingTextStyle: AppTextStyles.titleSmall(context),
+                          dataTextStyle: AppTextStyles.bodySmall(context),
                           columnSpacing: 0,
-                          dataRowHeight: 50,
+                          dataRowHeight: AppDimensions.heightSmall(context),
                           columns: [
                             DataColumn(
                               label: SizedBox(
                                 width: columnWidth,
-                                child: Text('Hạng mục',
-                                    style: AppTextStyles.titleSmall(context)),
+                                child: const Text('Hạng mục'),
                               ),
                             ),
                             DataColumn(
                               label: SizedBox(
                                 width: columnWidth,
-                                child: Text('Số lượng',
-                                    style: AppTextStyles.titleSmall(context)),
+                                child: const Text('Số lượng'),
                               ),
                             ),
                             DataColumn(
                               label: SizedBox(
                                 width: columnWidth,
-                                child: Text('Đơn giá',
-                                    style: AppTextStyles.titleSmall(context)),
+                                child: const Text('Đơn giá'),
                               ),
                             ),
                             DataColumn(
                               label: SizedBox(
                                 width: columnWidth,
-                                child: Text('Thành tiền',
-                                    style: AppTextStyles.titleSmall(context)),
+                                child: const Text('Thành tiền'),
                               ),
                             ),
                           ],
@@ -192,23 +173,19 @@ class _ContractDetailScreenState extends State<ContractDetailScreen> {
                               cells: [
                                 DataCell(SizedBox(
                                   width: columnWidth,
-                                  child: Text(item['name'],
-                                      style: AppTextStyles.bodySmall(context)),
+                                  child: Text(item['name']),
                                 )),
                                 DataCell(SizedBox(
                                   width: columnWidth,
-                                  child: Text(item['quantity'].toString(),
-                                      style: AppTextStyles.bodySmall(context)),
+                                  child: Text(item['quantity'].toString()),
                                 )),
                                 DataCell(SizedBox(
                                   width: columnWidth,
-                                  child: Text('${item['price']}',
-                                      style: AppTextStyles.bodySmall(context)),
+                                  child: Text('${item['price']}'),
                                 )),
                                 DataCell(SizedBox(
                                   width: columnWidth,
-                                  child: Text('${item['total']}',
-                                      style: AppTextStyles.bodySmall(context)),
+                                  child: Text('${item['total']}'),
                                 )),
                               ],
                             );
@@ -240,28 +217,10 @@ class _ContractDetailScreenState extends State<ContractDetailScreen> {
                 ),
                 child: Column(
                   children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey.shade400),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Row(
-                        children: [
-                          const Icon(Icons.search),
-                          const SizedBox(width: 8),
-                          Expanded(
-                            child: TextField(
-                              controller: searchItemController,
-                              decoration: const InputDecoration(
-                                hintText: 'Tìm kiếm hàng hóa...',
-                                border: InputBorder.none,
-                              ),
-                              onChanged: (value) => setState(() {}),
-                            ),
-                          ),
-                        ],
-                      ),
+                    ///Widget search
+                    CustomSearch(
+                      controller: searchItemController,
+                      onChanged: (value) => setState(() {}),
                     ),
                     const SizedBox(height: 16),
                     LayoutBuilder(
@@ -269,28 +228,28 @@ class _ContractDetailScreenState extends State<ContractDetailScreen> {
                         final columnWidth = constraints.maxWidth / 4.5;
 
                         return DataTable(
+                          headingTextStyle: AppTextStyles.titleSmall(context),
+                          dataTextStyle: AppTextStyles.bodySmall(context),
                           columnSpacing: 0,
-                          dataRowHeight: 75,
+                          dataRowHeight:
+                              AppDimensions.heightMediumSmall(context),
                           columns: [
                             DataColumn(
                               label: SizedBox(
                                 width: columnWidth,
-                                child: Text('ID',
-                                    style: AppTextStyles.titleSmall(context)),
+                                child: const Text('ID'),
                               ),
                             ),
                             DataColumn(
                               label: SizedBox(
                                 width: columnWidth * 2,
-                                child: Text('Tên hàng hóa',
-                                    style: AppTextStyles.titleSmall(context)),
+                                child: const Text('Tên hàng hóa'),
                               ),
                             ),
                             DataColumn(
                               label: SizedBox(
                                 width: columnWidth,
-                                child: Text('KL GOM',
-                                    style: AppTextStyles.titleSmall(context)),
+                                child: const Text('KL GOM'),
                               ),
                             ),
                           ],
@@ -299,29 +258,23 @@ class _ContractDetailScreenState extends State<ContractDetailScreen> {
                               cells: [
                                 DataCell(
                                   SizedBox(
-                                    width: columnWidth,
-                                    child: Text(item['id']!,
-                                        style:
-                                            AppTextStyles.bodySmall(context)),
-                                  ),
+                                      width: columnWidth,
+                                      child: Text(item['id']!)),
                                 ),
                                 DataCell(
                                   SizedBox(
                                     width: columnWidth * 2,
                                     child: Text(
                                       item['tenHangHoa']!,
-                                      style: AppTextStyles.bodySmall(context),
-                                      maxLines: 4,
-                                      overflow: TextOverflow.ellipsis,
+                                      softWrap: true,
+                                      overflow: TextOverflow.visible,
                                     ),
                                   ),
                                 ),
                                 DataCell(
                                   SizedBox(
                                     width: columnWidth,
-                                    child: Text(item['kl']!,
-                                        style:
-                                            AppTextStyles.bodySmall(context)),
+                                    child: Text(item['kl']!),
                                   ),
                                 ),
                               ],

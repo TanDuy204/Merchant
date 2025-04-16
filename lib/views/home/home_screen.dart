@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:merchant/common/styles.dart';
+import 'package:merchant/common/app_dimensions.dart';
+import 'package:merchant/common/app_style.dart';
 import 'package:merchant/routes/app_route.dart';
+import 'package:merchant/views/debt/debt_screen.dart';
+import 'package:merchant/views/list/list_screen.dart';
 
 import '../../service/uidata.dart';
 
@@ -12,7 +15,9 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight: AppDimensions.heightSmall(context),
         backgroundColor: AppColors.whiteColor,
+        automaticallyImplyLeading: false,
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -70,6 +75,7 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Row(
                     children: [
@@ -93,7 +99,6 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const Spacer(),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -120,7 +125,7 @@ class HomeScreen extends StatelessWidget {
                   text: TextSpan(
                     children: [
                       TextSpan(
-                        text: "250 ",
+                        text: "250",
                         style: AppTextStyles.titleSmall(context),
                       ),
                       TextSpan(
@@ -174,8 +179,10 @@ class HomeScreen extends StatelessWidget {
                       context: context,
                       iconPath: 'assets/icons/collected.png'),
                   buildGridItem(
-                      onTap: () {},
-                      label: "Năng lực",
+                      onTap: () {
+                        Get.to(() => const ListScreen());
+                      },
+                      label: "Bảng kê",
                       context: context,
                       badge: 6,
                       iconPath: 'assets/icons/capacity.png'),
@@ -187,14 +194,16 @@ class HomeScreen extends StatelessWidget {
                       iconPath: 'assets/icons/driver.png'),
                   buildGridItem(
                       onTap: () {
-                        Get.toNamed("/truck");
+                        Get.toNamed(AppRoutes.truck);
                       },
                       label: "Quản lý xe",
                       context: context,
                       iconPath: 'assets/icons/truck.png'),
                   buildGridItem(
-                      onTap: () {},
-                      label: "Hạng mức",
+                      onTap: () {
+                        Get.to(() => DebtScreen(debt: mockDebts));
+                      },
+                      label: "Công nợ",
                       context: context,
                       iconPath: 'assets/icons/money.png'),
                   buildGridItem(
@@ -215,14 +224,14 @@ class HomeScreen extends StatelessWidget {
               itemCount: images.length,
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                mainAxisExtent: AppDimensions.heightLarge(context),
                 crossAxisCount: 2,
-                crossAxisSpacing: 12,
-                mainAxisSpacing: 12,
+                crossAxisSpacing: 15,
+                mainAxisSpacing: 15,
               ),
               itemBuilder: (context, index) {
                 final image = images[index];
-
                 return Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
@@ -236,7 +245,7 @@ class HomeScreen extends StatelessWidget {
                         Image.asset(
                           image['image']!,
                           width: double.infinity,
-                          height: 115,
+                          height: AppDimensions.heightMedium(context),
                           fit: BoxFit.cover,
                         ),
                         Padding(
@@ -244,7 +253,7 @@ class HomeScreen extends StatelessWidget {
                           child: Text(
                             image['title']!,
                             style: AppTextStyles.titleSmall(context),
-                            maxLines: 1,
+                            maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),

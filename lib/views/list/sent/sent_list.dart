@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class TodayPickupScreen extends StatelessWidget {
-  const TodayPickupScreen({super.key});
+class SentList extends StatelessWidget {
+  const SentList({super.key});
 
   @override
   Widget build(BuildContext context) {

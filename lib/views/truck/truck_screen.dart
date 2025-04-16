@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:merchant/common/styles.dart';
+import 'package:merchant/common/app_style.dart';
 import 'package:merchant/controllers/truck_controller.dart';
 import 'package:merchant/routes/app_route.dart';
 

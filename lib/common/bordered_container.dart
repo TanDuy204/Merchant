@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:merchant/common/styles.dart';
+import 'package:merchant/common/app_style.dart';
 
 class BorderedContainer extends StatelessWidget {
   final Widget child;

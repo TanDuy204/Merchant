@@ -5,15 +5,15 @@ class AppTextStyles {
     final screenWidth = MediaQuery.of(context).size.width;
 
     if (screenWidth < 400) {
-      return baseSize * 0.70;
+      return baseSize * 0.75;
     } else if (screenWidth < 480) {
       return baseSize * 0.85;
     } else if (screenWidth < 600) {
       return baseSize;
-    } else if (screenWidth < 800) {
+    } else if (screenWidth < 850) {
       return baseSize * 1.4;
     } else {
-      return baseSize * 1.5;
+      return baseSize * 1.8;
     }
   }
 
@@ -28,7 +28,7 @@ class AppTextStyles {
       color: Colors.black);
 
   static TextStyle titleSmall(BuildContext context) => TextStyle(
-      fontSize: _getResponsiveFontSize(context, 18),
+      fontSize: _getResponsiveFontSize(context, 17),
       color: Colors.black,
       fontWeight: FontWeight.bold);
 
@@ -38,13 +38,12 @@ class AppTextStyles {
       );
 
   static TextStyle bodyMedium(BuildContext context) => TextStyle(
-        fontSize: _getResponsiveFontSize(context, 18),
+        fontSize: _getResponsiveFontSize(context, 19),
         color: Colors.black,
       );
 
   static TextStyle bodySmall(BuildContext context) => TextStyle(
-        fontSize: _getResponsiveFontSize(context, 16),
-        fontWeight: FontWeight.w500,
+        fontSize: _getResponsiveFontSize(context, 17),
         color: Colors.black,
       );
 

@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:merchant/models/schedule_model.dart';
 
-import '../../common/styles.dart';
+import '../../common/app_style.dart';
 
 class CollectionScheduleScreen extends StatelessWidget {
   const CollectionScheduleScreen({super.key});

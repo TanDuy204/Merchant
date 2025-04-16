@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:merchant/common/app_style.dart';
 import 'package:merchant/common/bordered_container.dart';
-import 'package:merchant/common/styles.dart';
 import 'package:merchant/models/truck_model.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 

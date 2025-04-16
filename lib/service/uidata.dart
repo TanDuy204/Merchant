@@ -1,3 +1,6 @@
+import '../models/debt_model.dart';
+import '../models/login_model.dart';
+import '../models/pending_schedule_model.dart';
 import '../models/schedule_model.dart';
 import '../models/truck_model.dart';
 
@@ -53,7 +56,7 @@ final List<Schedule> schedules = [
     contactName: 'Chị Giao',
     contactPhone: '0909123456',
     cargoType: 'Khoáng',
-    datetime: DateTime(2025, 4, 5, 16, 30),
+    datetime: DateTime(2025, 4, 15, 16, 30),
     note: "Gom đủ không ghi phiếu",
     price: 2400000,
     status: 'Đã thu gom',
@@ -67,7 +70,7 @@ final List<Schedule> schedules = [
     contactName: 'Chị Hương',
     contactPhone: '0988777666',
     cargoType: 'Giấy tái chế',
-    datetime: DateTime(2025, 4, 5, 16, 30),
+    datetime: DateTime(2025, 4, 15, 16, 30),
     status: 'Chưa thu gom',
     note: "Gom đủ không ghi phiếu",
     price: 2150000,
@@ -81,7 +84,7 @@ final List<Schedule> schedules = [
     contactName: 'Chị Giao',
     contactPhone: '0909123456',
     cargoType: 'Khoáng',
-    datetime: DateTime(2025, 4, 5, 16, 30),
+    datetime: DateTime(2025, 4, 15, 16, 30),
     note: "Gom đủ không ghi phiếu",
     price: 2400000,
     status: 'Đã thu gom',
@@ -95,7 +98,7 @@ final List<Schedule> schedules = [
     contactName: 'Chị Hương',
     contactPhone: '0988777666',
     cargoType: 'Giấy tái chế',
-    datetime: DateTime(2025, 4, 5, 16, 30),
+    datetime: DateTime(2025, 4, 15, 16, 30),
     status: 'Chưa thu gom',
     note: "Gom đủ không ghi phiếu",
     price: 2150000,
@@ -242,4 +245,148 @@ final List<Map<String, String>> truckData = [
     'driver': 'Trần Văn Bình Bình',
     'status': 'Đã thu gom',
   },
+];
+
+final List<LoginModel> mockUsers = [
+  LoginModel(
+    username: "Nguyễn Văn Cê",
+    email: "merchant@gmail.com",
+    password: "123456",
+  ),
+  LoginModel(
+    username: "Nguyễn Văn Bê",
+    email: "merchant1@gmail.com",
+    password: "password",
+  ),
+];
+
+final List<PendingScheduleModel> mockWasteCollections = [
+  PendingScheduleModel(
+    date: "04-05-2025",
+    wasteType: "Khoáng",
+    weight: "2 tấn",
+    worker: "1 NC",
+    companyDetails: [
+      CompanyDetail(
+        companyName: "Công Ty CP SX TM Sáng Việt",
+        address:
+            "Cơ sở 7: Nhà Máy Dầu Tiếng - Số 19/17 Ấp Gò Mối, xã Thanh Tuyền, Huyện Dầu Tiếng, Bình Dương",
+        contactName: "Chị Giao",
+        contactPhone: "0909123456",
+        quantity: "2 tấn",
+        note: "Gom đủ không ghi phiếu",
+      ),
+      CompanyDetail(
+        companyName: "Công Ty CP SX TM Sáng Việt",
+        address: "Thủ Thừa (Long An)",
+        contactName: "Chị Phượng",
+        contactPhone: "0909123456",
+        quantity: "2.4 tấn",
+        note: "Gom đủ không ghi phiếu",
+      ),
+    ],
+  ),
+  PendingScheduleModel(
+    date: "2025-04-05",
+    wasteType: "Sắt vụn",
+    weight: "1.8 tấn",
+    worker: "1 NC",
+    companyDetails: [
+      CompanyDetail(
+        companyName: "Công Ty TNHH Vận Tải Minh Phúc",
+        address: "Tân An (Long An)",
+        contactName: "Anh Minh",
+        contactPhone: "0911222333",
+        quantity: "1.8 tấn",
+        note: "Chở hàng có phiếu đầy đủ",
+      ),
+    ],
+  ),
+  PendingScheduleModel(
+    date: "04-05-2025",
+    wasteType: "Giấy tái chế",
+    weight: "2.15 tấn",
+    worker: "1 NC",
+    companyDetails: [
+      CompanyDetail(
+        companyName: "CTY CP TM Tân Thịnh",
+        address: "Bến Lức (Long An)",
+        contactName: "Chị Hương",
+        contactPhone: "0988777666",
+        quantity: "2.15 tấn",
+        note: "Hàng hóa không cần biên bản",
+      ),
+    ],
+  ),
+  PendingScheduleModel(
+    date: "04-05-2025",
+    wasteType: "Khoáng",
+    weight: "2.4 tấn",
+    worker: "2 NC",
+    companyDetails: [
+      CompanyDetail(
+        companyName: "Công Ty CP SX TM Sáng Việt",
+        address: "Thủ Thừa (Long An)",
+        contactName: "Chị Giao",
+        contactPhone: "0909123456",
+        quantity: "2.4 tấn",
+        note: "Gom đủ không ghi phiếu",
+      ),
+    ],
+  ),
+  PendingScheduleModel(
+    date: "04-05-2025",
+    wasteType: "Giấy tái chế",
+    weight: "2.15 tấn",
+    worker: "2 NC",
+    companyDetails: [
+      CompanyDetail(
+        companyName: "CTY CP TM Tân Phát",
+        address: "Bến Lức (Long An)",
+        contactName: "Chị Hương",
+        contactPhone: "0988777666",
+        quantity: "2.15 tấn",
+        note: "Hàng hóa không cần biên bản",
+      ),
+    ],
+  ),
+];
+
+final List<DebtModel> mockDebts = [
+  DebtModel(
+    day: DateTime(2025, 4, 15),
+    quantity: 1,
+    title: 'Cước vận chuyển hàng hoá',
+    description: 'Cước vận chuyển tháng 10/2024 (Đính kèm bảng kê 06/11/2024)',
+    amount: 93733200,
+    isPaid: false,
+    detail: 'Chi tiết vận chuyển nội địa tháng 10',
+  ),
+  DebtModel(
+    day: DateTime(2025, 4, 15),
+    quantity: 1,
+    title: 'Dịch vụ đóng gói',
+    description: 'Đóng gói hàng xuất khẩu lô 156/2024',
+    amount: 12450000,
+    isPaid: false,
+    detail: 'Chi tiết đóng gói hàng xuất khẩu lô 156',
+  ),
+  DebtModel(
+    day: DateTime(2025, 4, 15),
+    quantity: 1,
+    title: 'Phí lưu kho',
+    description: 'Phí lưu kho tháng 10/2024 (Kho Bình Dương)',
+    amount: 45500000,
+    isPaid: true,
+    detail: 'Chi tiết lưu kho tháng 10/2024',
+  ),
+  DebtModel(
+    day: DateTime(2025, 4, 15),
+    quantity: 1,
+    title: 'Phí vận chuyển quốc tế',
+    description: 'Vận chuyển container HDPE-455 đến Nhật Bản',
+    amount: 245890000,
+    isPaid: true,
+    detail: 'Chi tiết vận chuyển quốc tế HDPE-455',
+  ),
 ];
