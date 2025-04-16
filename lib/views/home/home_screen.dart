@@ -3,8 +3,6 @@ import 'package:get/get.dart';
 import 'package:merchant/common/app_dimensions.dart';
 import 'package:merchant/common/app_style.dart';
 import 'package:merchant/routes/app_route.dart';
-import 'package:merchant/views/debt/debt_screen.dart';
-import 'package:merchant/views/list/list_screen.dart';
 
 import '../../service/uidata.dart';
 
@@ -180,7 +178,7 @@ class HomeScreen extends StatelessWidget {
                       iconPath: 'assets/icons/collected.png'),
                   buildGridItem(
                       onTap: () {
-                        Get.to(() => const ListScreen());
+                        Get.toNamed(AppRoutes.list);
                       },
                       label: "Bảng kê",
                       context: context,
@@ -201,13 +199,15 @@ class HomeScreen extends StatelessWidget {
                       iconPath: 'assets/icons/truck.png'),
                   buildGridItem(
                       onTap: () {
-                        Get.to(() => DebtScreen(debt: mockDebts));
+                        Get.toNamed(AppRoutes.debt);
                       },
                       label: "Công nợ",
                       context: context,
                       iconPath: 'assets/icons/money.png'),
                   buildGridItem(
-                      onTap: () {},
+                      onTap: () {
+                        Get.toNamed(AppRoutes.contract);
+                      },
                       label: "Hợp đồng",
                       context: context,
                       badge: 21,

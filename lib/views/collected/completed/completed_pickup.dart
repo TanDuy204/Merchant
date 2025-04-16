@@ -3,9 +3,9 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:merchant/controllers/collected_controller.dart';
 import 'package:merchant/models/schedule_model.dart';
+import 'package:merchant/routes/app_route.dart';
 
 import '../../../common/app_style.dart';
-import 'completed_pickup_detail.dart';
 
 class CompletedPickupScreen extends StatelessWidget {
   final List<Schedule> schedules;
@@ -43,7 +43,7 @@ class CompletedPickupScreen extends StatelessWidget {
 
                     return GestureDetector(
                       onTap: () {
-                        Get.to(() => const CompletedPickupDetail());
+                        Get.toNamed(AppRoutes.completedCollected);
                       },
                       child: Container(
                         margin: const EdgeInsets.symmetric(

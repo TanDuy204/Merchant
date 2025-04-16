@@ -48,8 +48,7 @@ class PendingListDetail extends StatelessWidget {
                               borderRadius: BorderRadius.circular(20),
                             ),
                             child: Text("Chưa gửi",
-                                style: AppTextStyles.bodySmall(context)
-                                    .copyWith(color: AppColors.whiteColor)),
+                                style: AppTextStyles.buttonLabel(context)),
                           ),
                         ],
                       ),
@@ -134,7 +133,6 @@ class PendingListDetail extends StatelessWidget {
                           _detailRow(context, "Nội dung:", "Vận chuyển"),
                           _detailRow(context, "Biển số xe:", "50h-10869"),
                           _detailRow(context, "Khối lượng:", "1"),
-                          _detailRow(context, "Đơn giá:", "3.000.000"),
                           _detailRow(context, "Thành tiền:", "3.000.000"),
                         ],
                       ),

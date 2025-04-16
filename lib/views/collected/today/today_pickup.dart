@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:merchant/routes/app_route.dart';
 
 import '../../../common/app_style.dart';
 import '../../../controllers/collected_controller.dart';
 import '../../../models/schedule_model.dart';
-import '../completed/completed_pickup_detail.dart';
 
 class TodayPickupScreen extends StatelessWidget {
   final List<Schedule> schedules;
@@ -30,7 +30,7 @@ class TodayPickupScreen extends StatelessWidget {
 
                   return GestureDetector(
                     onTap: () {
-                      Get.to(() => const CompletedPickupDetail());
+                      Get.toNamed(AppRoutes.todayCollected);
                     },
                     child: Container(
                       margin: const EdgeInsets.symmetric(
