@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:merchant/routes/app_route.dart';
 
 import '../../../common/app_style.dart';
 
@@ -11,9 +13,12 @@ class ActiveContract extends StatelessWidget {
       slivers: [
         SliverList(
           delegate: SliverChildBuilderDelegate(
+            childCount: 4,
             (context, index) {
               return GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  Get.toNamed(AppRoutes.activeContract);
+                },
                 child: Container(
                   margin:
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 8),

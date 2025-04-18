@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../../common/app_style.dart';
+import '../../../routes/app_route.dart';
 
 class ConfirmContract extends StatelessWidget {
   const ConfirmContract({super.key});
@@ -11,9 +13,12 @@ class ConfirmContract extends StatelessWidget {
       slivers: [
         SliverList(
           delegate: SliverChildBuilderDelegate(
+            childCount: 4,
             (context, index) {
               return GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  Get.toNamed(AppRoutes.confirmContract);
+                },
                 child: Container(
                   margin:
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 8),

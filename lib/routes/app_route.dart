@@ -1,6 +1,9 @@
 import 'package:get/get.dart';
 import 'package:merchant/views/collected/collected_screen.dart';
+import 'package:merchant/views/contract/active/active_contract_detail.dart';
+import 'package:merchant/views/contract/confirm/confirm_contract_detail.dart';
 import 'package:merchant/views/contract/contract_screen.dart';
+import 'package:merchant/views/contract/expired/expired_contract_detail.dart';
 import 'package:merchant/views/debt/debt_screen.dart';
 import 'package:merchant/views/list/list_screen.dart';
 import 'package:merchant/views/list/pending/pending_list_detail.dart';
@@ -33,6 +36,9 @@ class AppRoutes {
   static const String pendingList = '/pendingList';
   static const String returnList = '/returnList';
   static const String contract = '/contract';
+  static const String activeContract = '/activeContract';
+  static const String confirmContract = '/confirmContract';
+  static const String expiredContract = '/expiredContract';
 
   static final pages = [
     GetPage(name: login, page: () => LoginScreen()),
@@ -92,6 +98,18 @@ class AppRoutes {
     GetPage(
         name: contract,
         page: () => const ContractScreen(),
+        transition: Transition.fadeIn),
+    GetPage(
+        name: activeContract,
+        page: () => const ActiveContractDetail(),
+        transition: Transition.fadeIn),
+    GetPage(
+        name: confirmContract,
+        page: () => const ConfirmContractDetail(),
+        transition: Transition.fadeIn),
+    GetPage(
+        name: expiredContract,
+        page: () => const ExpiredContractDetail(),
         transition: Transition.fadeIn),
   ];
 }

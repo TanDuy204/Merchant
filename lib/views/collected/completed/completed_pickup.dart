@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:merchant/common/bordered_container.dart';
 import 'package:merchant/controllers/collected_controller.dart';
 import 'package:merchant/models/schedule_model.dart';
 import 'package:merchant/routes/app_route.dart';
@@ -45,21 +46,9 @@ class CompletedPickupScreen extends StatelessWidget {
                       onTap: () {
                         Get.toNamed(AppRoutes.completedCollected);
                       },
-                      child: Container(
+                      child: BorderedContainer(
                         margin: const EdgeInsets.symmetric(
                             horizontal: 10, vertical: 8),
-                        padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color: Colors.grey.shade50,
-                          borderRadius: BorderRadius.circular(12),
-                          boxShadow: const [
-                            BoxShadow(
-                              color: Colors.black12,
-                              blurRadius: 4,
-                              offset: Offset(0, 2),
-                            ),
-                          ],
-                        ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
