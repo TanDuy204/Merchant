@@ -1,6 +1,7 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:merchant/binding/initial_binding.dart';
 
 import 'routes/app_route.dart';
 
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
+      initialBinding: InitialBinding(),
       initialRoute: AppRoutes.login,
       getPages: AppRoutes.pages,
     );
