@@ -4,10 +4,7 @@ import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import 'package:merchant/common/app_dimensions.dart';
 import 'package:merchant/common/app_style.dart';
 import 'package:merchant/common/bordered_container.dart';
-import 'package:merchant/views/driver/create_account_screen.dart';
-import 'package:merchant/views/driver/driver_account_screen.dart';
-import 'package:merchant/views/driver/invite_account_screen.dart';
-import 'package:merchant/views/profile/driver_account.dart';
+import 'package:merchant/routes/app_route.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -31,7 +28,7 @@ class ProfileScreen extends StatelessWidget {
                 padding: EdgeInsets.all(AppDimensions.paddingSmall(context)),
                 child: GestureDetector(
                   onTap: () {
-                    Get.to(() => const DriverAccount());
+                    Get.toNamed(AppRoutes.profileAccount);
                   },
                   child: BorderedContainer(
                     child: Column(
@@ -75,7 +72,7 @@ class ProfileScreen extends StatelessWidget {
                           Icons.local_shipping_outlined,
                           'Tài khoản tài xế',
                           () {
-                            Get.to(() => const DriverAccountScreen());
+                            Get.toNamed(AppRoutes.driverAccount);
                           },
                           backgroundColor: Colors.grey.shade200,
                         ),
@@ -85,7 +82,7 @@ class ProfileScreen extends StatelessWidget {
                           Icons.person_add_alt,
                           'Tạo tài khoản tài xế',
                           () {
-                            Get.to(() => const CreateAccountScreen());
+                            Get.toNamed(AppRoutes.createAccount);
                           },
                           backgroundColor: Colors.grey.shade200,
                         ),
@@ -95,7 +92,7 @@ class ProfileScreen extends StatelessWidget {
                           Icons.send_outlined,
                           'Gửi lời mời tài khoản tài xế',
                           () {
-                            Get.to(() => const InviteAccountScreen());
+                            Get.toNamed(AppRoutes.inviteAccount);
                           },
                           backgroundColor: Colors.grey.shade200,
                         ),

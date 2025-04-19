@@ -35,6 +35,8 @@ class AppDimensions {
   static double heightLarge(BuildContext context) =>
       _getResponsiveSize(context, 200);
 
+  static double paddingXXTiny(BuildContext context) =>
+      _getResponsiveSize(context, 1.5);
   static double paddingXTiny(BuildContext context) =>
       _getResponsiveSize(context, 3);
   static double paddingTiny(BuildContext context) =>
@@ -43,6 +45,4 @@ class AppDimensions {
       _getResponsiveSize(context, 10);
   static double paddingMedium(BuildContext context) =>
       _getResponsiveSize(context, 15);
-  static double paddingLarge(BuildContext context) =>
-      _getResponsiveSize(context, 20);
 }

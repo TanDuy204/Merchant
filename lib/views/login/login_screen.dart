@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:merchant/common/app_dimensions.dart';
 import 'package:merchant/common/app_style.dart';
 import 'package:merchant/controllers/login_controller.dart';
 
@@ -18,7 +19,12 @@ class LoginScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset('assets/images/mtac.png', height: 100),
+              Image.asset(
+                'assets/images/mtac.png',
+                height: AppDimensions.heightLarge(context),
+                width: AppDimensions.heightMedium(context),
+                fit: BoxFit.contain,
+              ),
               const SizedBox(height: 16),
               TextField(
                 controller: controller.emailController,
@@ -58,7 +64,14 @@ class LoginScreen extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Checkbox(value: false, onChanged: (_) {}),
+                      Transform.scale(
+                        scale: AppDimensions.paddingXXTiny(context),
+                        child: Checkbox(
+                          value: false,
+                          onChanged: (_) {},
+                        ),
+                      ),
+                      const SizedBox(width: 5),
                       Text("Ghi nhớ đăng nhập",
                           style: AppTextStyles.bodySmall(context)),
                     ],

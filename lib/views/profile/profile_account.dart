@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:merchant/common/app_style.dart';
 import 'package:merchant/common/bordered_container.dart';
 
-class DriverAccount extends StatelessWidget {
-  const DriverAccount({super.key});
+class ProfileAccount extends StatelessWidget {
+  const ProfileAccount({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,7 @@ class DriverAccount extends StatelessWidget {
     final confirmPassController = TextEditingController();
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppColors.whiteColor ,
+        backgroundColor: AppColors.whiteColor,
         centerTitle: true,
         title: Text(
           "Thông tin nhà thầu",

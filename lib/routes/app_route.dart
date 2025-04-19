@@ -3,13 +3,16 @@ import 'package:merchant/views/collected/collected_screen.dart';
 import 'package:merchant/views/contract/active/active_contract_detail.dart';
 import 'package:merchant/views/contract/confirm/confirm_contract_detail.dart';
 import 'package:merchant/views/contract/contract_screen.dart';
-import 'package:merchant/views/contract/expired/expired_contract_detail.dart';
 import 'package:merchant/views/debt/debt_screen.dart';
+import 'package:merchant/views/driver/create_account_screen.dart';
+import 'package:merchant/views/driver/driver_account_screen.dart';
+import 'package:merchant/views/driver/invite_account_screen.dart';
 import 'package:merchant/views/list/list_screen.dart';
 import 'package:merchant/views/list/pending/pending_list_detail.dart';
 import 'package:merchant/views/list/return/return_list_detail.dart';
 import 'package:merchant/views/list/sent/sent_list_detail.dart';
 import 'package:merchant/views/login/login_screen.dart';
+import 'package:merchant/views/profile/profile_account.dart';
 import 'package:merchant/views/schedule/schedule_screen.dart';
 import 'package:merchant/views/truck/truck_detail.dart';
 import 'package:merchant/views/truck/truck_screen.dart';
@@ -39,6 +42,10 @@ class AppRoutes {
   static const String activeContract = '/activeContract';
   static const String confirmContract = '/confirmContract';
   static const String expiredContract = '/expiredContract';
+  static const String profileAccount = '/profileAccount';
+  static const String driverAccount = '/driverAccount';
+  static const String createAccount = '/createAccount';
+  static const String inviteAccount = '/inviteAccount';
 
   static final pages = [
     GetPage(name: login, page: () => LoginScreen()),
@@ -108,8 +115,20 @@ class AppRoutes {
         page: () => const ConfirmContractDetail(),
         transition: Transition.fadeIn),
     GetPage(
-        name: expiredContract,
-        page: () => const ExpiredContractDetail(),
+        name: profileAccount,
+        page: () => const ProfileAccount(),
+        transition: Transition.fadeIn),
+    GetPage(
+        name: driverAccount,
+        page: () => const DriverAccountScreen(),
+        transition: Transition.fadeIn),
+    GetPage(
+        name: createAccount,
+        page: () => const CreateAccountScreen(),
+        transition: Transition.fadeIn),
+    GetPage(
+        name: inviteAccount,
+        page: () => const InviteAccountScreen(),
         transition: Transition.fadeIn),
   ];
 }
