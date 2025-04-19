@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../common/app_dimensions.dart';
 import '../../common/app_style.dart';
 import '../../common/bordered_container.dart';
 
@@ -9,64 +8,145 @@ class CreateAccountScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final oldPassController = TextEditingController();
     return Scaffold(
-      appBar: AppBar(title: const Text('Gửi lời mời tài xế')),
-      body: SingleChildScrollView(
-        child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: BorderedContainer(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Gửi lời mời tài xế',
-                    style: AppTextStyles.titleMedium(context),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                      'Thêm mới tài xế bằng cách gửi email, tài xế sẽ được thêm vào nhà xe khi đồng ý thông qua email',
+        appBar: AppBar(
+            backgroundColor: AppColors.whiteColor,
+            centerTitle: true,
+            title: Text(
+              'Tạo tài khoản tài xế',
+              style: AppTextStyles.titleMedium(context),
+            )),
+        body: CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(
+                child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: BorderedContainer(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 7),
+                    Text("Tạo tài khoản tài xế",
+                        style: AppTextStyles.titleMedium(context)),
+                    const SizedBox(height: 4),
+                    Text(
+                      "Tạo tài khoản tài xế thuộc quản lý của nhà thầu.",
                       style: AppTextStyles.bodyMedium(context)
-                          .copyWith(color: AppColors.greyColor)),
-                  const SizedBox(height: 20),
-                  Text('Vui lòng nhập email tài xế mà bạn muốn gửi lời mời',
-                      style: AppTextStyles.bodyMedium(context)),
-                  const SizedBox(height: 8),
-                  Text('Email', style: AppTextStyles.bodyMedium(context)),
-                  const SizedBox(height: 8),
-                  TextField(
-                    decoration: InputDecoration(
-                      hintText: 'Nhập email tài xế',
-                      hintStyle: AppTextStyles.bodyMedium(context)
-                          .copyWith(color: AppColors.greyColor),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8)),
+                          .copyWith(color: Colors.grey),
                     ),
-                  ),
-                  const SizedBox(height: 16),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: ElevatedButton.icon(
-                      onPressed: () {},
-                      icon: const Icon(Icons.send),
-                      label: Text(
-                        'Gửi lời mời',
-                        style: AppTextStyles.buttonLabel(context),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.lightBlueColor,
-                        foregroundColor: AppColors.whiteColor,
-                        padding: EdgeInsets.symmetric(
-                            horizontal: AppDimensions.paddingMedium(context),
-                            vertical: AppDimensions.paddingSmall(context)),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8)),
-                      ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildLabel(context, "Tên tài xế"),
+                        _buildCustomTextField(context, oldPassController,
+                            hint: ""),
+                        _buildLabel(context, "Số điện thoại"),
+                        _buildCustomTextField(context, oldPassController,
+                            hint: ""),
+                        _buildLabel(context, "Email"),
+                        _buildCustomTextField(context, oldPassController,
+                            hint: ""),
+                        _buildLabel(context, "Mật khẩu"),
+                        _buildCustomTextField(context, oldPassController,
+                            hint: ""),
+                        _buildLabel(context, "Số CCCD"),
+                        _buildCustomTextField(context, oldPassController,
+                            hint: ""),
+                        _buildLabel(context, "Số giấy phép lái xe"),
+                        _buildCustomTextField(context, oldPassController,
+                            hint: ""),
+                        _buildLabel(context, "Hình ảnh giấy phép lái xe"),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 12, vertical: 14),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFF1F7FF),
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(color: Colors.grey.shade200),
+                          ),
+                          child: Row(
+                            children: [
+                              const Icon(Icons.upload_file, color: Colors.blue),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: Text(
+                                  "Chưa có tệp nào được chọn",
+                                  style: AppTextStyles.bodyMedium(context)
+                                      .copyWith(color: AppColors.greyColor),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        _buildLabel(context, "Địa chỉ"),
+                        _buildCustomTextField(context, oldPassController,
+                            hint: ""),
+                        const SizedBox(height: 12),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: ElevatedButton(
+                            onPressed: () {},
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.lightBlueColor),
+                            child: Text(
+                              "Lưu",
+                              style: AppTextStyles.buttonLabel(context),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 7),
+                      ],
                     ),
-                  )
-                ],
+                  ],
+                ),
               ),
             )),
-      ),
-    );
+          ],
+        ));
   }
+}
+
+Widget _buildLabel(BuildContext context, String label) {
+  return Padding(
+    padding: const EdgeInsets.only(top: 12, bottom: 4),
+    child: Text(label, style: AppTextStyles.bodyMedium(context)),
+  );
+}
+
+Widget _buildCustomTextField(
+  BuildContext context,
+  TextEditingController controller, {
+  required String hint,
+  bool obscureText = false,
+}) {
+  return TextField(
+    controller: controller,
+    obscureText: obscureText,
+    style: AppTextStyles.bodyMedium(context),
+    decoration: InputDecoration(
+      hintText: hint,
+      hintStyle: AppTextStyles.bodyMedium(context)
+          .copyWith(color: AppColors.greyColor),
+      filled: true,
+      fillColor: const Color(0xFFF1F7FF),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: BorderSide(color: Colors.grey.shade200),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: BorderSide(color: Colors.grey.shade400, width: 2),
+      ),
+      errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: BorderSide(color: Colors.grey.shade700),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: BorderSide(color: Colors.grey.shade900, width: 2),
+      ),
+    ),
+  );
 }

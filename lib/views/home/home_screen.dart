@@ -189,7 +189,7 @@ class HomeScreen extends StatelessWidget {
                     iconPath: 'assets/icons/capacity.png',
                   ),
                   buildGridItem(
-                    onTap: () {},
+                    onTap: () => Get.toNamed(AppRoutes.collected),
                     label: "Tài xế",
                     context: context,
                     badge: 1,

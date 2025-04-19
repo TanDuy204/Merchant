@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import '../../../common/app_style.dart';
-import '../../../routes/app_route.dart';
 
 class SupplementContract extends StatelessWidget {
   const SupplementContract({super.key});
@@ -16,9 +14,7 @@ class SupplementContract extends StatelessWidget {
             childCount: 4,
             (context, index) {
               return GestureDetector(
-                onTap: () {
-                  Get.toNamed(AppRoutes.expiredContract);
-                },
+                onTap: () {},
                 child: Container(
                   margin:
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 8),

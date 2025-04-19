@@ -6,6 +6,8 @@ import 'package:merchant/common/app_style.dart';
 import 'package:merchant/common/bordered_container.dart';
 import 'package:merchant/views/driver/create_account_screen.dart';
 import 'package:merchant/views/driver/driver_account_screen.dart';
+import 'package:merchant/views/driver/invite_account_screen.dart';
+import 'package:merchant/views/profile/driver_account.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -15,6 +17,7 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
+        backgroundColor: AppColors.whiteColor,
         title: Text(
           "Thông tin tài khoản",
           style: AppTextStyles.titleMedium(context),
@@ -26,29 +29,34 @@ class ProfileScreen extends StatelessWidget {
             SliverToBoxAdapter(
               child: Padding(
                 padding: EdgeInsets.all(AppDimensions.paddingSmall(context)),
-                child: BorderedContainer(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const SizedBox(height: 20),
-                      CircleAvatar(
-                        radius: AppDimensions.heightSmall(context),
-                        backgroundImage:
-                            const AssetImage('assets/images/images.png'),
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        "Trần Đức Thành",
-                        style: AppTextStyles.titleMedium(context),
-                      ),
-                      const SizedBox(height: 5),
-                      Text(
-                        "merchant@gmail.com",
-                        style: AppTextStyles.bodyMedium(context)
-                            .copyWith(color: AppColors.greyColor),
-                      ),
-                      const SizedBox(height: 20),
-                    ],
+                child: GestureDetector(
+                  onTap: () {
+                    Get.to(() => const DriverAccount());
+                  },
+                  child: BorderedContainer(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const SizedBox(height: 20),
+                        CircleAvatar(
+                          radius: AppDimensions.heightSmall(context),
+                          backgroundImage:
+                              const AssetImage('assets/images/images.png'),
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          "Trần Đức Thành",
+                          style: AppTextStyles.titleMedium(context),
+                        ),
+                        const SizedBox(height: 5),
+                        Text(
+                          "merchant@gmail.com",
+                          style: AppTextStyles.bodyMedium(context)
+                              .copyWith(color: AppColors.greyColor),
+                        ),
+                        const SizedBox(height: 20),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -86,7 +94,9 @@ class ProfileScreen extends StatelessWidget {
                           context,
                           Icons.send_outlined,
                           'Gửi lời mời tài khoản tài xế',
-                          () {},
+                          () {
+                            Get.to(() => const InviteAccountScreen());
+                          },
                           backgroundColor: Colors.grey.shade200,
                         ),
                         const Divider(),

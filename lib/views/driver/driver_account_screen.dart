@@ -1,149 +1,257 @@
 import 'package:flutter/material.dart';
+import 'package:merchant/common/app_dimensions.dart';
 import 'package:merchant/common/app_style.dart';
+import 'package:merchant/common/bordered_container.dart';
 
 class DriverAccountScreen extends StatelessWidget {
   const DriverAccountScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final drivers = [
+    final List<Map<String, dynamic>> drivers = [
       {
-        'name': 'Tài xế 01',
-        'phone': '0983163497',
-        'gplx': '352283023562',
-        'cccd': '352283023562',
-        'address': '240/41 Lý Nam Dế, Huế',
-        'status': 'Hoạt động',
+        "name": "Tài xế 01",
+        "phone": "0375441340",
+        "license": "352283023562",
+        "cccd": "352283023562",
+        "initial": "T",
+        "active": "Hoạt động",
+        "address": "123 Đường A, Quận B, TP.HCM",
+      },
+      {
+        "name": "Tài xế 02",
+        "phone": "0912345678",
+        "license": "123456789012",
+        "cccd": "123456789012",
+        "initial": "N",
+        "active": "Tạm ngưng",
+        "address": "456 Đường B, Quận C, TP.HCM",
+      },
+      {
+        "name": "Tài xế 03",
+        "phone": "0977654321",
+        "license": "987654321098",
+        "cccd": "987654321098",
+        "initial": "H",
+        "active": "Khóa vĩnh viễn",
+        "address": "789 Đường C, Quận D, TP.HCM",
       },
     ];
 
+    Color getStatusColor(String status) {
+      switch (status) {
+        case "Hoạt động":
+          return Colors.green;
+        case "Tạm ngưng":
+          return Colors.orange;
+        case "Khóa vĩnh viễn":
+          return Colors.red;
+        default:
+          return Colors.grey;
+      }
+    }
+
+    String selectedValue = 'Tất cả';
+    final List<String> debtTypes = ['Hoạt động', 'Tạm ngưng', 'Khóa vĩnh viễn'];
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Danh sách tài xế'),
+        backgroundColor: AppColors.whiteColor,
+        centerTitle: true,
+        title: Text(
+          "Danh sách tài xế",
+          style: AppTextStyles.titleMedium(context),
+        ),
       ),
-      body: ListView.builder(
-        padding: const EdgeInsets.all(16),
-        itemCount: drivers.length,
-        itemBuilder: (context, index) {
-          final driver = drivers[index];
-          return DriverCard(
-            name: driver['name']!,
-            phone: driver['phone']!,
-            gplx: driver['gplx']!,
-            cccd: driver['cccd']!,
-            address: driver['address']!,
-            status: driver['status']!,
-            onEdit: () {
-              // TODO: Viết logic sửa
-            },
-            onDelete: () {
-              // TODO: Viết logic xóa
-            },
-          );
-        },
+      body: CustomScrollView(
+        slivers: [
+          SliverToBoxAdapter(
+            child: Container(
+              margin: const EdgeInsets.all(10),
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: Colors.grey.withOpacity(0.4),
+                  width: 1,
+                ),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: DropdownButtonHideUnderline(
+                child: DropdownButton<String>(
+                  value: selectedValue,
+                  icon: const Icon(Icons.arrow_drop_down),
+                  isExpanded: true,
+                  onChanged: (String? newValue) {},
+                  items: [
+                    const DropdownMenuItem<String>(
+                      value: 'Tất cả',
+                      child: Text('Tất cả'),
+                    ),
+                    ...debtTypes.map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              childCount: drivers.length,
+              (context, index) {
+                final driver = drivers[index];
+                return Padding(
+                  padding: EdgeInsets.all(AppDimensions.paddingSmall(context)),
+                  child: InkWell(
+                    onTap: () {
+                      showModalBottomSheet(
+                        context: context,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.vertical(top: Radius.circular(16)),
+                        ),
+                        builder: (_) => FractionallySizedBox(
+                          child: Padding(
+                            padding: const EdgeInsets.all(20),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.max,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Center(
+                                  child: Container(
+                                    width: double.infinity,
+                                    margin: const EdgeInsets.only(bottom: 20),
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey[400],
+                                      borderRadius: BorderRadius.circular(4),
+                                    ),
+                                  ),
+                                ),
+                                Center(
+                                  child: Text("Thông tin chi tiết",
+                                      style: AppTextStyles.titleLarge(context)),
+                                ),
+                                const SizedBox(height: 20),
+                                _buildDetailRow(context, Icons.person, "Tên",
+                                    driver["name"]),
+                                _buildDetailRow(context, Icons.phone, "SĐT",
+                                    driver["phone"]),
+                                _buildDetailRow(context, Icons.badge, "CCCD",
+                                    driver["cccd"]),
+                                _buildDetailRow(context, Icons.card_membership,
+                                    "GPLX", driver["license"]),
+                                _buildDetailRow(context, Icons.location_on,
+                                    "Địa chỉ", driver["address"]),
+                                _buildDetailRow(context, Icons.verified_user,
+                                    "Trạng thái", driver["active"]),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                    child: BorderedContainer(
+                      child: Row(
+                        children: [
+                          CircleAvatar(
+                            radius: AppDimensions.iconMedium(context),
+                            backgroundColor: Colors.blue.shade100,
+                            child: Text(
+                              driver["initial"].toUpperCase(),
+                              style: const TextStyle(
+                                color: Colors.blue,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(driver["name"],
+                                        style:
+                                            AppTextStyles.titleSmall(context)),
+                                    const Spacer(),
+                                    Container(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal:
+                                            AppDimensions.paddingSmall(context),
+                                        vertical:
+                                            AppDimensions.paddingXTiny(context),
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: getStatusColor(driver["active"]),
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                      child: Text(
+                                        driver["active"],
+                                        style: AppTextStyles.bodySmall(context)
+                                            .copyWith(color: Colors.white),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 4),
+                                Row(
+                                  children: [
+                                    Icon(Icons.phone,
+                                        size: AppDimensions.iconSmall(context)),
+                                    const SizedBox(width: 4),
+                                    Text(driver["phone"],
+                                        style:
+                                            AppTextStyles.bodySmall(context)),
+                                    const SizedBox(width: 12),
+                                    Icon(Icons.badge,
+                                        size: AppDimensions.iconSmall(context)),
+                                    const SizedBox(width: 4),
+                                    Text(driver["cccd"],
+                                        style:
+                                            AppTextStyles.bodySmall(context)),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
 }
 
-class DriverCard extends StatelessWidget {
-  final String name;
-  final String phone;
-  final String gplx;
-  final String cccd;
-  final String address;
-  final String status;
-  final VoidCallback onEdit;
-  final VoidCallback onDelete;
-
-  const DriverCard({
-    super.key,
-    required this.name,
-    required this.phone,
-    required this.gplx,
-    required this.cccd,
-    required this.address,
-    required this.status,
-    required this.onEdit,
-    required this.onDelete,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.only(bottom: 16),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      elevation: 3,
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                CircleAvatar(
-                  backgroundColor: Colors.blue.shade100,
-                  child: Text(
-                    name.substring(0, 2).toUpperCase(),
-                    style: const TextStyle(color: Colors.blue),
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Text(
-                  name,
-                  style: AppTextStyles.titleMedium(context),
-                ),
-              ],
-            ),
-            const SizedBox(height: 12),
-            _buildRow('SĐT:', phone, context),
-            _buildRow('GPLX:', gplx, context),
-            _buildRow('CCCD:', cccd, context),
-            _buildRow('Địa chỉ:', address, context),
-            const SizedBox(height: 8),
-            Row(
-              children: [
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: status == 'Hoạt động'
-                        ? Colors.green.shade100
-                        : Colors.red.shade100,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Text(
-                    status,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      color: status == 'Hoạt động' ? Colors.green : Colors.red,
-                    ),
-                  ),
-                ),
-                const Spacer(),
-                IconButton(
-                  onPressed: onEdit,
-                  icon: const Icon(Icons.edit, color: Colors.blue),
-                ),
-                IconButton(
-                  onPressed: onDelete,
-                  icon: const Icon(Icons.delete, color: Colors.red),
-                ),
-              ],
-            ),
-          ],
+Widget _buildDetailRow(
+    BuildContext context, IconData icon, String label, String value) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 8),
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Icon(icon, size: AppDimensions.iconMedium(context), color: Colors.blue),
+        const SizedBox(width: 12),
+        Text(
+          "$label: ",
+          style: AppTextStyles.titleSmall(context),
         ),
-      ),
-    );
-  }
-
-  Widget _buildRow(String label, String value, BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 2),
-      child: Text(
-        '$label $value',
-        style: AppTextStyles.bodyMedium(context),
-      ),
-    );
-  }
+        Expanded(
+          child: Text(
+            value,
+            style: AppTextStyles.bodyMedium(context),
+          ),
+        ),
+      ],
+    ),
+  );
 }

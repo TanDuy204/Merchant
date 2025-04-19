@@ -18,7 +18,7 @@ class BorderedContainer extends StatelessWidget {
     return Container(
       margin: margin,
       width: width,
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: AppColors.whiteColor,
         borderRadius: BorderRadius.circular(10),
