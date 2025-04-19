@@ -1,11 +1,11 @@
 import 'package:accordion/accordion.dart';
 import 'package:flutter/material.dart';
-import 'package:merchant/common/app_style.dart';
+import 'package:merchant/common/app_dimensions.dart';
 
-import '../../../common/app_dimensions.dart';
+import '../../../common/app_style.dart';
 
-class SentListDetail extends StatelessWidget {
-  const SentListDetail({super.key});
+class ReturnListDetail extends StatelessWidget {
+  const ReturnListDetail({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,7 @@ class SentListDetail extends StatelessWidget {
         backgroundColor: AppColors.whiteColor,
         centerTitle: true,
         title: Text(
-          "Thông tin chi tiết",
+          "Chi tiết bảng kê",
           style: AppTextStyles.titleMedium(context),
         ),
       ),
@@ -44,10 +44,10 @@ class SentListDetail extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 8, vertical: 4),
                             decoration: BoxDecoration(
-                              color: AppColors.blueColor,
+                              color: AppColors.redColor,
                               borderRadius: BorderRadius.circular(20),
                             ),
-                            child: Text("Đã gửi",
+                            child: Text("Trả lại",
                                 style: AppTextStyles.buttonLabel(context)),
                           ),
                         ],

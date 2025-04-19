@@ -153,7 +153,7 @@ class _PendingPickupScreenState extends State<PendingPickupScreen> {
                             rows: widget.pendingSchedule.map((item) {
                               return DataRow(
                                 onSelectChanged: (_) {
-                                  Get.toNamed(AppRoutes.detailPending,
+                                  Get.toNamed(AppRoutes.pendingCollected,
                                       arguments: item);
                                 },
                                 cells: [

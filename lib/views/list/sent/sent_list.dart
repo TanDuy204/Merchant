@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:merchant/common/app_dimensions.dart';
-import 'package:merchant/views/list/sent/sent_list_detail.dart';
 
 import '../../../common/app_style.dart';
+import '../../../routes/app_route.dart';
 
 class SentList extends StatelessWidget {
   const SentList({super.key});
@@ -17,7 +16,7 @@ class SentList extends StatelessWidget {
             (context, index) {
               return GestureDetector(
                 onTap: () {
-                  Get.to(() => const SentListDetail());
+                  Get.toNamed(AppRoutes.sentList);
                 },
                 child: Container(
                   margin:
@@ -47,34 +46,20 @@ class SentList extends StatelessWidget {
                         ],
                       ),
                       const Divider(),
-                      _list(context, "Ngày gửi bảng kê:", "25-06-2025"),
+                      _list(context, "Ngày gửi:", "25-06-2025"),
                       const SizedBox(height: 6),
-                      _list(context, "Nội dung bảng kê", "Vận chuyển"),
+                      _list(context, "Nội dung:", "Vận chuyển"),
                       const SizedBox(height: 6),
-                      _list(context, "Ghi chú bảng kê:", "Bổ sung chi phí"),
+                      _list(context, "Ghi chú:", "Bổ sung chi phí"),
                       const SizedBox(height: 6),
-                      _list(context, "Tổng số tiền:", "6.000.000đ"),
+                      _list(context, "Tổng tiền:", "6.000.000đ"),
                       const SizedBox(height: 6),
                       Row(
                         children: [
                           Text("Trạng thái:",
                               style: AppTextStyles.bodyMedium(context)),
                           const Spacer(),
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal:
-                                      AppDimensions.paddingSmall(context),
-                                  vertical: AppDimensions.paddingTiny(context)),
-                              decoration: BoxDecoration(
-                                color: Colors.blue,
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Text('Đã gửi',
-                                  style: AppTextStyles.buttonLabel(context)),
-                            ),
-                          ),
+                          statusBadge("Đã gửi", context)
                         ],
                       ),
                     ],
@@ -97,5 +82,16 @@ Widget _list(BuildContext context, String title, String value) {
       const Spacer(),
       Text(value, style: AppTextStyles.bodyMedium(context)),
     ],
+  );
+}
+
+Widget statusBadge(String status, BuildContext context) {
+  return Container(
+    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+    decoration: BoxDecoration(
+      color: AppColors.lightBlueColor,
+      borderRadius: BorderRadius.circular(20),
+    ),
+    child: Text(status, style: AppTextStyles.buttonLabel(context)),
   );
 }

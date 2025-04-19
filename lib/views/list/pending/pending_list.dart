@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:merchant/models/schedule_model.dart';
-import 'package:merchant/views/list/pending/pending_list_detail.dart';
+import 'package:merchant/routes/app_route.dart';
 
 import '../../../common/app_style.dart';
 
@@ -20,7 +20,7 @@ class PendingList extends StatelessWidget {
               final schedule = schedules[index];
               return GestureDetector(
                 onTap: () {
-                  Get.to(const PendingListDetail());
+                  Get.toNamed(AppRoutes.pendingList);
                 },
                 child: Container(
                   margin:
@@ -58,7 +58,7 @@ class PendingList extends StatelessWidget {
                       const Divider(),
                       const SizedBox(height: 6),
                       _list(context, "Tên công ty:", schedule.companyName),
-                      _list(context, "Khu vực vận chuyển:", schedule.to),
+                      _list(context, "Khu vực:", schedule.to),
                       _list(context, "Loại hàng:", schedule.cargoType),
                       _list(context, "Biển số xe:", "51-C 033755"),
                       Row(
@@ -82,12 +82,28 @@ class PendingList extends StatelessWidget {
 }
 
 Widget _list(BuildContext context, String title, String value) {
-  return Row(
-    children: [
-      Text(title, style: AppTextStyles.bodyMedium(context)),
-      const Spacer(),
-      Text(value, style: AppTextStyles.bodyMedium(context)),
-    ],
+  return Padding(
+    padding: const EdgeInsets.only(bottom: 4.0),
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          width: 120,
+          child: Text(
+            title,
+            style: AppTextStyles.bodyMedium(context),
+          ),
+        ),
+        Expanded(
+          child: Text(
+            value,
+            style: AppTextStyles.bodyMedium(context),
+            softWrap: true,
+            maxLines: null,
+          ),
+        ),
+      ],
+    ),
   );
 }
 

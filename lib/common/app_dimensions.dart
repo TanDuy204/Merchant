@@ -22,7 +22,7 @@ class AppDimensions {
   static double iconMedium(BuildContext context) =>
       _getResponsiveSize(context, 28);
   static double iconLarge(BuildContext context) =>
-      _getResponsiveSize(context, 36);
+      _getResponsiveSize(context, 32);
 
   static double heightTiny(BuildContext context) =>
       _getResponsiveSize(context, 40);
@@ -35,6 +35,8 @@ class AppDimensions {
   static double heightLarge(BuildContext context) =>
       _getResponsiveSize(context, 200);
 
+  static double paddingXTiny(BuildContext context) =>
+      _getResponsiveSize(context, 3);
   static double paddingTiny(BuildContext context) =>
       _getResponsiveSize(context, 10);
   static double paddingSmall(BuildContext context) =>

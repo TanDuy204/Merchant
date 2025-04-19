@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import '../../../common/app_style.dart';
-import '../../../routes/app_route.dart';
 
-class ReturnList extends StatelessWidget {
-  const ReturnList({super.key});
+class SupplementContract extends StatelessWidget {
+  const SupplementContract({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -13,11 +11,10 @@ class ReturnList extends StatelessWidget {
       slivers: [
         SliverList(
           delegate: SliverChildBuilderDelegate(
+            childCount: 4,
             (context, index) {
               return GestureDetector(
-                onTap: () {
-                  Get.toNamed(AppRoutes.returnList);
-                },
+                onTap: () {},
                 child: Container(
                   margin:
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
@@ -36,42 +33,25 @@ class ReturnList extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        children: [
-                          Text("Mã bảng kê",
-                              style: AppTextStyles.titleSmall(context)),
-                          const Spacer(),
-                          Text("MBK-293",
-                              style: AppTextStyles.titleSmall(context)),
-                        ],
-                      ),
+                      Text("Số hợp đồng: HDNCC.2024_7",
+                          style: AppTextStyles.titleSmall(context)),
                       const Divider(),
-                      _list(context, "Ngày gửi:", "25-06-2025"),
+                      _list(context, "Mã số thuế:", "055488742"),
                       const SizedBox(height: 6),
-                      _list(context, "Nội dung:", "Vận chuyển"),
+                      _list(context, "Ngày hiệu lực:", "20-2-2025"),
                       const SizedBox(height: 6),
-                      _list(context, "Loại hàng:", "Chất thải sinh hoạt"),
+                      _list(context, "Ngày hết hạn:", "20-8-2025"),
                       const SizedBox(height: 6),
-                      _list(context, "Tổng số chuyến:", "7"),
+                      _list(context, "Số hợp đồng khác:", "5885698"),
                       const SizedBox(height: 6),
-                      _list(context, "Ghi chú:", "Thiếu chi phí phát sinh"),
+                      _list(context, "Mã phụ lục:",
+                          "joboko/MOITRUONGACHAU/54702"),
                       const SizedBox(height: 6),
-                      _list(context, "Tổng số tiền:", "6.000.000đ"),
-                      const SizedBox(height: 6),
-                      Row(
-                        children: [
-                          Text("Trạng thái:",
-                              style: AppTextStyles.bodyMedium(context)),
-                          const Spacer(),
-                          statusBadge("Đã trả lại", context)
-                        ],
-                      ),
                     ],
                   ),
                 ),
               );
             },
-            childCount: 2, // Adjust the number of items here
           ),
         ),
       ],
@@ -81,10 +61,22 @@ class ReturnList extends StatelessWidget {
 
 Widget _list(BuildContext context, String title, String value) {
   return Row(
+    crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      Text(title, style: AppTextStyles.bodyMedium(context)),
-      const Spacer(),
-      Text(value, style: AppTextStyles.bodyMedium(context)),
+      Expanded(
+        flex: 2,
+        child: Text(
+          title,
+          style: AppTextStyles.bodyMedium(context),
+        ),
+      ),
+      Expanded(
+        flex: 3,
+        child: Text(
+          value,
+          style: AppTextStyles.bodyMedium(context),
+        ),
+      ),
     ],
   );
 }
