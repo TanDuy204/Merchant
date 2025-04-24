@@ -176,6 +176,7 @@ class TruckDetail extends StatelessWidget {
                   return Accordion(
                     contentBorderColor: Colors.transparent,
                     rightIcon: const SizedBox.shrink(),
+                    disableScrolling: true,
                     paddingListBottom: 0,
                     paddingListTop: 0,
                     headerPadding: EdgeInsets.symmetric(

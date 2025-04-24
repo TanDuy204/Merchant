@@ -98,12 +98,13 @@ class PendingListDetail extends StatelessWidget {
               (context, index) {
                 return Accordion(
                   contentBorderColor: Colors.transparent,
+                  disableScrolling: true,
                   rightIcon: const SizedBox.shrink(),
                   paddingListBottom: 0,
                   paddingListTop: 0,
                   headerPadding: EdgeInsets.symmetric(
                       vertical: AppDimensions.paddingMedium(context),
-                      horizontal: AppDimensions.paddingSmall(context)),
+                      horizontal: AppDimensions.paddingLarge(context)),
                   headerBackgroundColorOpened: AppColors.lightBlue,
                   headerBackgroundColor: Colors.white,
                   children: [
@@ -118,6 +119,7 @@ class PendingListDetail extends StatelessWidget {
                         ],
                       ),
                       content: Column(
+                        mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           _detailRowH(context, "Tên công ty:",
@@ -147,10 +149,10 @@ Widget _detailRow(BuildContext context, String title, String value) {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(title, style: AppTextStyles.bodySmall(context)),
+        Text(title, style: AppTextStyles.titleSmall(context)),
         Text(
           value,
-          style: AppTextStyles.titleSmall(context),
+          style: AppTextStyles.bodyMedium(context),
         ),
       ],
     ),

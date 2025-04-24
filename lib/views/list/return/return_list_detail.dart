@@ -99,6 +99,7 @@ class ReturnListDetail extends StatelessWidget {
                 return Accordion(
                   contentBorderColor: Colors.transparent,
                   rightIcon: const SizedBox.shrink(),
+                  disableScrolling: true,
                   paddingListBottom: 0,
                   paddingListTop: 0,
                   headerPadding: EdgeInsets.symmetric(
@@ -197,11 +198,11 @@ Widget _detailRowIcon(
           color: AppColors.lightBlueColor,
         ),
         SizedBox(width: AppDimensions.paddingSmall(context)),
-        Text(title, style: AppTextStyles.bodySmall(context)),
+        Text(title, style: AppTextStyles.titleSmall(context)),
         const Spacer(),
         Text(
           value,
-          style: AppTextStyles.titleSmall(context),
+          style: AppTextStyles.bodyMedium(context),
         ),
       ],
     ),

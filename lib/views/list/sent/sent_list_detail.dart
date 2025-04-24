@@ -99,11 +99,12 @@ class SentListDetail extends StatelessWidget {
                 return Accordion(
                   contentBorderColor: Colors.transparent,
                   rightIcon: const SizedBox.shrink(),
+                  disableScrolling: true,
                   paddingListBottom: 0,
                   paddingListTop: 0,
                   headerPadding: EdgeInsets.symmetric(
                       vertical: AppDimensions.paddingMedium(context),
-                      horizontal: AppDimensions.paddingSmall(context)),
+                      horizontal: AppDimensions.paddingLarge(context)),
                   headerBackgroundColorOpened: AppColors.lightBlue,
                   headerBackgroundColor: Colors.white,
                   children: [
@@ -140,33 +141,6 @@ class SentListDetail extends StatelessWidget {
   }
 }
 
-Widget _detailRowH(BuildContext context, String title, String value) {
-  return Padding(
-    padding:
-        EdgeInsets.symmetric(horizontal: AppDimensions.paddingSmall(context)),
-    child: Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(
-          width: AppDimensions.heightMedium(context),
-          child: Text(
-            title,
-            style: AppTextStyles.bodySmall(context),
-          ),
-        ),
-        Expanded(
-          child: Text(
-            value,
-            style: AppTextStyles.titleSmall(context),
-            softWrap: true,
-            overflow: TextOverflow.visible,
-          ),
-        ),
-      ],
-    ),
-  );
-}
-
 Widget _detailRow(BuildContext context, String title, String value) {
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 4),
@@ -178,6 +152,33 @@ Widget _detailRow(BuildContext context, String title, String value) {
         Text(
           value,
           style: AppTextStyles.bodyMedium(context),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget _detailRowH(BuildContext context, String title, String value) {
+  return Padding(
+    padding:
+        EdgeInsets.symmetric(horizontal: AppDimensions.paddingSmall(context)),
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          width: AppDimensions.heightMedium(context),
+          child: Text(
+            title,
+            style: AppTextStyles.titleSmall(context),
+          ),
+        ),
+        Expanded(
+          child: Text(
+            value,
+            style: AppTextStyles.bodyMedium(context),
+            softWrap: true,
+            overflow: TextOverflow.visible,
+          ),
         ),
       ],
     ),

@@ -115,7 +115,7 @@ class _PendingPickupScreenState extends State<PendingPickupScreen> {
               return Accordion(
                 contentBorderColor: Colors.transparent,
                 rightIcon: const SizedBox.shrink(),
-                maxOpenSections: 1,
+                disableScrolling: true,
                 paddingListBottom: 0,
                 paddingListTop: 0,
                 headerPadding: EdgeInsets.symmetric(

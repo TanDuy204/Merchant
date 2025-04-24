@@ -98,6 +98,8 @@ Widget statusBadge(String status, BuildContext context) {
       color: AppColors.redColor,
       borderRadius: BorderRadius.circular(20),
     ),
-    child: Text(status, style: AppTextStyles.buttonLabel(context)),
+    child: Text(status,
+        style: AppTextStyles.bodyMedium(context)
+            .copyWith(color: AppColors.whiteColor)),
   );
 }

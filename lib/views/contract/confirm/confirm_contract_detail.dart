@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:merchant/common/app_dimensions.dart';
 import 'package:merchant/common/app_style.dart';
 
+import '../../../common/bordered_container.dart';
+
 class ConfirmContractDetail extends StatelessWidget {
   const ConfirmContractDetail({super.key});
 
@@ -31,7 +33,12 @@ class ConfirmContractDetail extends StatelessWidget {
     ];
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Chi tiết hợp đồng')),
+      appBar: AppBar(
+          centerTitle: true,
+          title: Text(
+            'Chi tiết hợp đồng',
+            style: AppTextStyles.titleMedium(context),
+          )),
       body: CustomScrollView(
         slivers: [
           SliverToBoxAdapter(
@@ -42,24 +49,18 @@ class ConfirmContractDetail extends StatelessWidget {
                 children: [
                   Text("Thông tin chung",
                       style: AppTextStyles.titleMedium(context)),
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                        color: AppColors.whiteColor,
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: const [
-                          BoxShadow(
-                              color: Colors.black12,
-                              blurRadius: 4,
-                              offset: Offset(0, 2))
-                        ]),
+                  BorderedContainer(
                     child: Column(
                       children: [
                         _infoRow(context, 'Số hợp đồng:', 'HĐKHĐC.2024.8'),
+                        SizedBox(height: AppDimensions.paddingXTiny(context)),
                         _infoRow(context, 'Nhà cung cấp:', 'DNTN Minh Hoàng'),
+                        SizedBox(height: AppDimensions.paddingXTiny(context)),
                         _infoRow(context, 'Người phụ trách:',
                             'Nguyễn Thị Cẩm Tuyền'),
+                        SizedBox(height: AppDimensions.paddingXTiny(context)),
                         _infoRow(context, 'Khu vực:', 'Miền Đông'),
+                        SizedBox(height: AppDimensions.paddingXTiny(context)),
                       ],
                     ),
                   )
@@ -76,25 +77,19 @@ class ConfirmContractDetail extends StatelessWidget {
                   Text("Nội dung hợp đồng",
                       style: AppTextStyles.titleMedium(context)),
                   const SizedBox(height: 5),
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                        color: AppColors.whiteColor,
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: const [
-                          BoxShadow(
-                              color: Colors.black12,
-                              blurRadius: 4,
-                              offset: Offset(0, 2))
-                        ]),
+                  BorderedContainer(
                     child: Column(
                       children: [
                         _infoRow(context, 'Loại dịch vụ:', 'Thuê nhân công'),
+                        SizedBox(height: AppDimensions.paddingXTiny(context)),
                         _infoRow(
                             context, 'Nội dung:', 'Cung cấp vệ sinh nhà máy'),
+                        SizedBox(height: AppDimensions.paddingXTiny(context)),
                         _infoRow(context, 'Địa chỉ gửi rác:',
                             '12 Lê Lai, Quận 1, HCM'),
+                        SizedBox(height: AppDimensions.paddingXTiny(context)),
                         _infoRow(context, 'Trạng thái:', 'Ký kết hoàn tất'),
+                        SizedBox(height: AppDimensions.paddingXTiny(context)),
                       ],
                     ),
                   )
@@ -111,21 +106,13 @@ class ConfirmContractDetail extends StatelessWidget {
                   Text("Thông tin liên hệ",
                       style: AppTextStyles.titleMedium(context)),
                   const SizedBox(height: 5),
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                        color: AppColors.whiteColor,
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: const [
-                          BoxShadow(
-                              color: Colors.black12,
-                              blurRadius: 4,
-                              offset: Offset(0, 2))
-                        ]),
+                  BorderedContainer(
                     child: Column(
                       children: [
                         _infoRow(context, 'Người liên hệ:', 'Chị Thiên'),
+                        SizedBox(height: AppDimensions.paddingXTiny(context)),
                         _infoRow(context, 'Số điện thoại:', '0971188322'),
+                        SizedBox(height: AppDimensions.paddingXTiny(context)),
                       ],
                     ),
                   )
@@ -142,19 +129,7 @@ class ConfirmContractDetail extends StatelessWidget {
                   Text("Thời gian hợp đồng",
                       style: AppTextStyles.titleMedium(context)),
                   const SizedBox(height: 5),
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: AppColors.whiteColor,
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Colors.black12,
-                          blurRadius: 4,
-                          offset: Offset(0, 2),
-                        ),
-                      ],
-                    ),
+                  BorderedContainer(
                     child: Column(
                       children: List.generate(_timelineItems.length, (index) {
                         final item = _timelineItems[index];
@@ -224,20 +199,7 @@ class ConfirmContractDetail extends StatelessWidget {
                   Text("File hợp đồng",
                       style: AppTextStyles.titleMedium(context)),
                   const SizedBox(height: 5),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 12, vertical: 10),
-                    decoration: BoxDecoration(
-                      color: AppColors.whiteColor,
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Colors.black12,
-                          blurRadius: 4,
-                          offset: Offset(0, 2),
-                        )
-                      ],
-                    ),
+                  BorderedContainer(
                     child: Row(
                       children: [
                         const Icon(Icons.insert_drive_file,
@@ -259,14 +221,12 @@ class ConfirmContractDetail extends StatelessWidget {
           ),
           SliverToBoxAdapter(
             child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
+              padding: EdgeInsets.all(AppDimensions.paddingSmall(context)),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text("Phụ lục hợp đồng",
                       style: AppTextStyles.titleMedium(context)),
-                  const SizedBox(height: 10),
                   buildAnnexItem(
                     context,
                     code: 'PL-01-2024',
@@ -330,42 +290,41 @@ Widget buildAnnexItem(
   required String status,
   required Color statusColor,
 }) {
-  return Container(
-    width: double.infinity,
-    margin: const EdgeInsets.only(bottom: 12),
-    padding: const EdgeInsets.all(16),
-    decoration: BoxDecoration(
-      color: AppColors.whiteColor,
-      borderRadius: BorderRadius.circular(10),
-      boxShadow: const [
-        BoxShadow(color: Colors.black12, blurRadius: 4, offset: Offset(0, 2)),
-      ],
-    ),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text("Mã phụ lục: $code", style: AppTextStyles.titleSmall(context)),
-        Text("Tên phụ lục: $name", style: AppTextStyles.bodyMedium(context)),
-        Text("Ngày tạo: $createdDate",
-            style: AppTextStyles.bodyMedium(context)),
-        Text("Ngày hiệu lực: $effectiveDate",
-            style: AppTextStyles.bodyMedium(context)),
-        const SizedBox(height: 6),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-          decoration: BoxDecoration(
-            color: statusColor.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Text(
-            status,
-            style: AppTextStyles.bodySmall(context).copyWith(
-              color: statusColor,
-              fontWeight: FontWeight.w600,
+  return Padding(
+    padding:
+        EdgeInsets.symmetric(vertical: AppDimensions.paddingSmall(context)),
+    child: BorderedContainer(
+      width: double.infinity,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text("Mã phụ lục: $code", style: AppTextStyles.titleSmall(context)),
+          SizedBox(height: AppDimensions.paddingXTiny(context)),
+          Text("Tên phụ lục: $name", style: AppTextStyles.bodyMedium(context)),
+          SizedBox(height: AppDimensions.paddingXTiny(context)),
+          Text("Ngày tạo: $createdDate",
+              style: AppTextStyles.bodyMedium(context)),
+          SizedBox(height: AppDimensions.paddingXTiny(context)),
+          Text("Ngày hiệu lực: $effectiveDate",
+              style: AppTextStyles.bodyMedium(context)),
+          SizedBox(height: AppDimensions.paddingXTiny(context)),
+          const SizedBox(height: 6),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            decoration: BoxDecoration(
+              color: statusColor.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Text(
+              status,
+              style: AppTextStyles.bodySmall(context).copyWith(
+                color: statusColor,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     ),
   );
 }
