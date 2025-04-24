@@ -7,7 +7,7 @@ import '../models/truck_model.dart';
 final List<Schedule> schedules = [
   Schedule(
     id: '001',
-    companyName: 'Công Ty CP SX TM Sáng Việt',
+    companyName: 'Công Ty CP SX TM Sáng Việt Ty CP SX TM Sáng Việt  ',
     description: 'Gom đủ không ghi phiếu',
     from: 'Thủ Thừa (Long An)',
     to: 'Bình Tân (TP.HCM)',
@@ -91,7 +91,7 @@ final List<Schedule> schedules = [
   ),
   Schedule(
     id: '007',
-    companyName: 'CTY CP TM Tân Tiến',
+    companyName: 'CTY CP TM Tân Tiến CP TM Tân Tiến',
     description: 'Hàng hóa không cần biên bản',
     from: 'Bến Lức (Long An)',
     to: 'Thủ Đức (TP.HCM)',
@@ -118,27 +118,26 @@ final List<Map<String, String>> images = [
 
 final List<Map<String, String>> collectedItems = [
   {
-    "id": "136685",
-    "tenHangHoa":
-        "Chất hấp thụ, vật liệu lọc, giẻ lau, vải bảo vệ thải bị nhiễm chất thành phần nguy hại",
+    "id": "Bãi rác Nam Sơn",
+    "tenHangHoa": "Chất thải nguy hại",
     "kl": "10",
   },
   {
-    "id": "136686",
-    "tenHangHoa": "Thiết bị điện tử thải bỏ",
+    "id": "Nhà máy phân compost",
+    "tenHangHoa": "chất thải sinh hoạt",
     "kl": "25",
   },
 ];
 
 List<Map<String, dynamic>> allData = [
   {
-    "name": "Vận chuyển",
+    "name": "Thuê nhân công",
     "quantity": 10,
     "price": "15.000",
     "total": "150.000",
   },
   {
-    "name": "Bốc vác lên",
+    "name": "Bốc vác xuống",
     "quantity": 25,
     "price": "5.000",
     "total": "125.000",
@@ -359,25 +358,25 @@ final List<DebtModel> mockDebts = [
     title: 'Cước vận chuyển hàng hoá',
     description: 'Cước vận chuyển tháng 10/2024 (Đính kèm bảng kê 06/11/2024)',
     amount: 93733200,
-    isPaid: false,
+    status: "Đã thanh toán",
     detail: 'Chi tiết vận chuyển nội địa tháng 10',
   ),
   DebtModel(
-    day: DateTime(2025, 4, 15),
+    day: DateTime(2025, 4, 16),
     quantity: 1,
     title: 'Dịch vụ đóng gói',
     description: 'Đóng gói hàng xuất khẩu lô 156/2024',
     amount: 12450000,
-    isPaid: false,
+    status: "Chưa thanh toán",
     detail: 'Chi tiết đóng gói hàng xuất khẩu lô 156',
   ),
   DebtModel(
-    day: DateTime(2025, 4, 15),
+    day: DateTime(2025, 4, 14),
     quantity: 1,
     title: 'Phí lưu kho',
     description: 'Phí lưu kho tháng 10/2024 (Kho Bình Dương)',
     amount: 45500000,
-    isPaid: true,
+    status: "Chưa thanh toán",
     detail: 'Chi tiết lưu kho tháng 10/2024',
   ),
   DebtModel(
@@ -386,7 +385,7 @@ final List<DebtModel> mockDebts = [
     title: 'Phí vận chuyển quốc tế',
     description: 'Vận chuyển container HDPE-455 đến Nhật Bản',
     amount: 245890000,
-    isPaid: true,
+    status: "Đã thanh toán",
     detail: 'Chi tiết vận chuyển quốc tế HDPE-455',
   ),
 ];

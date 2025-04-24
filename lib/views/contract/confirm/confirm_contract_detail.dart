@@ -164,7 +164,8 @@ class ConfirmContractDetail extends StatelessWidget {
                             Column(
                               children: [
                                 SizedBox(
-                                    height: AppDimensions.paddingTiny(context)),
+                                    height:
+                                        AppDimensions.paddingSmall(context)),
                                 Container(
                                   width: AppDimensions.paddingMedium(context),
                                   height: AppDimensions.paddingMedium(context),

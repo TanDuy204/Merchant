@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:merchant/common/app_dimensions.dart';
 import 'package:merchant/common/app_style.dart';
 
 class BorderedContainer extends StatelessWidget {
@@ -18,7 +19,8 @@ class BorderedContainer extends StatelessWidget {
     return Container(
       margin: margin,
       width: width,
-      padding: const EdgeInsets.all(20),
+      constraints: const BoxConstraints(),
+      padding: EdgeInsets.all(AppDimensions.paddingMedium(context)),
       decoration: BoxDecoration(
         color: AppColors.whiteColor,
         borderRadius: BorderRadius.circular(10),

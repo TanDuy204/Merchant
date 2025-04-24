@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:merchant/common/app_style.dart';
 import 'package:merchant/controllers/truck_controller.dart';
-import 'package:merchant/routes/app_route.dart';
 
 import '../../models/truck_model.dart';
 
@@ -80,7 +79,7 @@ class TruckScreen extends StatelessWidget {
                   final truck = filtered[index];
                   return GestureDetector(
                     onTap: () {
-                      Get.toNamed(AppRoutes.truckDetail, arguments: truck);
+                      Get.toNamed('/truckDetail', arguments: truck);
                     },
                     child: Container(
                       padding: const EdgeInsets.all(12),

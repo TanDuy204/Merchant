@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../common/app_style.dart';
-import '../../../routes/app_route.dart';
 
 class ReturnList extends StatelessWidget {
   const ReturnList({super.key});
@@ -16,7 +15,7 @@ class ReturnList extends StatelessWidget {
             (context, index) {
               return GestureDetector(
                 onTap: () {
-                  Get.toNamed(AppRoutes.returnList);
+                  Get.toNamed('/returnList');
                 },
                 child: Container(
                   margin:
@@ -96,6 +95,8 @@ Widget statusBadge(String status, BuildContext context) {
       color: AppColors.redColor,
       borderRadius: BorderRadius.circular(20),
     ),
-    child: Text(status, style: AppTextStyles.buttonLabel(context)),
+    child: Text(status,
+        style: AppTextStyles.bodyMedium(context)
+            .copyWith(color: AppColors.whiteColor)),
   );
 }

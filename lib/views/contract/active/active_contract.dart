@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:merchant/routes/app_route.dart';
 
 import '../../../common/app_style.dart';
 
@@ -17,7 +16,7 @@ class ActiveContract extends StatelessWidget {
             (context, index) {
               return GestureDetector(
                 onTap: () {
-                  Get.toNamed(AppRoutes.activeContract);
+                  Get.toNamed('/activeContract');
                 },
                 child: Container(
                   margin:

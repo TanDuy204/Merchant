@@ -66,17 +66,28 @@ class _ContractDetailScreenState extends State<CompletedPickupDetail> {
               Row(
                 children: [
                   Expanded(
-                    child:
-                        _buildInfoCard(context, "Ngày thu gom", "15-01-2025"),
+                    child: _buildInfoCard(context, "Mã thu gom", "TG-2025"),
                   ),
                   const SizedBox(width: 15),
                   Expanded(
-                    child: _buildInfoCard(
-                        context, "Thời gian thu gom", "16-01-2025"),
+                    child:
+                        _buildInfoCard(context, "Ngày thu gom", "15-01-2025"),
                   ),
                 ],
               ),
-              _buildInfoCard(context, "Ngày gửi lịch gom", "05-01-2025"),
+              Row(
+                children: [
+                  Expanded(
+                    child:
+                        _buildInfoCard(context, "Tổng trọng lượng", "4500 kg"),
+                  ),
+                  const SizedBox(width: 15),
+                  Expanded(
+                    child: _buildInfoCard(context, "Trạng thái", "Đã sắp"),
+                  ),
+                ],
+              ),
+
               Row(
                 children: [
                   Expanded(
@@ -106,8 +117,7 @@ class _ContractDetailScreenState extends State<CompletedPickupDetail> {
                   ),
                 ],
               ),
-              _buildInfoCard(context, "Thông tin người liên hệ", "Chị Giao"),
-              _buildInfoCard(context, "Trạng thái công nợ", "Chưa nghiệm thu"),
+
               const SizedBox(height: 10),
               Text("Danh sách chi phí đi kèm",
                   style: AppTextStyles.titleMedium(context)),
@@ -231,25 +241,24 @@ class _ContractDetailScreenState extends State<CompletedPickupDetail> {
                           headingTextStyle: AppTextStyles.titleSmall(context),
                           dataTextStyle: AppTextStyles.bodySmall(context),
                           columnSpacing: 0,
-                          dataRowHeight:
-                              AppDimensions.heightMediumSmall(context),
+                          dataRowHeight: AppDimensions.heightTiny(context),
                           columns: [
                             DataColumn(
                               label: SizedBox(
-                                width: columnWidth,
-                                child: const Text('ID'),
+                                width: columnWidth * 1.4,
+                                child: const Text('Tên'),
                               ),
                             ),
                             DataColumn(
                               label: SizedBox(
-                                width: columnWidth * 2,
-                                child: const Text('Tên hàng hóa'),
+                                width: columnWidth * 1.2,
+                                child: const Text('KL GOM(KG)'),
                               ),
                             ),
                             DataColumn(
                               label: SizedBox(
-                                width: columnWidth,
-                                child: const Text('KL GOM'),
+                                width: columnWidth * 1.5,
+                                child: const Text('Điểm giao'),
                               ),
                             ),
                           ],
@@ -258,12 +267,7 @@ class _ContractDetailScreenState extends State<CompletedPickupDetail> {
                               cells: [
                                 DataCell(
                                   SizedBox(
-                                      width: columnWidth,
-                                      child: Text(item['id']!)),
-                                ),
-                                DataCell(
-                                  SizedBox(
-                                    width: columnWidth * 2,
+                                    width: columnWidth * 1.5,
                                     child: Text(
                                       item['tenHangHoa']!,
                                       softWrap: true,
@@ -273,9 +277,14 @@ class _ContractDetailScreenState extends State<CompletedPickupDetail> {
                                 ),
                                 DataCell(
                                   SizedBox(
-                                    width: columnWidth,
-                                    child: Text(item['kl']!),
+                                    width: columnWidth * 1.2,
+                                    child: Center(child: Text(item['kl']!)),
                                   ),
+                                ),
+                                DataCell(
+                                  SizedBox(
+                                      width: columnWidth * 1.5,
+                                      child: Text(item['id']!)),
                                 ),
                               ],
                             );

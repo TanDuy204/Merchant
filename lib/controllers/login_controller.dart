@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:merchant/routes/app_route.dart';
 
 import '../service/uidata.dart';
 
@@ -29,7 +28,7 @@ class LoginController extends GetxController {
           backgroundColor: Colors.green,
           colorText: Colors.white,
         );
-        Get.offAllNamed(AppRoutes.main);
+        Get.offAllNamed('/main');
       } else {
         Get.snackbar(
           "Đăng nhập thất bại",

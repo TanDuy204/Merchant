@@ -4,7 +4,7 @@ class DebtModel {
   final String title;
   final String description;
   final int amount;
-  final bool isPaid;
+  final String status;
   final String detail;
 
   DebtModel({
@@ -13,7 +13,7 @@ class DebtModel {
     required this.title,
     required this.description,
     required this.amount,
-    required this.isPaid,
+    required this.status,
     required this.detail,
   });
 }

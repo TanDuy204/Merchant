@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../common/app_style.dart';
-import '../../../routes/app_route.dart';
 
 class ExpiredContract extends StatelessWidget {
   const ExpiredContract({super.key});
@@ -17,7 +16,7 @@ class ExpiredContract extends StatelessWidget {
             (context, index) {
               return GestureDetector(
                 onTap: () {
-                  Get.toNamed(AppRoutes.expiredContract);
+                  Get.toNamed('/expiredContract');
                 },
                 child: Container(
                   margin:

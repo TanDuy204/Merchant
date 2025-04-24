@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../common/app_style.dart';
-import '../../../routes/app_route.dart';
 
 class ConfirmContract extends StatelessWidget {
   const ConfirmContract({super.key});
@@ -17,7 +16,7 @@ class ConfirmContract extends StatelessWidget {
             (context, index) {
               return GestureDetector(
                 onTap: () {
-                  Get.toNamed(AppRoutes.confirmContract);
+                  Get.toNamed('confirmContract');
                 },
                 child: Container(
                   margin:

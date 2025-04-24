@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:merchant/models/schedule_model.dart';
-import 'package:merchant/routes/app_route.dart';
+import 'package:merchant/common/app_dimensions.dart';
 
 import '../../../common/app_style.dart';
+import '../../../models/schedule_model.dart';
 
 class PendingList extends StatelessWidget {
   final List<Schedule> schedules;
@@ -20,14 +20,14 @@ class PendingList extends StatelessWidget {
               final schedule = schedules[index];
               return GestureDetector(
                 onTap: () {
-                  Get.toNamed(AppRoutes.pendingList);
+                  Get.toNamed('/pendingList');
                 },
                 child: Container(
                   margin:
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-                  padding: const EdgeInsets.all(12),
+                  padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: Colors.grey.shade50,
+                    color: Colors.white,
                     borderRadius: BorderRadius.circular(12),
                     boxShadow: const [
                       BoxShadow(
@@ -41,6 +41,7 @@ class PendingList extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Image.asset(
                             "assets/icons/car_icon.png",
@@ -48,28 +49,30 @@ class PendingList extends StatelessWidget {
                             height: 30,
                           ),
                           const SizedBox(width: 8),
-                          Text("Thu gom",
-                              style: AppTextStyles.titleSmall(context)),
-                          const Spacer(),
-                          Text("CTG_22223",
-                              style: AppTextStyles.titleSmall(context)),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("Chuyến thu gom",
+                                    style: AppTextStyles.titleSmall(context)),
+                                const SizedBox(height: 4),
+                                Text("CTG_22223",
+                                    style: AppTextStyles.bodySmall(context)),
+                              ],
+                            ),
+                          ),
+                          statusBadge("Đã thu gom", context),
                         ],
                       ),
                       const Divider(),
-                      const SizedBox(height: 6),
+                      const SizedBox(height: 12),
                       _list(context, "Tên công ty:", schedule.companyName),
                       _list(context, "Khu vực:", schedule.to),
                       _list(context, "Loại hàng:", schedule.cargoType),
                       _list(context, "Biển số xe:", "51-C 033755"),
-                      Row(
-                        children: [
-                          Text("Trạng thái:",
-                              style: AppTextStyles.bodyMedium(context)),
-                          const Spacer(),
-                          statusBadge("Đã thu gom", context),
-                        ],
-                      ),
+                      const SizedBox(height: 6),
                     ],
+
                   ),
                 ),
               );
@@ -83,12 +86,12 @@ class PendingList extends StatelessWidget {
 
 Widget _list(BuildContext context, String title, String value) {
   return Padding(
-    padding: const EdgeInsets.only(bottom: 4.0),
+    padding: const EdgeInsets.symmetric(vertical: 4.0),
     child: Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(
-          width: 120,
+          width: AppDimensions.heightMedium(context),
           child: Text(
             title,
             style: AppTextStyles.bodyMedium(context),
@@ -108,12 +111,17 @@ Widget _list(BuildContext context, String title, String value) {
 }
 
 Widget statusBadge(String status, BuildContext context) {
+  final isCollected = status == "Đã thu gom";
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
     decoration: BoxDecoration(
-      color: AppColors.lightBlueColor,
+      color: isCollected ? Colors.green : Colors.red,
       borderRadius: BorderRadius.circular(20),
     ),
-    child: Text(status, style: AppTextStyles.buttonLabel(context)),
+    child: Text(
+      status,
+      style: AppTextStyles.bodyMedium(context)
+          .copyWith(color: AppColors.whiteColor),
+    ),
   );
 }

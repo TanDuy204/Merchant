@@ -40,9 +40,7 @@ class CustomDatePickerField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label,
-            style: AppTextStyles.bodyMedium(context)
-                .copyWith(color: AppColors.greyColor)),
+        Text(label, style: AppTextStyles.bodyMedium(context)),
         const SizedBox(height: 6),
         Container(
           height: AppDimensions.heightTiny(context),

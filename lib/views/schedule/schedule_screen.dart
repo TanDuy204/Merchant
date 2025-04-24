@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:merchant/common/app_dimensions.dart';
 import 'package:merchant/common/app_style.dart';
 import 'package:merchant/models/schedule_model.dart';
-import 'package:merchant/routes/app_route.dart';
 
 class ScheduleScreen extends StatelessWidget {
   final List<Schedule> schedules;
@@ -69,12 +69,16 @@ class ScheduleScreen extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.all(16),
                             child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    const Icon(Icons.radio_button_checked,
-                                        size: 27, color: Colors.purple),
+                                    Icon(Icons.radio_button_off,
+                                        size: AppDimensions.iconSmallMedium(
+                                            context),
+                                        color: Colors.purple),
                                     const SizedBox(width: 8),
                                     Text(schedule.from,
                                         style:
@@ -90,12 +94,17 @@ class ScheduleScreen extends StatelessWidget {
                                         children: [
                                           const SizedBox(height: 2),
                                           Container(
-                                            height: 16,
-                                            width: 2,
+                                            height: AppDimensions.paddingMedium(
+                                                context),
+                                            width: AppDimensions.paddingXTiny(
+                                                context),
                                             color: Colors.grey.shade400,
                                           ),
-                                          const Icon(Icons.location_on,
-                                              size: 25, color: Colors.red),
+                                          Icon(Icons.location_on,
+                                              size:
+                                                  AppDimensions.iconSmallMedium(
+                                                      context),
+                                              color: Colors.red),
                                         ],
                                       ),
                                     ),
@@ -216,7 +225,7 @@ class ScheduleScreen extends StatelessWidget {
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    Get.toNamed(AppRoutes.collectSchedule,
+                                    Get.toNamed('/collectSchedule',
                                         arguments: schedules);
                                   },
                                   child: Container(

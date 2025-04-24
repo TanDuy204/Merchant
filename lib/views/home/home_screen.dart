@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:merchant/common/app_dimensions.dart';
 import 'package:merchant/common/app_style.dart';
-import 'package:merchant/routes/app_route.dart';
 
 import '../../service/uidata.dart';
 
@@ -45,9 +44,11 @@ class HomeScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Row(
-                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        Image.asset("assets/icons/dollar_coin.png"),
+                        Image.asset("assets/icons/dollar_coin.png",
+                            width: AppDimensions.iconSmall(context),
+                            height: AppDimensions.iconSmall(context),
+                            fit: BoxFit.contain),
                         const SizedBox(width: 15),
                         Text(
                           "100,000,000,000 đ",
@@ -55,10 +56,10 @@ class HomeScreen extends StatelessWidget {
                               .copyWith(color: AppColors.blueColor),
                         ),
                         const SizedBox(width: 15),
-                        const Icon(
+                        Icon(
                           Icons.arrow_forward_ios_outlined,
                           color: AppColors.blueColor,
-                          size: 15,
+                          size: AppDimensions.iconSmall(context),
                         ),
                       ],
                     ),
@@ -66,7 +67,7 @@ class HomeScreen extends StatelessWidget {
                   const SizedBox(height: 20),
                   Container(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 35),
+                        horizontal: 16, vertical: 24),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                       gradient: const LinearGradient(
@@ -77,12 +78,22 @@ class HomeScreen extends StatelessWidget {
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Row(
                           children: [
-                            const Icon(Icons.account_balance_wallet_outlined,
-                                color: Colors.white, size: 40),
-                            const SizedBox(width: 10),
+                            Container(
+                              width: AppDimensions.iconLarge(context),
+                              height: AppDimensions.iconLarge(context),
+                              alignment: Alignment.center,
+                              child: Icon(
+                                Icons.account_balance_wallet_outlined,
+                                color: Colors.white,
+                                size: AppDimensions.iconLarge(context),
+                              ),
+                            ),
+                            SizedBox(
+                                width: AppDimensions.paddingSmall(context)),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -91,6 +102,7 @@ class HomeScreen extends StatelessWidget {
                                   style: AppTextStyles.bodySmall(context)
                                       .copyWith(color: AppColors.whiteColor),
                                 ),
+                                const SizedBox(height: 4),
                                 Text(
                                   "100,000,000,000 đ",
                                   style: AppTextStyles.titleMedium(context)
@@ -108,6 +120,7 @@ class HomeScreen extends StatelessWidget {
                               style: AppTextStyles.bodySmall(context)
                                   .copyWith(color: AppColors.whiteColor),
                             ),
+                            const SizedBox(height: 4),
                             Text(
                               "100,000,000,000 đ",
                               style: AppTextStyles.titleSmall(context)
@@ -118,7 +131,7 @@ class HomeScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 15),
+                  const SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -158,7 +171,7 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 35),
+                  const SizedBox(height: 20),
                 ],
               ),
             ),
@@ -169,46 +182,46 @@ class HomeScreen extends StatelessWidget {
               delegate: SliverChildListDelegate(
                 [
                   buildGridItem(
-                    onTap: () => Get.toNamed(AppRoutes.schedule),
+                    onTap: () => Get.toNamed('/schedule'),
                     label: "Sắp lịch",
                     context: context,
                     badge: 3,
                     iconPath: 'assets/icons/schedule.png',
                   ),
                   buildGridItem(
-                    onTap: () => Get.toNamed(AppRoutes.collected),
+                    onTap: () => Get.toNamed('/collected'),
                     label: "Đã thu gom",
                     context: context,
                     iconPath: 'assets/icons/collected.png',
                   ),
                   buildGridItem(
-                    onTap: () => Get.toNamed(AppRoutes.list),
+                    onTap: () => Get.toNamed('/list'),
                     label: "Bảng kê",
                     context: context,
                     badge: 6,
                     iconPath: 'assets/icons/capacity.png',
                   ),
                   buildGridItem(
-                    onTap: () => Get.toNamed(AppRoutes.collected),
+                    onTap: () => Get.toNamed('/driverAccount'),
                     label: "Tài xế",
                     context: context,
                     badge: 1,
                     iconPath: 'assets/icons/driver.png',
                   ),
                   buildGridItem(
-                    onTap: () => Get.toNamed(AppRoutes.truck),
+                    onTap: () => Get.toNamed('/truck'),
                     label: "Quản lý xe",
                     context: context,
                     iconPath: 'assets/icons/truck.png',
                   ),
                   buildGridItem(
-                    onTap: () => Get.toNamed(AppRoutes.debt),
+                    onTap: () => Get.toNamed('/debt'),
                     label: "Công nợ",
                     context: context,
                     iconPath: 'assets/icons/money.png',
                   ),
                   buildGridItem(
-                    onTap: () => Get.toNamed(AppRoutes.contract),
+                    onTap: () => Get.toNamed('/contract'),
                     label: "Hợp đồng",
                     context: context,
                     badge: 21,
@@ -324,18 +337,18 @@ class HomeScreen extends StatelessWidget {
               top: 0,
               right: 7,
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                padding: EdgeInsets.symmetric(
+                    horizontal: AppDimensions.paddingTiny(context),
+                    vertical: AppDimensions.paddingXTiny(context)),
                 decoration: BoxDecoration(
                   color: Colors.red,
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(
+                      AppDimensions.paddingSmall(context)),
                 ),
                 child: Text(
                   badge.toString(),
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 10,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: AppTextStyles.titleTini(context)
+                      .copyWith(color: AppColors.whiteColor),
                 ),
               ),
             ),

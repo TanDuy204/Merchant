@@ -1,13 +1,12 @@
+import 'package:accordion/accordion.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:merchant/common/app_dimensions.dart';
 import 'package:merchant/common/app_style.dart';
+import 'package:merchant/common/bordered_container.dart';
 import 'package:merchant/models/pending_schedule_model.dart';
-import 'package:merchant/routes/app_route.dart';
 
 import '../../../common/custom_datapicker.dart';
-import '../../../common/custom_search.dart';
 
 class PendingPickupScreen extends StatefulWidget {
   final List<PendingScheduleModel> pendingSchedule;
@@ -25,6 +24,26 @@ class _PendingPickupScreenState extends State<PendingPickupScreen> {
 
   DateTime? fromDate;
   DateTime? toDate;
+  final List<Map<String, String>> mockData = [
+    {
+      "Tên công ty": "TNHH Jones Lang Lasalle (Việt Nam)",
+      "Địa điểm": "Khu công nghiệp Long Biên, Hà Nội",
+      "Người liên hệ": "Trống",
+      "Số lượng": "Trống",
+    },
+    {
+      "Tên công ty": "Công ty TNHH ABC",
+      "Địa điểm": "Khu công nghiệp Phố Nối, Hưng Yên",
+      "Người liên hệ": "Nguyễn Văn A",
+      "Số lượng": "10",
+    },
+    {
+      "Tên công ty": "Công ty XYZ",
+      "Địa điểm": "Khu công nghiệp Bình Dương",
+      "Người liên hệ": "Trần Thị B",
+      "Số lượng": "5",
+    },
+  ];
 
   @override
   void initState() {
@@ -45,19 +64,7 @@ class _PendingPickupScreenState extends State<PendingPickupScreen> {
         SliverToBoxAdapter(
           child: Padding(
             padding: const EdgeInsets.all(10),
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-                boxShadow: const [
-                  BoxShadow(
-                    color: Colors.black12,
-                    blurRadius: 4,
-                    offset: Offset(0, 2),
-                  ),
-                ],
-              ),
-              padding: const EdgeInsets.all(12),
+            child: BorderedContainer(
               child: Row(
                 children: [
                   Expanded(
@@ -93,88 +100,136 @@ class _PendingPickupScreenState extends State<PendingPickupScreen> {
           ),
         ),
         SliverToBoxAdapter(
-          child: Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Colors.black12,
-                        blurRadius: 4,
-                        offset: Offset(0, 2),
-                      ),
-                    ],
-                  ),
-                  padding: const EdgeInsets.all(10),
-                  child: Column(
-                    children: [
-                      CustomSearch(controller: searchController),
-                      const SizedBox(height: 10),
-                      LayoutBuilder(
-                        builder:
-                            (BuildContext context, BoxConstraints constraints) {
-                          final totalWidth = constraints.maxWidth;
-                          final dateWidth = totalWidth * 0.23;
-                          final typeWidth = totalWidth * 0.25;
-                          final weightWidth = totalWidth * 0.20;
-                          final workerWidth = totalWidth * 0.20;
-
-                          return DataTable(
-                            showCheckboxColumn: false,
-                            dataTextStyle: AppTextStyles.bodySmall(context),
-                            headingTextStyle: AppTextStyles.titleSmall(context),
-                            columnSpacing: 0,
-                            dataRowHeight: AppDimensions.heightSmall(context),
-                            columns: [
-                              DataColumn(
-                                  label: SizedBox(
-                                      width: dateWidth,
-                                      child: const Text('Ngày'))),
-                              DataColumn(
-                                  label: SizedBox(
-                                      width: typeWidth,
-                                      child: const Text('Loại hàng'))),
-                              DataColumn(
-                                  label: SizedBox(
-                                      width: weightWidth,
-                                      child: const Text('Trọng tải'))),
-                              DataColumn(
-                                  label: SizedBox(
-                                      width: workerWidth,
-                                      child: const Text('Nhân công'))),
-                            ],
-                            rows: widget.pendingSchedule.map((item) {
-                              return DataRow(
-                                onSelectChanged: (_) {
-                                  Get.toNamed(AppRoutes.pendingCollected,
-                                      arguments: item);
-                                },
-                                cells: [
-                                  DataCell(Text(item.date)),
-                                  DataCell(Text(item.wasteType)),
-                                  DataCell(Text(item.weight)),
-                                  DataCell(Text(item.worker)),
-                                ],
-                              );
-                            }).toList(),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            child: Text(
+              'Danh sách chuyến thu gom chưa sắp:',
+              style: AppTextStyles.titleMedium(context),
             ),
+          ),
+        ),
+        SliverList(
+          delegate: SliverChildBuilderDelegate(
+            childCount: 2,
+            (context, index) {
+              return Accordion(
+                contentBorderColor: Colors.transparent,
+                rightIcon: const SizedBox.shrink(),
+                maxOpenSections: 1,
+                paddingListBottom: 0,
+                paddingListTop: 0,
+                headerPadding: EdgeInsets.symmetric(
+                  vertical: AppDimensions.paddingMedium(context),
+                  horizontal: AppDimensions.paddingSmall(context),
+                ),
+                headerBackgroundColorOpened: AppColors.lightBlue,
+                headerBackgroundColor: Colors.white,
+                children: [
+                  AccordionSection(
+                    isOpen: false,
+                    header: GestureDetector(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.date_range,
+                                    size: AppDimensions.iconSmall(context),
+                                    color: AppColors.blueColor,
+                                  ),
+                                  const SizedBox(width: 5),
+                                  Text('25/07/2025',
+                                      style: AppTextStyles.titleSmall(context)),
+                                ],
+                              ),
+                              Text(
+                                'Chất thải công nghiệp',
+                                style: AppTextStyles.titleSmall(context),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  Text(' 172512.21 Kg',
+                                      style: AppTextStyles.titleSmall(context)),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.person,
+                                    size: AppDimensions.iconSmall(context),
+                                    color: AppColors.blueColor,
+                                  ),
+                                  const SizedBox(width: 5),
+                                  Text(
+                                    '1 Nhân công',
+                                    style: AppTextStyles.titleSmall(context),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    content: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: mockData.map((company) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            _detailRowH(context, "Tên công ty:",
+                                company["Tên công ty"]!),
+                            _detailRowH(
+                                context, "Địa điểm:", company["Địa điểm"]!),
+                            _detailRowH(
+                                context, "Khối lượng:", company["Số lượng"]!),
+                            const Divider(),
+                          ],
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                ],
+              );
+            },
           ),
         )
       ],
     );
   }
+}
+
+Widget _detailRowH(BuildContext context, String title, String value) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 4),
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(
+          child: Text(
+            title,
+            style: AppTextStyles.bodySmall(context),
+          ),
+        ),
+        Expanded(
+          flex: 3,
+          child: Text(
+            value,
+            style: AppTextStyles.titleSmall(context),
+            softWrap: true,
+            overflow: TextOverflow.visible,
+          ),
+        ),
+      ],
+    ),
+  );
 }

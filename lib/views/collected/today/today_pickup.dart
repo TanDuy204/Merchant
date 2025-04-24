@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:merchant/routes/app_route.dart';
 
 import '../../../common/app_style.dart';
 import '../../../controllers/collected_controller.dart';
@@ -30,7 +29,7 @@ class TodayPickupScreen extends StatelessWidget {
 
                   return GestureDetector(
                     onTap: () {
-                      Get.toNamed(AppRoutes.todayCollected);
+                      Get.toNamed('/todayCollected');
                     },
                     child: Container(
                       margin: const EdgeInsets.symmetric(

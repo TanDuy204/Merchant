@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:merchant/common/custom_text_field.dart';
 
 import '../../common/app_style.dart';
 import '../../common/bordered_container.dart';
@@ -39,23 +40,23 @@ class CreateAccountScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         _buildLabel(context, "Tên tài xế"),
-                        _buildCustomTextField(context, oldPassController,
-                            hint: ""),
+                        CustomTextField(
+                            controller: oldPassController, hint: ""),
                         _buildLabel(context, "Số điện thoại"),
-                        _buildCustomTextField(context, oldPassController,
-                            hint: ""),
+                        CustomTextField(
+                            controller: oldPassController, hint: ""),
                         _buildLabel(context, "Email"),
-                        _buildCustomTextField(context, oldPassController,
-                            hint: ""),
+                        CustomTextField(
+                            controller: oldPassController, hint: ""),
                         _buildLabel(context, "Mật khẩu"),
-                        _buildCustomTextField(context, oldPassController,
-                            hint: ""),
+                        CustomTextField(
+                            controller: oldPassController, hint: ""),
                         _buildLabel(context, "Số CCCD"),
-                        _buildCustomTextField(context, oldPassController,
-                            hint: ""),
+                        CustomTextField(
+                            controller: oldPassController, hint: ""),
                         _buildLabel(context, "Số giấy phép lái xe"),
-                        _buildCustomTextField(context, oldPassController,
-                            hint: ""),
+                        CustomTextField(
+                            controller: oldPassController, hint: ""),
                         _buildLabel(context, "Hình ảnh giấy phép lái xe"),
                         Container(
                           padding: const EdgeInsets.symmetric(
@@ -80,8 +81,8 @@ class CreateAccountScreen extends StatelessWidget {
                           ),
                         ),
                         _buildLabel(context, "Địa chỉ"),
-                        _buildCustomTextField(context, oldPassController,
-                            hint: ""),
+                        CustomTextField(
+                            controller: oldPassController, hint: ""),
                         const SizedBox(height: 12),
                         Align(
                           alignment: Alignment.centerRight,
@@ -111,42 +112,5 @@ Widget _buildLabel(BuildContext context, String label) {
   return Padding(
     padding: const EdgeInsets.only(top: 12, bottom: 4),
     child: Text(label, style: AppTextStyles.bodyMedium(context)),
-  );
-}
-
-Widget _buildCustomTextField(
-  BuildContext context,
-  TextEditingController controller, {
-  required String hint,
-  bool obscureText = false,
-}) {
-  return TextField(
-    controller: controller,
-    obscureText: obscureText,
-    style: AppTextStyles.bodyMedium(context),
-    decoration: InputDecoration(
-      hintText: hint,
-      hintStyle: AppTextStyles.bodyMedium(context)
-          .copyWith(color: AppColors.greyColor),
-      filled: true,
-      fillColor: const Color(0xFFF1F7FF),
-      contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(color: Colors.grey.shade200),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(color: Colors.grey.shade400, width: 2),
-      ),
-      errorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(color: Colors.grey.shade700),
-      ),
-      focusedErrorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(color: Colors.grey.shade900, width: 2),
-      ),
-    ),
   );
 }

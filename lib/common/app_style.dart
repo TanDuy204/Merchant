@@ -4,10 +4,12 @@ class AppTextStyles {
   static double _getResponsiveFontSize(BuildContext context, double baseSize) {
     final screenWidth = MediaQuery.of(context).size.width;
 
-    if (screenWidth < 400) {
+    if (screenWidth < 375) {
+      return baseSize * 0.70;
+    } else if (screenWidth < 400) {
       return baseSize * 0.75;
     } else if (screenWidth < 480) {
-      return baseSize * 0.85;
+      return baseSize * 0.83;
     } else if (screenWidth < 600) {
       return baseSize;
     } else if (screenWidth < 850) {
@@ -28,7 +30,11 @@ class AppTextStyles {
       color: Colors.black);
 
   static TextStyle titleSmall(BuildContext context) => TextStyle(
-      fontSize: _getResponsiveFontSize(context, 18),
+      fontSize: _getResponsiveFontSize(context, 19),
+      color: Colors.black,
+      fontWeight: FontWeight.bold);
+  static TextStyle titleTini(BuildContext context) => TextStyle(
+      fontSize: _getResponsiveFontSize(context, 13),
       color: Colors.black,
       fontWeight: FontWeight.bold);
 
