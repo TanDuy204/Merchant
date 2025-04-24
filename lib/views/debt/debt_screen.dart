@@ -22,12 +22,11 @@ class _DebtScreenState extends State<DebtScreen> {
   final TextEditingController fromDateController = TextEditingController();
   final TextEditingController toDateController = TextEditingController();
   final controller = Get.put(DebtController());
-  String selectedValue = 'Loại công nợ';
+  String selectedValue = 'Tất cả';
   DateTime? fromDate;
   DateTime? toDate;
 
   final List<String> debtTypes = [
-    'Tất cả',
     'Chưa thanh toán',
     'Đã thanh toán',
     'Quá hạn',
@@ -94,13 +93,13 @@ class _DebtScreenState extends State<DebtScreen> {
                           },
                           items: [
                             const DropdownMenuItem(
-                              value: 'Loại công nợ',
+                              value: 'Tất cả',
                               enabled: false,
                               child: Row(
                                 children: [
                                   Icon(Icons.filter_list, size: 18),
                                   SizedBox(width: 8),
-                                  Text('Loại công nợ'),
+                                  Text('Tất cả'),
                                 ],
                               ),
                             ),

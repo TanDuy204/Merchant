@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 
+import '../../../common/app_dimensions.dart';
 import '../../../common/app_style.dart';
+import '../../../common/bordered_container.dart';
 import '../../../controllers/collected_controller.dart';
 import '../../../models/schedule_model.dart';
 
@@ -18,75 +19,59 @@ class TodayPickupScreen extends StatelessWidget {
 
     return CustomScrollView(
       slivers: [
-        Obx(() => SliverList(
-              delegate: SliverChildBuilderDelegate(
-                childCount: collectedController.filteredSchedulesByDay.length,
-                (context, index) {
-                  final task =
-                      collectedController.filteredSchedulesByDay[index];
-                  String formattedDate =
-                      DateFormat('dd-MM-yyyy').format(task.datetime);
-
-                  return GestureDetector(
-                    onTap: () {
-                      Get.toNamed('/todayCollected');
-                    },
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 8),
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade50,
-                        borderRadius: BorderRadius.circular(12),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Colors.black12,
-                            blurRadius: 4,
-                            offset: Offset(0, 2),
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Image.asset(
-                                "assets/icons/car_icon.png",
-                                width: 30,
-                                height: 30,
-                              ),
-                              const SizedBox(width: 8),
-                              Text("Chuyến thu gom",
-                                  style: AppTextStyles.titleSmall(context)),
-                              const Spacer(),
-                              Text("CTG_22223",
-                                  style: AppTextStyles.titleSmall(context)),
-                            ],
-                          ),
-                          const Divider(),
-                          _list(
-                              context, "Tuyến:", "${task.to} => ${task.from}"),
-                          const SizedBox(height: 6),
-                          _list(context, "Loại hàng:", task.cargoType),
-                          const SizedBox(height: 6),
-                          _list(context, "Ngày gom hàng:", formattedDate),
-                          const SizedBox(height: 6),
-                          Row(
-                            children: [
-                              Text("Trạng thái:",
-                                  style: AppTextStyles.bodyMedium(context)),
-                              const Spacer(),
-                              statusBadge(task.status, context),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
+        SliverList(
+          delegate: SliverChildBuilderDelegate(childCount: 2, (context, index) {
+            return GestureDetector(
+                onTap: () {
+                  Get.toNamed('/completedCollected');
                 },
-              ),
-            )),
+                child: BorderedContainer(
+                  margin: const EdgeInsets.all(10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            "assets/icons/car_icon.png",
+                            width: AppDimensions.iconMedium(context),
+                            height: AppDimensions.iconMedium(context),
+                            fit: BoxFit.cover,
+                          ),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("Chuyến thu gom",
+                                    style: AppTextStyles.titleSmall(context)),
+                                const SizedBox(height: 4),
+                                Text("CTG_22223",
+                                    style: AppTextStyles.bodySmall(context)),
+                              ],
+                            ),
+                          ),
+                          statusBadge("Đã sắp", context),
+                        ],
+                      ),
+                      const Divider(),
+                      _list(context, "Tên công ty:",
+                          "Công ty TNHH Sản xuất Việt Nam"),
+                      const SizedBox(height: 6),
+                      _list(context, "Địa chỉ gom:",
+                          "Khu công nghiệp Quang Minh, Hà Nội"),
+                      const SizedBox(height: 6),
+                      _list(context, "Loại hàng:", "Chất thải sinh hoạt"),
+                      const SizedBox(height: 6),
+                      _list(context, "Biển số xe:", "29H1-456213"),
+                      const SizedBox(height: 6),
+                      _list(context, "Tài xế:", "Nguyễn Văn A"),
+                    ],
+                  ),
+                ));
+          }),
+        ),
       ],
     );
   }
@@ -103,17 +88,15 @@ Widget _list(BuildContext context, String title, String value) {
 }
 
 Widget statusBadge(String status, BuildContext context) {
-  final isCollected = status == "Đã thu gom";
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
     decoration: BoxDecoration(
-      color: isCollected ? Colors.green : Colors.red,
+      color: Colors.green,
       borderRadius: BorderRadius.circular(20),
     ),
     child: Text(
       status,
-      style: AppTextStyles.titleSmall(context)
-          .copyWith(fontSize: 14)
+      style: AppTextStyles.bodySmall(context)
           .copyWith(color: AppColors.whiteColor),
     ),
   );

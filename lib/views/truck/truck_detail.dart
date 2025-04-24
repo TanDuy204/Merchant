@@ -39,7 +39,7 @@ class TruckDetail extends StatelessWidget {
                       Row(
                         children: [
                           Text("Biển số xe:",
-                              style: AppTextStyles.bodyMedium(context)),
+                              style: AppTextStyles.titleSmall(context)),
                           const Spacer(),
                           Text(truck.licensePlate,
                               style: AppTextStyles.bodyMedium(context)),
@@ -49,7 +49,7 @@ class TruckDetail extends StatelessWidget {
                       Row(
                         children: [
                           Text("Nhãn hiệu:",
-                              style: AppTextStyles.bodyMedium(context)),
+                              style: AppTextStyles.titleSmall(context)),
                           const Spacer(),
                           Text(truck.brand,
                               style: AppTextStyles.bodyMedium(context)),
@@ -59,7 +59,7 @@ class TruckDetail extends StatelessWidget {
                       Row(
                         children: [
                           Text("Mã số xe:",
-                              style: AppTextStyles.bodyMedium(context)),
+                              style: AppTextStyles.titleSmall(context)),
                           const Spacer(),
                           Text(truck.code,
                               style: AppTextStyles.bodyMedium(context)),
@@ -69,7 +69,7 @@ class TruckDetail extends StatelessWidget {
                       Row(
                         children: [
                           Text("Loại xe:",
-                              style: AppTextStyles.bodyMedium(context)),
+                              style: AppTextStyles.titleSmall(context)),
                           const Spacer(),
                           Text(truck.type,
                               style: AppTextStyles.bodyMedium(context)),
@@ -258,13 +258,13 @@ Widget _detailRowH(BuildContext context, String title, String value) {
           width: AppDimensions.heightMedium(context),
           child: Text(
             title,
-            style: AppTextStyles.bodySmall(context),
+            style: AppTextStyles.titleSmall(context),
           ),
         ),
         Expanded(
           child: Text(
             value,
-            style: AppTextStyles.titleSmall(context),
+            style: AppTextStyles.bodyMedium(context),
             softWrap: true,
             overflow: TextOverflow.visible,
           ),
