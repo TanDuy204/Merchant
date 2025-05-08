@@ -1,48 +1,72 @@
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:merchant/common/app_dimensions.dart';
 import 'package:merchant/common/app_style.dart';
 import 'package:merchant/common/bordered_container.dart';
-import 'package:merchant/controllers/debt_controller.dart';
+import 'package:merchant/common/custom_status_badge.dart';
 import 'package:merchant/models/debt_model.dart';
 
-import '../../common/custom_datapicker.dart';
-import '../../common/sliver_header.dart';
+import '../../service/uidata.dart';
 
 class DebtScreen extends StatefulWidget {
-  final List<DebtModel> debt;
-  const DebtScreen({super.key, required this.debt});
+  const DebtScreen({super.key});
 
   @override
   State<DebtScreen> createState() => _DebtScreenState();
 }
 
 class _DebtScreenState extends State<DebtScreen> {
-  final TextEditingController fromDateController = TextEditingController();
-  final TextEditingController toDateController = TextEditingController();
-  final controller = Get.put(DebtController());
   String selectedValue = 'Tất cả';
-  DateTime? fromDate;
-  DateTime? toDate;
 
   final List<String> debtTypes = [
-    'Chưa thanh toán',
+    'Tất cả',
     'Đã thanh toán',
-    'Quá hạn',
+    'Chưa thanh toán',
+    'Thanh toán một phần',
+    'Hết hạn',
   ];
 
-  @override
-  void initState() {
-    super.initState();
-    controller.setDebts(widget.debt);
-    final now = DateTime.now();
-    fromDate = now.subtract(const Duration(days: 7));
-    toDate = now;
+  Color getStatusColor(String status) {
+    switch (status) {
+      case 'Đã thanh toán':
+        return Colors.green.shade100;
+      case 'Chưa thanh toán':
+        return Colors.red.shade100;
+      case 'Hết hạn':
+        return Colors.grey.shade300;
+      case 'Thanh toán một phần':
+        return Colors.orange.shade100;
+      default:
+        return Colors.grey.shade200;
+    }
+  }
 
-    final formatter = DateFormat('dd/MM/yyyy');
-    fromDateController.text = formatter.format(fromDate!);
-    toDateController.text = formatter.format(toDate!);
+  Color getStatusTextColor(String status) {
+    switch (status) {
+      case 'Đã thanh toán':
+        return Colors.green;
+      case 'Chưa thanh toán':
+        return Colors.red;
+      case 'Hết hạn':
+        return Colors.black;
+      case 'Thanh toán một phần':
+        return Colors.orange;
+      default:
+        return Colors.black;
+    }
+  }
+
+  List<DebtModel> get filteredDebts {
+    if (selectedValue == 'Tất cả') return mockDebts;
+    return mockDebts.where((d) => d.status == selectedValue).toList();
+  }
+
+  int get totalAmount =>
+      filteredDebts.fold(0, (sum, item) => sum + item.amount);
+
+  String formatCurrency(int amount) {
+    return NumberFormat.currency(locale: 'vi_VN', symbol: 'đ').format(amount);
   }
 
   @override
@@ -51,221 +75,153 @@ class _DebtScreenState extends State<DebtScreen> {
       appBar: AppBar(
         backgroundColor: AppColors.whiteColor,
         centerTitle: true,
-        title: Text("Công nợ", style: AppTextStyles.titleMedium(context)),
-      ),
-      body: Obx(() => CustomScrollView(
-            slivers: [
-              ///Lọc theo trang thái
-              SliverPersistentHeader(
-                pinned: true,
-                floating: false,
-                delegate: SliverHeader(
-                  maxHeight: AppDimensions.heightSmallMedium(context),
-                  minHeight: AppDimensions.heightSmallMedium(context),
-                  child: Container(
-                    color: AppColors.whiteColor,
-                    child: Container(
-                      margin: const EdgeInsets.all(10),
-                      padding: const EdgeInsets.symmetric(horizontal: 15),
+        title: Text(
+          "Công nợ",
+          style: AppTextStyles.titleMedium(context),
+        ),
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(AppDimensions.heightMedium(context)),
+          child: Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      padding:
+                          EdgeInsets.all(AppDimensions.paddingTiny(context)),
                       decoration: BoxDecoration(
-                        color: AppColors.whiteColor,
-                        borderRadius: BorderRadius.circular(10),
-                        border:
-                            Border.all(color: AppColors.greyColor, width: 1),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Colors.black12,
-                            blurRadius: 4,
-                            offset: Offset(0, 2),
-                          )
-                        ],
+                        color: Colors.grey.shade100,
+                        shape: BoxShape.circle,
                       ),
-                      child: DropdownButtonHideUnderline(
-                        child: DropdownButton<String>(
-                          value: selectedValue,
-                          icon: const Icon(Icons.arrow_drop_down),
-                          onChanged: (String? newValue) {
-                            if (newValue != null) {
-                              setState(() {
-                                selectedValue = newValue;
-                              });
-                            }
-                          },
-                          items: [
-                            const DropdownMenuItem(
-                              value: 'Tất cả',
-                              enabled: false,
-                              child: Row(
-                                children: [
-                                  Icon(Icons.filter_list, size: 18),
-                                  SizedBox(width: 8),
-                                  Text('Tất cả'),
-                                ],
-                              ),
-                            ),
-                            ...debtTypes.map((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }),
-                          ],
+                      child: Icon(
+                        Icons.wallet_outlined,
+                        color: AppColors.blueColor,
+                        size: AppDimensions.iconLarge(context),
+                      ),
+                    ),
+                    SizedBox(width: AppDimensions.paddingSmall(context)),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Tổng công nợ:",
+                            style: AppTextStyles.bodyMedium(context)),
+                        Text(formatCurrency(totalAmount),
+                            style: AppTextStyles.titleLarge(context)),
+                      ],
+                    ),
+                    const Spacer(),
+                    CustomStatusBadge(
+                      status: "${filteredDebts.length} công nợ",
+                      color: AppColors.redColor,
+                    ),
+                  ],
+                ),
+                SizedBox(height: AppDimensions.paddingSmall(context)),
+                Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.symmetric(
+                      horizontal: AppDimensions.paddingTiny(context)),
+                  decoration: BoxDecoration(
+                    color: AppColors.whiteColor,
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: AppColors.greyColor, width: 1),
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Colors.black12,
+                        blurRadius: 4,
+                        offset: Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: DropdownButtonHideUnderline(
+                    child: DropdownButton2(
+                      isExpanded: true,
+                      value: selectedValue,
+                      items: debtTypes.map((status) {
+                        return DropdownMenuItem(
+                          value: status,
+                          child: Text(status),
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        setState(() {
+                          selectedValue = value!;
+                        });
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+      body: ListView.builder(
+        itemCount: filteredDebts.length,
+        itemBuilder: (context, index) {
+          final debt = filteredDebts[index];
+          return BorderedContainer(
+            margin: EdgeInsets.all(AppDimensions.paddingSmall(context)),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(debt.code,
+                          style: AppTextStyles.titleXSmall(context)),
+                    ),
+                    CustomStatusBadge(
+                      status: debt.status,
+                      color: getStatusTextColor(debt.status),
+                    )
+                  ],
+                ),
+                Text(
+                  debt.title,
+                  style: AppTextStyles.bodyMedium(context),
+                ),
+                SizedBox(height: AppDimensions.paddingXTiny(context)),
+                Text(
+                  debt.date,
+                  style: AppTextStyles.bodyMedium(context),
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        formatCurrency(debt.amount),
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
                         ),
                       ),
                     ),
-                  ),
-                ),
-              ),
-
-              /// Lọc theo ngày
-              SliverPersistentHeader(
-                pinned: true,
-                floating: false,
-                delegate: SliverHeader(
-                  maxHeight: AppDimensions.heightMediumLarge(context),
-                  minHeight: AppDimensions.heightMediumLarge(context),
-                  child: Container(
-                    padding:
-                        EdgeInsets.all(AppDimensions.paddingMedium(context)),
-                    color: AppColors.whiteColor,
-                    child: BorderedContainer(
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: CustomDatePickerField(
-                              label: "Từ Ngày:",
-                              controller: fromDateController,
-                              initialDate: fromDate,
-                              lastDate: toDate,
-                              onDatePicked: (picked) {
-                                setState(() {
-                                  fromDate = picked;
-                                });
-                              },
-                            ),
-                          ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: CustomDatePickerField(
-                              label: "Đến Ngày:",
-                              controller: toDateController,
-                              initialDate: toDate,
-                              firstDate: fromDate,
-                              onDatePicked: (picked) {
-                                setState(() {
-                                  toDate = picked;
-                                });
-                              },
-                            ),
-                          ),
-                        ],
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 6),
+                      decoration: BoxDecoration(
+                        color: Colors.blue.shade50,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Text(
+                        debt.progress,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          color: Colors.blue.shade700,
+                        ),
                       ),
                     ),
-                  ),
+                  ],
                 ),
-              ),
-
-              /// Danh sách công nợ theo ngày
-              ...controller.groupDates.map((date) {
-                final formattedDate =
-                    DateFormat("dd 'thg' M, yyyy").format(date);
-                return SliverToBoxAdapter(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 8.0, horizontal: 12),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(formattedDate,
-                            style: AppTextStyles.titleMedium(context)),
-                        const SizedBox(height: 8),
-                        ...controller.groupedDebts[date]!.map((debt) {
-                          final isPaid = debt.status == 'Đã thanh toán';
-                          return Padding(
-                            padding: const EdgeInsets.only(bottom: 12),
-                            child: BorderedContainer(
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Icon(
-                                    Icons.event_note_outlined,
-                                    size: AppDimensions.iconMedium(context),
-                                    color: AppColors.greyColor,
-                                  ),
-                                  const SizedBox(width: 12),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(debt.title,
-                                            style: AppTextStyles.titleMedium(
-                                                context)),
-                                        const SizedBox(height: 4),
-                                        Text(
-                                          debt.description,
-                                          style:
-                                              AppTextStyles.bodyMedium(context)
-                                                  .copyWith(
-                                            color: AppColors.greyColor,
-                                          ),
-                                        ),
-                                        const SizedBox(height: 4),
-                                        Row(
-                                          children: [
-                                            Text(
-                                              "${NumberFormat("#,###", "vi_VN").format(debt.amount)} VND",
-                                              style: AppTextStyles.titleSmall(
-                                                  context),
-                                            ),
-                                            const Spacer(),
-                                            statusBadge(isPaid, context),
-                                          ],
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        }),
-                      ],
-                    ),
-                  ),
-                );
-              }),
-            ],
-          )),
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
-}
-
-/// Badge hiển thị trạng thái
-Widget statusBadge(bool isPaid, BuildContext context) {
-  return Container(
-    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-    decoration: BoxDecoration(
-      color: isPaid ? Colors.green.shade100 : Colors.red.shade100,
-      borderRadius: BorderRadius.circular(8),
-    ),
-    child: Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Icon(
-          isPaid ? Icons.check_circle : Icons.cancel,
-          color: isPaid ? Colors.green.shade700 : Colors.red.shade700,
-          size: 16,
-        ),
-        const SizedBox(width: 4),
-        Text(
-          isPaid ? 'Đã thanh toán' : 'Chưa thanh toán',
-          style: TextStyle(
-            color: isPaid ? Colors.green.shade700 : Colors.red.shade700,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-      ],
-    ),
-  );
 }

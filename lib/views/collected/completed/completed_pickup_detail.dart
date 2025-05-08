@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:merchant/common/app_dimensions.dart';
 import 'package:merchant/common/app_style.dart';
-import 'package:merchant/common/custom_search.dart';
+import 'package:merchant/common/bordered_container.dart';
+import 'package:merchant/common/custom_info_row.dart';
+import 'package:merchant/common/custom_status_badge.dart';
 
+import '../../../common/custom_search.dart';
 import '../../../service/uidata.dart';
 
 class CompletedPickupDetail extends StatefulWidget {
@@ -13,6 +16,12 @@ class CompletedPickupDetail extends StatefulWidget {
 }
 
 class _ContractDetailScreenState extends State<CompletedPickupDetail> {
+  final List<String> imageUrls = [
+    'https://via.placeholder.com/150',
+    'https://via.placeholder.com/150',
+    'https://via.placeholder.com/150',
+  ];
+
   final TextEditingController searchController = TextEditingController();
   final TextEditingController searchItemController = TextEditingController();
 
@@ -37,7 +46,10 @@ class _ContractDetailScreenState extends State<CompletedPickupDetail> {
       appBar: AppBar(
         backgroundColor: AppColors.whiteColor,
         centerTitle: true,
-        title: const Text("Thông tin chi tiết"),
+        title: Text(
+          "Chi tiết lịch gom",
+          style: AppTextStyles.titleMedium(context),
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.remove_red_eye_outlined),
@@ -51,281 +63,324 @@ class _ContractDetailScreenState extends State<CompletedPickupDetail> {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          padding: const EdgeInsets.all(10),
-
-          ///Thông tin chi tiết
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text("Thông tin chi tiết",
-                  style: AppTextStyles.titleMedium(context)),
-              _buildInfoCard(
-                  context, "Tên công ty", "Công Ty TNHH Active Creation"),
-              Row(
-                children: [
-                  Expanded(
-                    child: _buildInfoCard(context, "Mã thu gom", "TG-2025"),
-                  ),
-                  const SizedBox(width: 15),
-                  Expanded(
-                    child:
-                        _buildInfoCard(context, "Ngày thu gom", "15-01-2025"),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child:
-                        _buildInfoCard(context, "Tổng trọng lượng", "4500 kg"),
-                  ),
-                  const SizedBox(width: 15),
-                  Expanded(
-                    child: _buildInfoCard(context, "Trạng thái", "Đã sắp"),
-                  ),
-                ],
-              ),
-
-              Row(
-                children: [
-                  Expanded(
-                    child: _buildInfoCard(context, "Biển số xe", "50H-04282"),
-                  ),
-                  const SizedBox(width: 15),
-                  Expanded(
-                    child: _buildInfoCard(
-                        context, "Tài xế phụ trách", "Nguyễn Minh Thái"),
-                  ),
-                ],
-              ),
-              _buildInfoCard(context, "Địa chỉ thu gom",
-                  "359A, Ấp Long Bình, Xã Long Hiệp, Huyện Bến Lức, Tỉnh Long An"),
-              _buildInfoCard(context, "Khu vực vận chuyển",
-                  "Thủ Thừa (Long An) => Bình Tân (TP.HCM)"),
-              Row(
-                children: [
-                  Expanded(
-                    child: _buildInfoCard(
-                        context, "Loại hàng", "Chất thải nguy hại"),
-                  ),
-                  const SizedBox(width: 15),
-                  Expanded(
-                    child: _buildInfoCard(
-                        context, "Đơn giá vận chuyển", "2,400,000.00"),
-                  ),
-                ],
-              ),
-
-              const SizedBox(height: 10),
-              Text("Danh sách chi phí đi kèm",
-                  style: AppTextStyles.titleMedium(context)),
-              const SizedBox(height: 10),
-              Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: AppColors.whiteColor,
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Colors.black12,
-                      blurRadius: 4,
-                      offset: Offset(0, 2),
-                    ),
-                  ],
-                  borderRadius: BorderRadius.circular(12),
-                ),
+      body: CustomScrollView(
+        slivers: [
+          ///Thông tin chi tiết lịch gom
+          SliverToBoxAdapter(
+            child: BorderedContainer(
+                margin: EdgeInsets.all(AppDimensions.paddingSmall(context)),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ///Widget search
-                    CustomSearch(
-                      controller: searchController,
-                      onChanged: (value) => setState(() {}),
+                    Text("Thông tin chi tiết",
+                        style: AppTextStyles.titleMedium(context)),
+                    const Divider(
+                      height: 1,
                     ),
-
-                    ///Danh sách chi phí đi kèm
-                    LayoutBuilder(
-                      builder: (context, constraints) {
-                        final columnWidth = constraints.maxWidth / 4.5;
-                        return DataTable(
-                          headingTextStyle: AppTextStyles.titleSmall(context),
-                          dataTextStyle: AppTextStyles.bodySmall(context),
-                          columnSpacing: 0,
-                          dataRowHeight: AppDimensions.heightSmall(context),
-                          columns: [
-                            DataColumn(
-                              label: SizedBox(
-                                width: columnWidth,
-                                child: const Text('Hạng mục'),
-                              ),
-                            ),
-                            DataColumn(
-                              label: SizedBox(
-                                width: columnWidth,
-                                child: const Text('Số lượng'),
-                              ),
-                            ),
-                            DataColumn(
-                              label: SizedBox(
-                                width: columnWidth,
-                                child: const Text('Đơn giá'),
-                              ),
-                            ),
-                            DataColumn(
-                              label: SizedBox(
-                                width: columnWidth,
-                                child: const Text('Thành tiền'),
-                              ),
-                            ),
-                          ],
-                          rows: filteredData.map((item) {
-                            return DataRow(
-                              cells: [
-                                DataCell(SizedBox(
-                                  width: columnWidth,
-                                  child: Text(item['name']),
-                                )),
-                                DataCell(SizedBox(
-                                  width: columnWidth,
-                                  child: Text(item['quantity'].toString()),
-                                )),
-                                DataCell(SizedBox(
-                                  width: columnWidth,
-                                  child: Text('${item['price']}'),
-                                )),
-                                DataCell(SizedBox(
-                                  width: columnWidth,
-                                  child: Text('${item['total']}'),
-                                )),
-                              ],
-                            );
-                          }).toList(),
-                        );
-                      },
-                    ),
+                    SizedBox(height: AppDimensions.paddingTiny(context)),
+                    const CustomInfoRow(
+                        useExpanded: true,
+                        title: "Tên công ty:",
+                        value: "Công Ty TNHH Active Creation "),
+                    SizedBox(height: AppDimensions.paddingTiny(context)),
+                    const CustomInfoRow(
+                        useExpanded: true,
+                        title: "Địa chỉ gom:",
+                        value: "Khu công nghiệp Quang Minh, Hà Nội"),
+                    SizedBox(height: AppDimensions.paddingTiny(context)),
+                    const CustomInfoRow(
+                        useExpanded: true, title: "Khu vực:", value: "Hà Nội"),
+                    SizedBox(height: AppDimensions.paddingTiny(context)),
+                    const CustomInfoRow(
+                        useExpanded: true,
+                        title: "Tài xế:",
+                        value: "Tài Xe1 - 0935355355"),
+                    SizedBox(height: AppDimensions.paddingTiny(context)),
+                    const CustomInfoRow(
+                        useExpanded: true,
+                        title: "Biển số xe:",
+                        value: "29H1-123-Huydai-123")
                   ],
-                ),
-              ),
-              const SizedBox(height: 10),
-
-              ///Danh sách hàng hóa
-              Text("Danh sách hàng hóa",
-                  style: AppTextStyles.titleMedium(context)),
-              const SizedBox(height: 10),
-              Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: AppColors.whiteColor,
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Colors.black12,
-                      blurRadius: 4,
-                      offset: Offset(0, 2),
-                    ),
-                  ],
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Column(
-                  children: [
-                    ///Widget search
-                    CustomSearch(
-                      controller: searchItemController,
-                      onChanged: (value) => setState(() {}),
-                    ),
-                    const SizedBox(height: 16),
-                    LayoutBuilder(
-                      builder: (context, constraints) {
-                        final columnWidth = constraints.maxWidth / 4.5;
-
-                        return DataTable(
-                          headingTextStyle: AppTextStyles.titleSmall(context),
-                          dataTextStyle: AppTextStyles.bodySmall(context),
-                          columnSpacing: 0,
-                          dataRowHeight: AppDimensions.heightTiny(context),
-                          columns: [
-                            DataColumn(
-                              label: SizedBox(
-                                width: columnWidth * 1.4,
-                                child: const Text('Tên'),
-                              ),
-                            ),
-                            DataColumn(
-                              label: SizedBox(
-                                width: columnWidth * 1.2,
-                                child: const Text('KL GOM(KG)'),
-                              ),
-                            ),
-                            DataColumn(
-                              label: SizedBox(
-                                width: columnWidth * 1.5,
-                                child: const Text('Điểm giao'),
-                              ),
-                            ),
-                          ],
-                          rows: filteredCollectedItems.map((item) {
-                            return DataRow(
-                              cells: [
-                                DataCell(
-                                  SizedBox(
-                                    width: columnWidth * 1.5,
-                                    child: Text(
-                                      item['tenHangHoa']!,
-                                      softWrap: true,
-                                      overflow: TextOverflow.visible,
-                                    ),
-                                  ),
-                                ),
-                                DataCell(
-                                  SizedBox(
-                                    width: columnWidth * 1.2,
-                                    child: Center(child: Text(item['kl']!)),
-                                  ),
-                                ),
-                                DataCell(
-                                  SizedBox(
-                                      width: columnWidth * 1.5,
-                                      child: Text(item['id']!)),
-                                ),
-                              ],
-                            );
-                          }).toList(),
-                        );
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            ],
+                )),
           ),
-        ),
+
+          ///Tổng quan lịch gom
+          SliverToBoxAdapter(
+            child: BorderedContainer(
+              margin: EdgeInsets.all(AppDimensions.paddingSmall(context)),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Tổng quan", style: AppTextStyles.titleMedium(context)),
+                  const Divider(
+                    height: 1,
+                  ),
+                  SizedBox(height: AppDimensions.paddingTiny(context)),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("Trạng thái:",
+                          style: AppTextStyles.bodyMedium(context)),
+                      const CustomStatusBadge(
+                          status: "Đã sắp", color: Colors.green)
+                    ],
+                  ),
+                  SizedBox(height: AppDimensions.paddingTiny(context)),
+                  const CustomInfoRow(title: "Ngày gom:", value: "20/05/2025"),
+                  SizedBox(height: AppDimensions.paddingTiny(context)),
+                  const CustomInfoRow(
+                      title: "Loại hàng:", value: "Chất thải công nghiệp"),
+                  SizedBox(height: AppDimensions.paddingTiny(context)),
+                  const CustomInfoRow(
+                      title: "Khối lượng:",
+                      value: "4500 Kg",
+                      isBold: true,
+                      valueColor: AppColors.redColor),
+                  SizedBox(height: AppDimensions.paddingTiny(context)),
+                  const CustomInfoRow(
+                      title: "Tổng số tiền:",
+                      value: "35.000.000 VND",
+                      isBold: true,
+                      valueColor: AppColors.lightBlueColor),
+                ],
+              ),
+            ),
+          ),
+
+          ///Danh sách chi phí đi kèm
+          SliverToBoxAdapter(
+            child: BorderedContainer(
+              margin: EdgeInsets.all(AppDimensions.paddingSmall(context)),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Danh sách chi phí đi kèm",
+                      style: AppTextStyles.titleMedium(context)),
+                  const SizedBox(height: 10),
+
+                  ///Widget search
+                  CustomSearch(
+                    controller: searchController,
+                    onChanged: (value) => setState(() {}),
+                  ),
+                  LayoutBuilder(
+                    builder: (context, constraints) {
+                      final columnWidth = constraints.maxWidth / 4.5;
+                      return DataTable(
+                        headingTextStyle: AppTextStyles.titleSmall(context),
+                        dataTextStyle: AppTextStyles.bodySmall(context),
+                        columnSpacing: 0,
+                        dataRowMinHeight: AppDimensions.heightTiny(context),
+                        dataRowMaxHeight: AppDimensions.heightSmall(context),
+                        columns: [
+                          DataColumn(
+                            label: SizedBox(
+                              width: columnWidth,
+                              child: const Text('Hạng mục'),
+                            ),
+                          ),
+                          DataColumn(
+                            label: SizedBox(
+                              width: columnWidth,
+                              child: const Text('Số lượng'),
+                            ),
+                          ),
+                          DataColumn(
+                            label: SizedBox(
+                              width: columnWidth,
+                              child: const Text('Đơn giá'),
+                            ),
+                          ),
+                          DataColumn(
+                            label: SizedBox(
+                              width: columnWidth * 1.1,
+                              child: const Text('Thành tiền'),
+                            ),
+                          ),
+                        ],
+                        rows: filteredData.asMap().entries.map((entry) {
+                          final index = entry.key;
+                          final item = entry.value;
+                          final isEven = index % 2 == 0;
+
+                          return DataRow(
+                            color: WidgetStateProperty.resolveWith<Color?>(
+                              (Set<WidgetState> states) {
+                                return isEven ? Colors.grey[200] : Colors.white;
+                              },
+                            ),
+                            cells: [
+                              DataCell(SizedBox(
+                                width: columnWidth,
+                                child: Text(item['name']),
+                              )),
+                              DataCell(SizedBox(
+                                width: columnWidth,
+                                child: Text(item['quantity'].toString()),
+                              )),
+                              DataCell(SizedBox(
+                                width: columnWidth,
+                                child: Text('${item['price']}'),
+                              )),
+                              DataCell(SizedBox(
+                                width: columnWidth,
+                                child: Text('${item['total']}'),
+                              )),
+                            ],
+                          );
+                        }).toList(),
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+          ///Danh sách hàng hóa
+          SliverToBoxAdapter(
+            child: BorderedContainer(
+              margin: EdgeInsets.all(AppDimensions.paddingSmall(context)),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Danh sách hàng hóa",
+                      style: AppTextStyles.titleMedium(context)),
+                  const SizedBox(height: 10),
+
+                  ///Widget search
+                  CustomSearch(
+                    controller: searchItemController,
+                    onChanged: (value) => setState(() {}),
+                  ),
+
+                  LayoutBuilder(
+                    builder: (context, constraints) {
+                      final columnWidth = constraints.maxWidth / 4.5;
+                      return DataTable(
+                        headingTextStyle: AppTextStyles.titleSmall(context),
+                        dataTextStyle: AppTextStyles.bodySmall(context),
+                        columnSpacing: 0,
+                        dataRowMaxHeight: AppDimensions.heightSmall(context),
+                        dataRowMinHeight: AppDimensions.heightTiny(context),
+                        columns: [
+                          DataColumn(
+                            label: SizedBox(
+                              width: columnWidth * 1.4,
+                              child: const Text('Tên'),
+                            ),
+                          ),
+                          DataColumn(
+                            label: SizedBox(
+                              width: columnWidth * 1.2,
+                              child: const Text('KL GOM(KG)'),
+                            ),
+                          ),
+                          DataColumn(
+                            label: SizedBox(
+                              width: columnWidth * 1.5,
+                              child: const Text('Điểm giao'),
+                            ),
+                          ),
+                        ],
+                        rows:
+                            filteredCollectedItems.asMap().entries.map((entry) {
+                          final index = entry.key;
+                          final item = entry.value;
+                          final isEven = index % 2 == 0;
+                          return DataRow(
+                            color: WidgetStateProperty.resolveWith<Color?>(
+                              (Set<WidgetState> states) {
+                                return isEven ? Colors.grey[200] : Colors.white;
+                              },
+                            ),
+                            cells: [
+                              DataCell(
+                                SizedBox(
+                                  width: columnWidth * 1.4,
+                                  child: Text(
+                                    item['tenHangHoa']!,
+                                    softWrap: true,
+                                    overflow: TextOverflow.visible,
+                                  ),
+                                ),
+                              ),
+                              DataCell(
+                                SizedBox(
+                                  width: columnWidth * 1.2,
+                                  child: Center(child: Text(item['kl']!)),
+                                ),
+                              ),
+                              DataCell(
+                                SizedBox(
+                                    width: columnWidth * 1.5,
+                                    child: Text(item['id']!)),
+                              ),
+                            ],
+                          );
+                        }).toList(),
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+          SliverToBoxAdapter(
+            child: BorderedContainer(
+              margin: EdgeInsets.all(AppDimensions.paddingSmall(context)),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Hình ảnh đi kèm",
+                      style: AppTextStyles.titleMedium(context)),
+                  const SizedBox(height: 8),
+                  GridView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: imageUrls.length,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                      crossAxisSpacing: 8,
+                      mainAxisSpacing: 8,
+                      childAspectRatio: 1,
+                    ),
+                    itemBuilder: (context, index) {
+                      return Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(color: Colors.grey.shade300),
+                        ),
+                        child: Column(
+                          children: [
+                            Expanded(
+                              child: ClipRRect(
+                                borderRadius: const BorderRadius.vertical(
+                                    top: Radius.circular(8)),
+                                child: Image.network(
+                                  imageUrls[index],
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) =>
+                                      const Icon(Icons.image_not_supported),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                            const Text("Ảnh thu gom",
+                                style: TextStyle(fontSize: 12)),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ),
+          )
+        ],
       ),
     );
   }
-}
-
-Widget _buildInfoCard(BuildContext context, String title, String value) {
-  return Container(
-    width: double.infinity,
-    padding: const EdgeInsets.all(12),
-    margin: const EdgeInsets.symmetric(vertical: 6),
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(12),
-      boxShadow: const [
-        BoxShadow(
-          color: Colors.black12,
-          blurRadius: 4,
-          offset: Offset(0, 2),
-        ),
-      ],
-    ),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(title, style: AppTextStyles.titleSmall(context)),
-        const SizedBox(height: 4),
-        Text(value, style: AppTextStyles.bodyMedium(context)),
-      ],
-    ),
-  );
 }

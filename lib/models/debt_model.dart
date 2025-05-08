@@ -1,19 +1,17 @@
 class DebtModel {
-  final DateTime day;
-  final int quantity;
+  final String code;
   final String title;
-  final String description;
+  final String date;
   final int amount;
-  final String status;
-  final String detail;
+  final String status; // "Chưa thanh toán", "Đã thanh toán", "Hết hạn"
+  final String progress;
 
   DebtModel({
-    required this.day,
-    required this.quantity,
+    required this.code,
     required this.title,
-    required this.description,
+    required this.date,
     required this.amount,
     required this.status,
-    required this.detail,
+    required this.progress,
   });
 }

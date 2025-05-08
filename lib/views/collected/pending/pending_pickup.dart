@@ -1,4 +1,3 @@
-import 'package:accordion/accordion.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:merchant/common/app_dimensions.dart';
@@ -18,6 +17,7 @@ class PendingPickupScreen extends StatefulWidget {
 }
 
 class _PendingPickupScreenState extends State<PendingPickupScreen> {
+  int? openIndex;
   final TextEditingController fromDateController = TextEditingController();
   final TextEditingController toDateController = TextEditingController();
   final TextEditingController searchController = TextEditingController();
@@ -100,109 +100,134 @@ class _PendingPickupScreenState extends State<PendingPickupScreen> {
           ),
         ),
         SliverToBoxAdapter(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-            child: Text(
-              'Danh sách chuyến thu gom chưa sắp:',
-              style: AppTextStyles.titleMedium(context),
-            ),
-          ),
-        ),
-        SliverList(
-          delegate: SliverChildBuilderDelegate(
-            childCount: 2,
-            (context, index) {
-              return Accordion(
-                contentBorderColor: Colors.transparent,
-                rightIcon: const SizedBox.shrink(),
-                disableScrolling: true,
-                paddingListBottom: 0,
-                paddingListTop: 0,
-                headerPadding: EdgeInsets.symmetric(
-                  vertical: AppDimensions.paddingMedium(context),
-                  horizontal: AppDimensions.paddingSmall(context),
-                ),
-                headerBackgroundColorOpened: AppColors.lightBlue,
-                headerBackgroundColor: Colors.white,
-                children: [
-                  AccordionSection(
-                    isOpen: false,
-                    header: GestureDetector(
+            child: BorderedContainer(
+          margin: EdgeInsets.all(AppDimensions.paddingSmall(context)),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Danh sách chuyến thu gom chưa sắp:',
+                style: AppTextStyles.titleMedium(context),
+              ),
+              const Divider(),
+              ListView.builder(
+                padding: EdgeInsets.zero,
+                itemCount: 2,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  final isOpen = openIndex == index;
+                  return GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        if (isOpen) {
+                          openIndex = null;
+                        } else {
+                          openIndex = index;
+                        }
+                      });
+                    },
+                    child: Card(
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  Icon(
-                                    Icons.date_range,
-                                    size: AppDimensions.iconSmall(context),
-                                    color: AppColors.blueColor,
-                                  ),
-                                  const SizedBox(width: 5),
-                                  Text('25/07/2025',
-                                      style: AppTextStyles.titleSmall(context)),
-                                ],
-                              ),
-                              Text(
-                                'Chất thải công nghiệp',
-                                style: AppTextStyles.titleSmall(context),
-                              ),
-                            ],
+                          Container(
+                            decoration: BoxDecoration(
+                              color: isOpen
+                                  ? AppColors.lightBlue
+                                  : Colors.transparent,
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            padding: EdgeInsets.symmetric(
+                              vertical: AppDimensions.paddingMedium(context),
+                              horizontal: AppDimensions.paddingSmall(context),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Icon(Icons.date_range,
+                                            size: AppDimensions.iconSmall(
+                                                context),
+                                            color: AppColors.blueColor),
+                                        const SizedBox(width: 5),
+                                        Text('25/07/2025',
+                                            style: AppTextStyles.titleXSmall(
+                                                context)),
+                                      ],
+                                    ),
+                                    Text('Chất thải công nghiệp',
+                                        style:
+                                            AppTextStyles.titleSmall(context)),
+                                  ],
+                                ),
+                                const SizedBox(height: 4),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text('172512.21 Kg',
+                                        style:
+                                            AppTextStyles.titleSmall(context)),
+                                    Row(
+                                      children: [
+                                        Icon(Icons.person,
+                                            size: AppDimensions.iconSmall(
+                                                context),
+                                            color: AppColors.blueColor),
+                                        const SizedBox(width: 5),
+                                        Text('1 Nhân công',
+                                            style: AppTextStyles.titleSmall(
+                                                context)),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  Text(' 172512.21 Kg',
-                                      style: AppTextStyles.titleSmall(context)),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Icon(
-                                    Icons.person,
-                                    size: AppDimensions.iconSmall(context),
-                                    color: AppColors.blueColor,
-                                  ),
-                                  const SizedBox(width: 5),
-                                  Text(
-                                    '1 Nhân công',
-                                    style: AppTextStyles.titleSmall(context),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
+                          AnimatedSize(
+                            duration: const Duration(milliseconds: 300),
+                            curve: Curves.easeInOut,
+                            child: isOpen
+                                ? Padding(
+                                    padding: EdgeInsets.all(
+                                        AppDimensions.paddingSmall(context)),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: mockData.map((company) {
+                                        return Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            _detailRowH(context, "Tên công ty:",
+                                                company["Tên công ty"]!),
+                                            _detailRowH(context, "Địa điểm:",
+                                                company["Địa điểm"]!),
+                                            _detailRowH(context, "Khối lượng:",
+                                                company["Số lượng"]!),
+                                            const Divider(),
+                                          ],
+                                        );
+                                      }).toList(),
+                                    ),
+                                  )
+                                : const SizedBox.shrink(),
+                          )
                         ],
                       ),
                     ),
-                    content: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: mockData.map((company) {
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            _detailRowH(context, "Tên công ty:",
-                                company["Tên công ty"]!),
-                            _detailRowH(
-                                context, "Địa điểm:", company["Địa điểm"]!),
-                            _detailRowH(
-                                context, "Khối lượng:", company["Số lượng"]!),
-                            const Divider(),
-                          ],
-                        );
-                      }).toList(),
-                    ),
-                  ),
-                ],
-              );
-            },
+                  );
+                },
+              ),
+            ],
           ),
-        )
+        )),
       ],
     );
   }

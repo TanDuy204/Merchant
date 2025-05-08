@@ -28,6 +28,7 @@ class ContractScreen extends StatelessWidget {
               Tab(text: 'Xác nhận'),
               Tab(text: 'Phụ lục'),
             ],
+            indicatorColor: AppColors.lightBlueColor,
             labelStyle: AppTextStyles.bodyMedium(context),
           ),
         ),

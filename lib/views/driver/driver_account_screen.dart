@@ -150,8 +150,6 @@ class _DriverAccountScreenState extends State<DriverAccountScreen> {
                         CustomSlidableAction(
                           onPressed: (_) {
                             Get.to(() => const EditDiverScreen());
-
-                            ///điều hướng trang
                           },
                           backgroundColor: Colors.blue,
                           padding: EdgeInsets.symmetric(
@@ -165,7 +163,7 @@ class _DriverAccountScreenState extends State<DriverAccountScreen> {
                                 size: AppDimensions.iconMedium(context),
                                 color: Colors.white,
                               ),
-                              SizedBox(height: 4),
+                              const SizedBox(height: 4),
                               Text(
                                 'Sửa',
                                 style:
@@ -192,7 +190,7 @@ class _DriverAccountScreenState extends State<DriverAccountScreen> {
                                 size: AppDimensions.iconMedium(context),
                                 color: Colors.white,
                               ),
-                              SizedBox(height: 4),
+                              const SizedBox(height: 4),
                               Text(
                                 'Xoá',
                                 style:

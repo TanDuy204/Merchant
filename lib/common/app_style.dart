@@ -29,10 +29,16 @@ class AppTextStyles {
       fontWeight: FontWeight.bold,
       color: Colors.black);
 
-  static TextStyle titleSmall(BuildContext context) => TextStyle(
-      fontSize: _getResponsiveFontSize(context, 19),
+  static TextStyle titleXSmall(BuildContext context) => TextStyle(
+      fontSize: _getResponsiveFontSize(context, 20),
       color: Colors.black,
       fontWeight: FontWeight.bold);
+
+  static TextStyle titleSmall(BuildContext context) => TextStyle(
+      fontSize: _getResponsiveFontSize(context, 18),
+      color: Colors.black,
+      fontWeight: FontWeight.bold);
+
   static TextStyle titleTini(BuildContext context) => TextStyle(
       fontSize: _getResponsiveFontSize(context, 13),
       color: Colors.black,
@@ -50,6 +56,10 @@ class AppTextStyles {
 
   static TextStyle bodySmall(BuildContext context) => TextStyle(
         fontSize: _getResponsiveFontSize(context, 17),
+        color: Colors.black,
+      );
+  static TextStyle bodyXSmall(BuildContext context) => TextStyle(
+        fontSize: _getResponsiveFontSize(context, 16),
         color: Colors.black,
       );
 

@@ -14,7 +14,7 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         toolbarHeight: AppDimensions.heightSmall(context),
         backgroundColor: AppColors.whiteColor,
-        automaticallyImplyLeading: false,
+        centerTitle: false,
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -77,41 +77,35 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Row(
+                        Container(
+                          width: AppDimensions.iconLarge(context),
+                          height: AppDimensions.iconLarge(context),
+                          alignment: Alignment.center,
+                          child: Icon(
+                            Icons.account_balance_wallet_outlined,
+                            color: Colors.white,
+                            size: AppDimensions.iconLarge(context),
+                          ),
+                        ),
+                        SizedBox(width: AppDimensions.paddingSmall(context)),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Container(
-                              width: AppDimensions.iconLarge(context),
-                              height: AppDimensions.iconLarge(context),
-                              alignment: Alignment.center,
-                              child: Icon(
-                                Icons.account_balance_wallet_outlined,
-                                color: Colors.white,
-                                size: AppDimensions.iconLarge(context),
-                              ),
+                            Text(
+                              "Doanh thu hôm nay",
+                              style: AppTextStyles.bodySmall(context)
+                                  .copyWith(color: AppColors.whiteColor),
                             ),
-                            SizedBox(
-                                width: AppDimensions.paddingSmall(context)),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Doanh thu hôm nay",
-                                  style: AppTextStyles.bodySmall(context)
-                                      .copyWith(color: AppColors.whiteColor),
-                                ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  "100,000,000,000 đ",
-                                  style: AppTextStyles.titleMedium(context)
-                                      .copyWith(color: AppColors.whiteColor),
-                                ),
-                              ],
+                            const SizedBox(height: 4),
+                            Text(
+                              "100,000,000,000 đ",
+                              style: AppTextStyles.titleXSmall(context)
+                                  .copyWith(color: AppColors.whiteColor),
                             ),
                           ],
                         ),
+                        const Spacer(),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [

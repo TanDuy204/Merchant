@@ -20,7 +20,7 @@ class BorderedContainer extends StatelessWidget {
       margin: margin,
       width: width,
       constraints: const BoxConstraints(),
-      padding: EdgeInsets.all(AppDimensions.paddingMedium(context)),
+      padding: EdgeInsets.all(AppDimensions.paddingSmall(context)),
       decoration: BoxDecoration(
         color: AppColors.whiteColor,
         borderRadius: BorderRadius.circular(10),

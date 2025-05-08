@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:merchant/common/app_dimensions.dart';
+import 'package:merchant/common/bordered_container.dart';
 
 import '../../../common/app_style.dart';
 
@@ -15,38 +17,24 @@ class SupplementContract extends StatelessWidget {
             (context, index) {
               return GestureDetector(
                 onTap: () {},
-                child: Container(
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade50,
-                    borderRadius: BorderRadius.circular(12),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Colors.black12,
-                        blurRadius: 4,
-                        offset: Offset(0, 2),
-                      ),
-                    ],
-                  ),
+                child: BorderedContainer(
+                  margin: EdgeInsets.all(AppDimensions.paddingSmall(context)),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text("Số hợp đồng: HDNCC.2024_7",
-                          style: AppTextStyles.titleSmall(context)),
+                          style: AppTextStyles.titleXSmall(context)),
                       const Divider(),
                       _list(context, "Mã số thuế:", "055488742"),
-                      const SizedBox(height: 6),
+                      SizedBox(height: AppDimensions.paddingTiny(context)),
                       _list(context, "Ngày hiệu lực:", "20-2-2025"),
-                      const SizedBox(height: 6),
+                      SizedBox(height: AppDimensions.paddingTiny(context)),
                       _list(context, "Ngày hết hạn:", "20-8-2025"),
-                      const SizedBox(height: 6),
+                      SizedBox(height: AppDimensions.paddingTiny(context)),
                       _list(context, "Số hợp đồng khác:", "5885698"),
-                      const SizedBox(height: 6),
+                      SizedBox(height: AppDimensions.paddingTiny(context)),
                       _list(context, "Mã phụ lục:",
                           "joboko/MOITRUONGACHAU/54702"),
-                      const SizedBox(height: 6),
                     ],
                   ),
                 ),

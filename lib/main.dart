@@ -1,22 +1,22 @@
-// import 'package:device_preview/device_preview.dart';
+import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:merchant/binding/initial_binding.dart';
 
 import 'routes/app_route.dart';
 
-void main() {
-  runApp(const MyApp());
-}
-
 // void main() {
-//   runApp(
-//     DevicePreview(
-//       enabled: true,
-//       builder: (context) => const MyApp(),
-//     ),
-//   );
+//   runApp(const MyApp());
 // }
+
+void main() {
+  runApp(
+    DevicePreview(
+      enabled: true,
+      builder: (context) => const MyApp(),
+    ),
+  );
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

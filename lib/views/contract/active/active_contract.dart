@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:merchant/common/app_dimensions.dart';
+import 'package:merchant/common/bordered_container.dart';
+import 'package:merchant/common/custom_status_badge.dart';
 
 import '../../../common/app_style.dart';
 
@@ -18,45 +21,33 @@ class ActiveContract extends StatelessWidget {
                 onTap: () {
                   Get.toNamed('/activeContract');
                 },
-                child: Container(
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade50,
-                    borderRadius: BorderRadius.circular(12),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Colors.black12,
-                        blurRadius: 4,
-                        offset: Offset(0, 2),
-                      ),
-                    ],
-                  ),
+                child: BorderedContainer(
+                  margin: EdgeInsets.all(AppDimensions.paddingSmall(context)),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
                         children: [
                           Text("Số hợp đồng: HDNCC.2024_7",
-                              style: AppTextStyles.titleSmall(context)),
+                              style: AppTextStyles.titleXSmall(context)),
                           const Spacer(),
-                          statusBadge("Đang thực hiện", context)
+                          const CustomStatusBadge(
+                              status: "Đang thực hiện", color: Colors.green)
                         ],
                       ),
                       const Divider(),
-                      _list(context, "Tên nhà cung cấp:",
+                      _list(context, "Nhà cung cấp:",
                           "Doanh nghiệp tư nhân Minh Hoàng"),
-                      const SizedBox(height: 6),
+                      SizedBox(height: AppDimensions.paddingTiny(context)),
                       _list(context, "Ngày hiệu lực:", "20-2-2025"),
-                      const SizedBox(height: 6),
+                      SizedBox(height: AppDimensions.paddingTiny(context)),
                       _list(context, "Ngày hết hạn:", "20-8-2025"),
-                      const SizedBox(height: 6),
+                      SizedBox(height: AppDimensions.paddingTiny(context)),
                       _list(context, "Nhóm dịch vụ:", "Nhóm môi trường"),
-                      const SizedBox(height: 6),
+                      SizedBox(height: AppDimensions.paddingTiny(context)),
                       _list(context, "Loại dịch vụ:",
                           "Vận chuyển, xử lý chất thải"),
-                      const SizedBox(height: 6),
+                      SizedBox(height: AppDimensions.paddingTiny(context)),
                     ],
                   ),
                 ),
@@ -74,32 +65,19 @@ Widget _list(BuildContext context, String title, String value) {
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       Expanded(
-        flex: 2,
+        flex: 1,
         child: Text(
           title,
           style: AppTextStyles.bodyMedium(context),
         ),
       ),
       Expanded(
-        flex: 3,
+        flex: 2,
         child: Text(
           value,
           style: AppTextStyles.bodyMedium(context),
         ),
       ),
     ],
-  );
-}
-
-Widget statusBadge(String status, BuildContext context) {
-  return Container(
-    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-    decoration: BoxDecoration(
-      color: Colors.green,
-      borderRadius: BorderRadius.circular(20),
-    ),
-    child: Text(status,
-        style: AppTextStyles.bodyMedium(context)
-            .copyWith(color: AppColors.whiteColor)),
   );
 }

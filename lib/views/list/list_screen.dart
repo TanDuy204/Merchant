@@ -27,20 +27,20 @@ class ListScreen extends StatelessWidget {
               Tab(text: 'Chưa gửi'),
               Tab(text: 'Trả lại'),
             ],
+            indicatorColor: AppColors.lightBlueColor,
             labelStyle: AppTextStyles.bodyMedium(context),
           ),
         ),
         body: TabBarView(
           children: [
-            SentList(),
+            const SentList(),
             PendingList(
               schedules: schedules,
             ),
-            ReturnList(),
+            const ReturnList(),
           ],
         ),
       ),
     );
-    ;
   }
 }

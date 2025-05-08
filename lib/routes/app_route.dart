@@ -4,7 +4,6 @@ import 'package:merchant/views/contract/active/active_contract_detail.dart';
 import 'package:merchant/views/contract/confirm/confirm_contract_detail.dart';
 import 'package:merchant/views/contract/contract_screen.dart';
 import 'package:merchant/views/contract/expired/expired_contract_detail.dart';
-import 'package:merchant/views/debt/debt_screen.dart';
 import 'package:merchant/views/driver/create_account_screen.dart';
 import 'package:merchant/views/driver/driver_account_screen.dart';
 import 'package:merchant/views/driver/invite_account_screen.dart';
@@ -19,6 +18,7 @@ import 'package:merchant/views/truck/truck_screen.dart';
 
 import '../service/uidata.dart';
 import '../views/collected/completed/completed_pickup_detail.dart';
+import '../views/debt/debt_screen.dart';
 import '../views/entrypoint.dart';
 import '../views/schedule/schedule_collected_screen.dart';
 
@@ -36,7 +36,9 @@ class AppRoutes {
         transition: Transition.fadeIn),
     GetPage(
         name: '/truck',
-        page: () => TruckScreen(trucks: trucks),
+        page: () => TruckScreen(
+              trucks: trucks,
+            ),
         transition: Transition.fadeIn),
     GetPage(
         name: '/truckDetail',
@@ -59,9 +61,7 @@ class AppRoutes {
         page: () => const CompletedPickupDetail(),
         transition: Transition.fadeIn),
     GetPage(
-        name: '/debt',
-        page: () => DebtScreen(debt: mockDebts),
-        transition: Transition.fadeIn),
+        name: '/debt', page: () => DebtScreen(), transition: Transition.fadeIn),
     GetPage(
         name: '/list',
         page: () => const ListScreen(),

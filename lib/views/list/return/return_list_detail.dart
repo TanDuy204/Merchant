@@ -1,13 +1,20 @@
-import 'package:accordion/accordion.dart';
 import 'package:flutter/material.dart';
 import 'package:merchant/common/app_dimensions.dart';
 import 'package:merchant/common/bordered_container.dart';
+import 'package:merchant/common/custom_info_row.dart';
+import 'package:merchant/common/custom_timeline.dart';
 
 import '../../../common/app_style.dart';
 
-class ReturnListDetail extends StatelessWidget {
+class ReturnListDetail extends StatefulWidget {
   const ReturnListDetail({super.key});
 
+  @override
+  State<ReturnListDetail> createState() => _ReturnListDetailState();
+}
+
+class _ReturnListDetailState extends State<ReturnListDetail> {
+  int? openIndex;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,6 +28,7 @@ class ReturnListDetail extends StatelessWidget {
       ),
       body: CustomScrollView(
         slivers: [
+          ///Thông tin bản kê
           SliverToBoxAdapter(
             child: Padding(
               padding: EdgeInsets.all(AppDimensions.paddingSmall(context)),
@@ -28,24 +36,28 @@ class ReturnListDetail extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Thông tin chung",
+                    Text("Thông tin bảng kê",
                         style: AppTextStyles.titleMedium(context)),
-                    const SizedBox(height: 10),
-                    _detailRowIcon(context, Icons.description_outlined,
-                        "Mã bảng kê:", "BK-3837"),
-                    _detailRowIcon(context, Icons.calendar_today_outlined,
-                        "Ngày gửi:", "15-1-2025"),
-                    _detailRowIcon(context, Icons.article_outlined, "Nội dung:",
-                        "Vận chuyển"),
-                    _detailRowIcon(context, Icons.note_alt_outlined, "Ghi chú:",
-                        "Bổ sung chi phí"),
-                    _detailRowIcon(context, Icons.info_outline, "Loại hàng:",
-                        "Chất thải nguy hại"),
+                    const Divider(),
+                    const CustomInfoRow(title: "Mã bảng kê:", value: "BK-3837"),
+                    SizedBox(height: AppDimensions.paddingTiny(context)),
+                    const CustomInfoRow(title: "Ngày gửi:", value: "15-1-2025"),
+                    SizedBox(height: AppDimensions.paddingTiny(context)),
+                    const CustomInfoRow(
+                        title: "Nội dung:", value: "Vận chuyển"),
+                    SizedBox(height: AppDimensions.paddingTiny(context)),
+                    const CustomInfoRow(
+                        title: "Ghi chú:", value: "Bổ sung chi phí"),
+                    SizedBox(height: AppDimensions.paddingTiny(context)),
+                    const CustomInfoRow(
+                        title: "Loại hàng:", value: "Chất thải nguy hại"),
                   ],
                 ),
               ),
             ),
           ),
+
+          ///Tổng quan bảng kê
           SliverToBoxAdapter(
             child: Padding(
               padding: EdgeInsets.all(AppDimensions.paddingSmall(context)),
@@ -53,86 +65,214 @@ class ReturnListDetail extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text("Tổng quan",
-                            style: AppTextStyles.titleMedium(context)),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 8, vertical: 4),
-                          decoration: BoxDecoration(
-                            color: AppColors.redColor,
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Text("Trả lại",
-                              style: AppTextStyles.bodySmall(context)
-                                  .copyWith(color: AppColors.whiteColor)),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 10),
-                    _detailRow(context, "Ngày MTAC nhận bảng kê:", "17-1-2025"),
-                    _detailRow(context, "Ngày MTAC phản hồi:", "19-1-2025"),
+                    Text("Tổng quan",
+                        style: AppTextStyles.titleMedium(context)),
                     const Divider(),
-                    _detailRow(context, "Tổng số tiền:", "3.000.000đ"),
+                    statusBadge("Đã trả lại", context),
+                    SizedBox(height: AppDimensions.paddingTiny(context)),
+                    const CustomInfoRow(
+                        title: "Ngày MTAC nhận bảng kê:", value: "17-1-2025"),
+                    SizedBox(height: AppDimensions.paddingTiny(context)),
+                    const CustomInfoRow(
+                        title: "Ngày MATC phản hồi:", value: "19-1-2025"),
+                    SizedBox(height: AppDimensions.paddingTiny(context)),
+                    const CustomInfoRow(
+                        title: "Số chuyến lỗi:",
+                        value: "0",
+                        isBold: true,
+                        valueColor: AppColors.redColor),
+                    SizedBox(height: AppDimensions.paddingTiny(context)),
+                    const CustomInfoRow(
+                        title: "Tổng số chuyến:",
+                        value: "1",
+                        isBold: true,
+                        valueColor: AppColors.redColor),
+                    SizedBox(height: AppDimensions.paddingTiny(context)),
+                    const CustomInfoRow(
+                        title: "Tổng số tiền:",
+                        value: "3.000.000đ",
+                        isBold: true,
+                        valueColor: AppColors.lightBlueColor),
                   ],
                 ),
               ),
             ),
           ),
+
+          ///Tiến độ xử lý
           SliverToBoxAdapter(
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: AppDimensions.paddingLarge(context),
-                  vertical: AppDimensions.paddingSmall(context)),
-              child: Text(
-                'Danh sách chuyến thu gom:',
-                style: AppTextStyles.titleMedium(context),
+            child: BorderedContainer(
+              margin: EdgeInsets.all(AppDimensions.paddingSmall(context)),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Tiến độ xử lý',
+                    style: AppTextStyles.titleMedium(context),
+                  ),
+                  const Divider(),
+                  const Column(
+                    children: [
+                      CustomTimeline(
+                          isFirst: true,
+                          isLast: false,
+                          isPast: true,
+                          icon: Icons.send_rounded,
+                          title: "Gửi bảng kê",
+                          value: "25/12/2025",
+                          tileColor: AppColors.redColor),
+                      CustomTimeline(
+                          isFirst: false,
+                          isLast: false,
+                          isPast: true,
+                          icon: Icons.inbox,
+                          title: "MTAC nhận bản kê",
+                          value: "25/12/2025",
+                          tileColor: AppColors.redColor),
+                      CustomTimeline(
+                          isFirst: false,
+                          isLast: false,
+                          isPast: true,
+                          icon: Icons.reply,
+                          title: "MTAC phản hồi",
+                          value: "25/12/2025",
+                          tileColor: AppColors.redColor),
+                      CustomTimeline(
+                          isFirst: false,
+                          isLast: true,
+                          isPast: true,
+                          isReturn: true,
+                          icon: Icons.error,
+                          title: "Bảng kê trả lại",
+                          value: "Cần chỉnh sửa",
+                          tileColor: AppColors.redColor),
+                    ],
+                  ),
+                ],
               ),
             ),
           ),
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              childCount: 2,
-              (context, index) {
-                return Accordion(
-                  contentBorderColor: Colors.transparent,
-                  rightIcon: const SizedBox.shrink(),
-                  disableScrolling: true,
-                  paddingListBottom: 0,
-                  paddingListTop: 0,
-                  headerPadding: EdgeInsets.symmetric(
-                      vertical: AppDimensions.paddingMedium(context),
-                      horizontal: AppDimensions.paddingLarge(context)),
-                  headerBackgroundColorOpened: AppColors.lightBlue,
-                  headerBackgroundColor: Colors.white,
-                  children: [
-                    AccordionSection(
-                      header: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('Mã thu gom: CTG-456450',
-                              style: AppTextStyles.titleSmall(context)),
-                          Text('25-7-2025',
-                              style: AppTextStyles.titleSmall(context)),
-                        ],
-                      ),
-                      content: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          _detailRowH(context, "Tên công ty:",
-                              "TNHH Jones Lang Lasalle (Việt Nam)"),
-                          _detailRowH(context, "Nội dung:", "Vận chuyển"),
-                          _detailRowH(context, "Biển số xe:", "50h-10869"),
-                          _detailRowH(context, "Khối lượng:", "1"),
-                          _detailRowH(context, "Thành tiền:", "3.000.000"),
-                        ],
-                      ),
-                    ),
-                  ],
-                );
-              },
+
+          ///Danh sách chuyến thu gom
+          SliverToBoxAdapter(
+            child: BorderedContainer(
+              margin: EdgeInsets.all(AppDimensions.paddingSmall(context)),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Danh sách chuyến thu gom',
+                    style: AppTextStyles.titleMedium(context),
+                  ),
+                  const Divider(),
+                  ListView.builder(
+                    padding: EdgeInsets.zero,
+                    itemCount: 1,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            if (openIndex == index) {
+                              openIndex = null;
+                            } else {
+                              openIndex = index;
+                            }
+                          });
+                        },
+                        child: Card(
+                          child: Column(
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: openIndex == index
+                                      ? AppColors.lightBlue
+                                      : Colors.transparent,
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: ListTile(
+                                  title: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text('Mã thu gom: CTG-456450',
+                                          style: AppTextStyles.titleSmall(
+                                              context)),
+                                      Text('25-7-2025',
+                                          style: AppTextStyles.titleSmall(
+                                              context)),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              AnimatedSize(
+                                duration: const Duration(milliseconds: 300),
+                                curve: Curves.easeInOut,
+                                child: openIndex == index
+                                    ? Padding(
+                                        padding: EdgeInsets.all(
+                                            AppDimensions.paddingSmall(
+                                                context)),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            const CustomInfoRow(
+                                                useExpanded: true,
+                                                title: "Tên công ty:",
+                                                value:
+                                                    "TNHH Jones Lang Lasalle (Việt Nam)"),
+                                            SizedBox(
+                                                height:
+                                                    AppDimensions.paddingTiny(
+                                                        context)),
+                                            const CustomInfoRow(
+                                                useExpanded: true,
+                                                title: "Nội dung:",
+                                                value: "Vận chuyển"),
+                                            SizedBox(
+                                                height:
+                                                    AppDimensions.paddingTiny(
+                                                        context)),
+                                            const CustomInfoRow(
+                                                useExpanded: true,
+                                                title: "Biển số xe:",
+                                                value: "50h-10869"),
+                                            SizedBox(
+                                                height:
+                                                    AppDimensions.paddingTiny(
+                                                        context)),
+                                            const CustomInfoRow(
+                                                useExpanded: true,
+                                                title: "Khối lượng:",
+                                                value: "1",
+                                                isBold: true,
+                                                valueColor: AppColors.redColor),
+                                            SizedBox(
+                                                height:
+                                                    AppDimensions.paddingTiny(
+                                                        context)),
+                                            const CustomInfoRow(
+                                                useExpanded: true,
+                                                title: "Số tiền:",
+                                                value: "3.000.000đ",
+                                                isBold: true,
+                                                valueColor:
+                                                    AppColors.lightBlueColor),
+                                          ],
+                                        ),
+                                      )
+                                    : const SizedBox.shrink(),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ],
@@ -141,70 +281,26 @@ class ReturnListDetail extends StatelessWidget {
   }
 }
 
-Widget _detailRow(BuildContext context, String title, String value) {
-  return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 4),
-    child: Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(title, style: AppTextStyles.titleSmall(context)),
-        Text(
-          value,
-          style: AppTextStyles.bodyMedium(context),
+///Widget build status
+Widget statusBadge(String status, BuildContext context) {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+      Text("Trạng thái:", style: AppTextStyles.bodyMedium(context)),
+      Container(
+        padding: EdgeInsets.symmetric(
+            horizontal: AppDimensions.paddingSmall(context),
+            vertical: AppDimensions.paddingXTiny(context)),
+        decoration: BoxDecoration(
+          color: AppColors.redColor,
+          borderRadius: BorderRadius.circular(5),
         ),
-      ],
-    ),
-  );
-}
-
-Widget _detailRowH(BuildContext context, String title, String value) {
-  return Padding(
-    padding:
-        EdgeInsets.symmetric(horizontal: AppDimensions.paddingSmall(context)),
-    child: Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(
-          width: AppDimensions.heightMedium(context),
-          child: Text(
-            title,
-            style: AppTextStyles.titleSmall(context),
-          ),
+        child: Text(
+          status,
+          style: AppTextStyles.bodyMedium(context)
+              .copyWith(color: AppColors.whiteColor),
         ),
-        Expanded(
-          child: Text(
-            value,
-            style: AppTextStyles.bodyMedium(context),
-            softWrap: true,
-            overflow: TextOverflow.visible,
-          ),
-        ),
-      ],
-    ),
-  );
-}
-
-Widget _detailRowIcon(
-    BuildContext context, IconData icon, String title, String value) {
-  return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 4),
-    child: Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Icon(
-          icon,
-          size: AppDimensions.iconMedium(context),
-          color: AppColors.lightBlueColor,
-        ),
-        SizedBox(width: AppDimensions.paddingSmall(context)),
-        Text(title, style: AppTextStyles.titleSmall(context)),
-        const Spacer(),
-        Text(
-          value,
-          style: AppTextStyles.bodyMedium(context),
-        ),
-      ],
-    ),
+      ),
+    ],
   );
 }

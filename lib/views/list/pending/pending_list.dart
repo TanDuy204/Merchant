@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:merchant/common/app_dimensions.dart';
+import 'package:merchant/common/bordered_container.dart';
 
 import '../../../common/app_style.dart';
+import '../../../common/custom_info_row.dart';
+import '../../../common/custom_status_badge.dart';
 import '../../../models/schedule_model.dart';
 
 class PendingList extends StatelessWidget {
@@ -14,100 +17,59 @@ class PendingList extends StatelessWidget {
     return CustomScrollView(
       slivers: [
         SliverList(
-          delegate: SliverChildBuilderDelegate(
-            childCount: schedules.length,
-            (context, index) {
-              final schedule = schedules[index];
-              return GestureDetector(
+          delegate: SliverChildBuilderDelegate(childCount: 2, (context, index) {
+            return GestureDetector(
                 onTap: () {
                   Get.toNamed('/pendingList');
                 },
-                child: Container(
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Colors.black12,
-                        blurRadius: 4,
-                        offset: Offset(0, 2),
-                      ),
-                    ],
-                  ),
+                child: BorderedContainer(
+                  margin: EdgeInsets.all(AppDimensions.paddingSmall(context)),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Image.asset(
-                            "assets/icons/car_icon.png",
-                            width: 30,
-                            height: 30,
-                          ),
-                          const SizedBox(width: 8),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text("Chuyến thu gom",
-                                    style: AppTextStyles.titleSmall(context)),
-                                const SizedBox(height: 4),
-                                Text("CTG_22223",
-                                    style: AppTextStyles.bodySmall(context)),
-                              ],
-                            ),
-                          ),
-                          statusBadge("Đã thu gom", context),
+                          Text("Mã thu gom: CTG_22223",
+                              style: AppTextStyles.titleXSmall(context)),
+                          const Spacer(),
+                          const CustomStatusBadge(
+                              status: "Đã thu gom", color: Colors.green)
                         ],
                       ),
                       const Divider(),
-                      const SizedBox(height: 12),
-                      _list(context, "Tên công ty:", schedule.companyName),
-                      _list(context, "Khu vực:", schedule.to),
-                      _list(context, "Loại hàng:", schedule.cargoType),
-                      _list(context, "Biển số xe:", "51-C 033755"),
-                      const SizedBox(height: 6),
+                      const CustomInfoRow(
+                          useExpanded: true,
+                          title: "Tên công ty:",
+                          value: "Công ty TNHH Sản xuất Việt Nam"),
+                      SizedBox(height: AppDimensions.paddingTiny(context)),
+                      const CustomInfoRow(
+                          useExpanded: true,
+                          title: "Địa chỉ gom:",
+                          value: "Khu công nghiệp Quang Minh, Hà Nội"),
+                      SizedBox(height: AppDimensions.paddingTiny(context)),
+                      const CustomInfoRow(
+                          useExpanded: true,
+                          title: "Loại hàng:",
+                          value: "Chất thải sinh hoạt"),
+                      SizedBox(height: AppDimensions.paddingTiny(context)),
+                      const CustomInfoRow(
+                          useExpanded: true,
+                          title: "Tài xế:",
+                          value: "Nguyễn Văn A"),
+                      SizedBox(height: AppDimensions.paddingTiny(context)),
+                      const CustomInfoRow(
+                          useExpanded: true,
+                          title: "Biển số xe:",
+                          value: "29H1-45621"),
                     ],
-
                   ),
-                ),
-              );
-            },
-          ),
-        )
+                ));
+          }),
+        ),
       ],
     );
   }
-}
-
-Widget _list(BuildContext context, String title, String value) {
-  return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 4.0),
-    child: Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(
-          width: AppDimensions.heightMedium(context),
-          child: Text(
-            title,
-            style: AppTextStyles.bodyMedium(context),
-          ),
-        ),
-        Expanded(
-          child: Text(
-            value,
-            style: AppTextStyles.bodyMedium(context),
-            softWrap: true,
-            maxLines: null,
-          ),
-        ),
-      ],
-    ),
-  );
 }
 
 Widget statusBadge(String status, BuildContext context) {

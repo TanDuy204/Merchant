@@ -27,6 +27,7 @@ class CollectedScreen extends StatelessWidget {
               Tab(text: 'Chưa sắp'),
               Tab(text: 'Hôm nay'),
             ],
+            indicatorColor: AppColors.lightBlueColor,
             labelStyle: AppTextStyles.bodyMedium(context),
           ),
         ),
