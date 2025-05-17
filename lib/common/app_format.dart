@@ -10,6 +10,6 @@ class FormatHelper {
   }
 
   static String formatCurrency(num amount) {
-    return NumberFormat.currency(locale: 'vi_VN', symbol: '₫').format(amount);
+    return NumberFormat.currency(locale: 'vi_VN', symbol: 'đ').format(amount);
   }
 }

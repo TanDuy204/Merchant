@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:merchant/common/app_dimensions.dart';
 import 'package:merchant/common/app_style.dart';
@@ -25,18 +26,18 @@ class LoginScreen extends StatelessWidget {
             children: [
               Image.asset(
                 'assets/images/mtac.png',
-                height: AppDimensions.heightLarge(context),
-                width: AppDimensions.heightMedium(context),
+                height: AppDimensions.heightLarge(),
+                width: AppDimensions.heightMedium(),
                 fit: BoxFit.contain,
               ),
               const SizedBox(height: 16),
               TextField(
                 controller: _loginController.emailController,
                 // _usernameController,
-                style: AppTextStyles.bodyMedium(context),
+                style: AppTextStyles.bodyMedium(),
                 decoration: InputDecoration(
                   hintText: 'Nhập Mã số thuế',
-                  hintStyle: AppTextStyles.bodyMedium(context)
+                  hintStyle: AppTextStyles.bodyMedium()
                       .copyWith(color: AppColors.greyColor),
                   filled: true,
                   fillColor: const Color(0xFFF1F7FF),
@@ -48,49 +49,45 @@ class LoginScreen extends StatelessWidget {
               ),
               const SizedBox(height: 12),
               TextField(
-                controller: _loginController.passwordController ,
+                controller: _loginController.passwordController,
                 //_passwordController,
                 obscureText: true,
-                style: AppTextStyles.bodyMedium(context),
+                style: AppTextStyles.bodyMedium(),
                 decoration: InputDecoration(
                   hintText: 'Mật khẩu',
-                  hintStyle: AppTextStyles.bodyMedium(context)
+                  hintStyle: AppTextStyles.bodyMedium()
                       .copyWith(color: AppColors.greyColor),
                   filled: true,
                   fillColor: const Color(0xFFF1F7FF),
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                     borderSide: BorderSide.none,
                   ),
                 ),
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: 12.h),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    children: [
-                      Transform.scale(
-                        scale: AppDimensions.paddingXXTiny(context),
-                        child: Checkbox(
-                          value: false,
-                          onChanged: (_) {},
-                        ),
-                      ),
-                      const SizedBox(width: 5),
-                      Text("Ghi nhớ đăng nhập",
-                          style: AppTextStyles.bodySmall(context)),
-                    ],
+                  // Checkbox
+                  Checkbox(
+                    value: false,
+                    onChanged: null,
                   ),
+                  // Text "Ghi nhớ đăng nhập"
+                  Text("Ghi nhớ đăng nhập", style: AppTextStyles.bodySmall()),
+                  const Spacer(),
+                  // TextButton
                   TextButton(
                     onPressed: () {},
-                    child: Text("Bạn quên mật khẩu?",
-                        style: AppTextStyles.bodySmall(context)
-                            .copyWith(color: AppColors.lightBlueColor)),
+                    child: Text(
+                      "Bạn quên mật khẩu?",
+                      style: AppTextStyles.bodySmall()
+                          .copyWith(color: AppColors.lightBlueColor),
+                    ),
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16.h),
               Obx(() => SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
@@ -111,7 +108,7 @@ class LoginScreen extends StatelessWidget {
                               color: Colors.white,
                             )
                           : Text("Đăng nhập",
-                              style: AppTextStyles.buttonLabel(context)),
+                              style: AppTextStyles.buttonLabel()),
                     ),
                   )),
             ],

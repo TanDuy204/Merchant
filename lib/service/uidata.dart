@@ -1,8 +1,111 @@
 import '../models/debt_model.dart';
 import '../models/login_model.dart';
-import '../models/pending_schedule_model.dart';
+import '../models/point.dart';
 import '../models/schedule_model.dart';
-import '../models/truck_model.dart';
+import '../models/truck.dart';
+
+List<point> mockPoints = [
+  point(
+    1,
+    "CTG_001",
+    "Công ty Vệ Sinh Xanh",
+    "Số 123, Đường Nguyễn Trãi, Quận 1, TP.HCM",
+    "Khu vực 1",
+    101,
+    201,
+    "Đã sắp",
+    DateTime.now().subtract(const Duration(days: 1)), // Hôm qua
+    "Rác thải hữu cơ",
+    120.5,
+    150000,
+    ["https://example.com/image1.jpg"],
+    301,
+    null,
+    null,
+    [],
+    [],
+  ),
+  point(
+    2,
+    "CTG_002",
+    "Công ty Môi Trường Tái Chế",
+    "Số 456, Đường Lê Lợi, Quận 3, TP.HCM",
+    "Khu vực 2",
+    102,
+    202,
+    "Chưa sắp",
+    DateTime.now().add(const Duration(days: 1)), // Ngày mai
+    "Rác thải tái chế",
+    85.0,
+    100000,
+    [],
+    302,
+    null,
+    null,
+    [],
+    [],
+  ),
+  point(
+    3,
+    "CTG_003",
+    "Công ty Vệ Sinh Đô Thị",
+    "Số 789, Đường Điện Biên Phủ, Quận 10, TP.HCM",
+    "Khu vực 3",
+    103,
+    203,
+    "Đã sắp",
+    DateTime.now().add(const Duration(days: 1)), // Hôm nay
+    "Rác thải nguy hại",
+    45.2,
+    200000,
+    [],
+    303,
+    null,
+    null,
+    [],
+    [],
+  ),
+  point(
+    4,
+    "CTG_004",
+    "Công ty Thu Gom Rác Thải",
+    "Số 321, Đường Hai Bà Trưng, Quận 1, TP.HCM",
+    "Khu vực 1",
+    104,
+    204,
+    "Chưa sắp",
+    DateTime.now().add(const Duration(days: 3)), // Ngày 3
+    "Rác sinh hoạt",
+    75.3,
+    80000,
+    [],
+    304,
+    null,
+    null,
+    [],
+    [],
+  ),
+  point(
+    5,
+    "CTG_005",
+    "Công ty Rác Công Nghiệp",
+    "Số 654, Đường Trần Hưng Đạo, Quận 5, TP.HCM",
+    "Khu vực 4",
+    105,
+    205,
+    "Đã sắp",
+    DateTime.now().subtract(const Duration(days: 2)), // Hôm kia
+    "Rác công nghiệp",
+    130.0,
+    250000,
+    [],
+    305,
+    null,
+    null,
+    [],
+    [],
+  ),
+];
 
 final List<Schedule> schedules = [
   Schedule(
@@ -144,43 +247,14 @@ List<Map<String, dynamic>> allData = [
   },
 ];
 
-final List<TruckModel> trucks = [
-  TruckModel(
-    name: "Container 001 Container 001 Container 001",
-    licensePlate: "51C-123.45",
-    brand: "Hyundai",
-    code: "CTR001",
-    type: "Container",
-    status: "Đã sắp",
-    loadCapacity: 1.5,
-  ),
-  TruckModel(
-    name: "Container 002",
-    licensePlate: "51C-543.21",
-    brand: "Hyundai",
-    code: "CTR002",
-    type: "Container",
-    status: "Chưa sắp",
-    loadCapacity: 2.5,
-  ),
-  TruckModel(
-    name: "Container 003",
-    licensePlate: "51C-678.90",
-    brand: "Hyundai",
-    code: "CTR003",
-    type: "Container",
-    status: "Chưa sắp",
-    loadCapacity: 3,
-  ),
-  TruckModel(
-    name: "Container 004",
-    licensePlate: "51C-888.88",
-    brand: "Hyundai",
-    code: "CTR004",
-    type: "Container",
-    status: "Chưa sắp",
-    loadCapacity: 1,
-  ),
+final List<truck> mockTrucks = [
+  truck(
+      1, '51A-12345', 'Hyundai-0123', 'Hyundai', 'Thùng kín', 5, 'Đã sắp lịch'),
+  truck(5, '51E-56789', 'Isuzu-0456', 'Isuzu', 'Thùng bạt', 8, 'Chưa sắp lịch'),
+  truck(3, '51C-34567', 'Hino-0123', 'Hino', 'Thùng bạt', 15, 'Chưa sắp lịch'),
+  truck(2, '51B-23456', 'Isuzu-0123', 'Isuzu', 'Thùng kín', 8, 'Đã sắp lịch'),
+  truck(4, '51D-45678', 'Hyundai-0456', 'Hyundai', 'Thùng kín', 5,
+      'Chưa sắp lịch'),
 ];
 
 final List<Map<String, String>> truckData = [
@@ -223,103 +297,11 @@ final List<LoginModel> mockUsers = [
   ),
 ];
 
-final List<PendingScheduleModel> mockWasteCollections = [
-  PendingScheduleModel(
-    date: "04-05-2025",
-    wasteType: "Khoáng",
-    weight: "2 tấn",
-    worker: "1 NC",
-    companyDetails: [
-      CompanyDetail(
-        companyName: "Công Ty CP SX TM Sáng Việt",
-        address:
-            "Cơ sở 7: Nhà Máy Dầu Tiếng - Số 19/17 Ấp Gò Mối, xã Thanh Tuyền, Huyện Dầu Tiếng, Bình Dương",
-        contactName: "Chị Giao",
-        contactPhone: "0909123456",
-        quantity: "2 tấn",
-        note: "Gom đủ không ghi phiếu",
-      ),
-      CompanyDetail(
-        companyName: "Công Ty CP SX TM Sáng Việt",
-        address: "Thủ Thừa (Long An)",
-        contactName: "Chị Phượng",
-        contactPhone: "0909123456",
-        quantity: "2.4 tấn",
-        note: "Gom đủ không ghi phiếu",
-      ),
-    ],
-  ),
-  PendingScheduleModel(
-    date: "2025-04-05",
-    wasteType: "Sắt vụn",
-    weight: "1.8 tấn",
-    worker: "1 NC",
-    companyDetails: [
-      CompanyDetail(
-        companyName: "Công Ty TNHH Vận Tải Minh Phúc",
-        address: "Tân An (Long An)",
-        contactName: "Anh Minh",
-        contactPhone: "0911222333",
-        quantity: "1.8 tấn",
-        note: "Chở hàng có phiếu đầy đủ",
-      ),
-    ],
-  ),
-  PendingScheduleModel(
-    date: "04-05-2025",
-    wasteType: "Giấy tái chế",
-    weight: "2.15 tấn",
-    worker: "1 NC",
-    companyDetails: [
-      CompanyDetail(
-        companyName: "CTY CP TM Tân Thịnh",
-        address: "Bến Lức (Long An)",
-        contactName: "Chị Hương",
-        contactPhone: "0988777666",
-        quantity: "2.15 tấn",
-        note: "Hàng hóa không cần biên bản",
-      ),
-    ],
-  ),
-  PendingScheduleModel(
-    date: "04-05-2025",
-    wasteType: "Khoáng",
-    weight: "2.4 tấn",
-    worker: "2 NC",
-    companyDetails: [
-      CompanyDetail(
-        companyName: "Công Ty CP SX TM Sáng Việt",
-        address: "Thủ Thừa (Long An)",
-        contactName: "Chị Giao",
-        contactPhone: "0909123456",
-        quantity: "2.4 tấn",
-        note: "Gom đủ không ghi phiếu",
-      ),
-    ],
-  ),
-  PendingScheduleModel(
-    date: "04-05-2025",
-    wasteType: "Giấy tái chế",
-    weight: "2.15 tấn",
-    worker: "2 NC",
-    companyDetails: [
-      CompanyDetail(
-        companyName: "CTY CP TM Tân Phát",
-        address: "Bến Lức (Long An)",
-        contactName: "Chị Hương",
-        contactPhone: "0988777666",
-        quantity: "2.15 tấn",
-        note: "Hàng hóa không cần biên bản",
-      ),
-    ],
-  ),
-];
-
 final List<DebtModel> mockDebts = [
   DebtModel(
     code: "CN001",
     title: "Công nợ tháng 4",
-    date: "01/05/2025",
+    date: "14/05/2025",
     amount: 73000000,
     status: "Chưa thanh toán",
     progress: "0/3",
@@ -327,7 +309,7 @@ final List<DebtModel> mockDebts = [
   DebtModel(
     code: "CN002",
     title: "Công nợ tháng 3",
-    date: "01/04/2025",
+    date: "13/05/2025",
     amount: 55000500,
     status: "Đã thanh toán",
     progress: "4/4",
@@ -335,7 +317,7 @@ final List<DebtModel> mockDebts = [
   DebtModel(
     code: "CN006",
     title: "Công nợ tháng 3",
-    date: "01/04/2025",
+    date: "15/05/2025",
     amount: 120000000,
     status: "Đã thanh toán",
     progress: "4/4",
@@ -343,7 +325,7 @@ final List<DebtModel> mockDebts = [
   DebtModel(
     code: "CN007",
     title: "Công nợ tháng 3",
-    date: "01/04/2025",
+    date: "15/05/2025",
     amount: 50500000,
     status: "Đã thanh toán",
     progress: "4/4",
@@ -351,7 +333,7 @@ final List<DebtModel> mockDebts = [
   DebtModel(
     code: "CN004",
     title: "Công nợ tháng 3",
-    date: "01/04/2025",
+    date: "13/05/2025",
     amount: 30500000,
     status: "Hết hạn",
     progress: "2/4",
@@ -359,7 +341,7 @@ final List<DebtModel> mockDebts = [
   DebtModel(
     code: "CN003",
     title: "Công nợ tháng 3",
-    date: "01/04/2025",
+    date: "12/05/2025",
     amount: 42000100,
     status: "Thanh toán một phần",
     progress: "2/4",

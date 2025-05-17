@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:merchant/common/app_dimensions.dart';
 import 'package:merchant/common/app_style.dart';
 import 'package:merchant/common/bordered_container.dart';
 import 'package:merchant/common/custom_info_row.dart';
 import 'package:merchant/common/custom_status_badge.dart';
 
-import '../../../common/custom_search.dart';
 import '../../../service/uidata.dart';
 
 class CompletedPickupDetail extends StatefulWidget {
@@ -43,12 +43,13 @@ class _ContractDetailScreenState extends State<CompletedPickupDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey.shade100,
       appBar: AppBar(
         backgroundColor: AppColors.whiteColor,
         centerTitle: true,
         title: Text(
           "Chi tiết lịch gom",
-          style: AppTextStyles.titleMedium(context),
+          style: AppTextStyles.titleMedium(),
         ),
         actions: [
           IconButton(
@@ -68,75 +69,58 @@ class _ContractDetailScreenState extends State<CompletedPickupDetail> {
           ///Thông tin chi tiết lịch gom
           SliverToBoxAdapter(
             child: BorderedContainer(
-                margin: EdgeInsets.all(AppDimensions.paddingSmall(context)),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Thông tin chi tiết",
-                        style: AppTextStyles.titleMedium(context)),
-                    const Divider(
-                      height: 1,
-                    ),
-                    SizedBox(height: AppDimensions.paddingTiny(context)),
-                    const CustomInfoRow(
-                        useExpanded: true,
-                        title: "Tên công ty:",
-                        value: "Công Ty TNHH Active Creation "),
-                    SizedBox(height: AppDimensions.paddingTiny(context)),
-                    const CustomInfoRow(
-                        useExpanded: true,
-                        title: "Địa chỉ gom:",
-                        value: "Khu công nghiệp Quang Minh, Hà Nội"),
-                    SizedBox(height: AppDimensions.paddingTiny(context)),
-                    const CustomInfoRow(
-                        useExpanded: true, title: "Khu vực:", value: "Hà Nội"),
-                    SizedBox(height: AppDimensions.paddingTiny(context)),
-                    const CustomInfoRow(
-                        useExpanded: true,
-                        title: "Tài xế:",
-                        value: "Tài Xe1 - 0935355355"),
-                    SizedBox(height: AppDimensions.paddingTiny(context)),
-                    const CustomInfoRow(
-                        useExpanded: true,
-                        title: "Biển số xe:",
-                        value: "29H1-123-Huydai-123")
-                  ],
-                )),
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("Thông tin chi tiết", style: AppTextStyles.titleMedium()),
+                const Divider(),
+                SizedBox(height: 7.h),
+                const CustomInfoRow(
+                    title: "Tên công ty:",
+                    value: "Công Ty TNHH Active Creation "),
+                SizedBox(height: 7.h),
+                const CustomInfoRow(
+                    title: "Địa chỉ gom:",
+                    value: "Khu công nghiệp Quang Minh, Hà Nội"),
+                SizedBox(height: 7.h),
+                const CustomInfoRow(title: "Khu vực:", value: "Hà Nội"),
+                SizedBox(height: 7.h),
+                const CustomInfoRow(
+                    title: "Tài xế:", value: "Tài Xe1 - 0935355355"),
+                SizedBox(height: 7.h),
+                const CustomInfoRow(
+                    title: "Biển số xe:", value: "29H1-123-Huydai-123")
+              ],
+            )),
           ),
 
           ///Tổng quan lịch gom
           SliverToBoxAdapter(
             child: BorderedContainer(
-              margin: EdgeInsets.all(AppDimensions.paddingSmall(context)),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Tổng quan", style: AppTextStyles.titleMedium(context)),
-                  const Divider(
-                    height: 1,
-                  ),
-                  SizedBox(height: AppDimensions.paddingTiny(context)),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Trạng thái:",
-                          style: AppTextStyles.bodyMedium(context)),
+                      Text("Tổng quan", style: AppTextStyles.titleMedium()),
                       const CustomStatusBadge(
                           status: "Đã sắp", color: Colors.green)
                     ],
                   ),
-                  SizedBox(height: AppDimensions.paddingTiny(context)),
+                  SizedBox(height: 3.h),
+                  const Divider(),
                   const CustomInfoRow(title: "Ngày gom:", value: "20/05/2025"),
-                  SizedBox(height: AppDimensions.paddingTiny(context)),
+                  SizedBox(height: 7.h),
                   const CustomInfoRow(
                       title: "Loại hàng:", value: "Chất thải công nghiệp"),
-                  SizedBox(height: AppDimensions.paddingTiny(context)),
+                  SizedBox(height: 7.h),
                   const CustomInfoRow(
                       title: "Khối lượng:",
                       value: "4500 Kg",
                       isBold: true,
                       valueColor: AppColors.redColor),
-                  SizedBox(height: AppDimensions.paddingTiny(context)),
+                  SizedBox(height: 7.h),
                   const CustomInfoRow(
                       title: "Tổng số tiền:",
                       value: "35.000.000 VND",
@@ -150,28 +134,21 @@ class _ContractDetailScreenState extends State<CompletedPickupDetail> {
           ///Danh sách chi phí đi kèm
           SliverToBoxAdapter(
             child: BorderedContainer(
-              margin: EdgeInsets.all(AppDimensions.paddingSmall(context)),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text("Danh sách chi phí đi kèm",
-                      style: AppTextStyles.titleMedium(context)),
-                  const SizedBox(height: 10),
-
-                  ///Widget search
-                  CustomSearch(
-                    controller: searchController,
-                    onChanged: (value) => setState(() {}),
-                  ),
+                      style: AppTextStyles.titleMedium()),
+                  const Divider(),
                   LayoutBuilder(
                     builder: (context, constraints) {
                       final columnWidth = constraints.maxWidth / 4.5;
                       return DataTable(
-                        headingTextStyle: AppTextStyles.titleSmall(context),
-                        dataTextStyle: AppTextStyles.bodySmall(context),
+                        headingTextStyle: AppTextStyles.titleSmall(),
+                        dataTextStyle: AppTextStyles.bodySmall(),
                         columnSpacing: 0,
-                        dataRowMinHeight: AppDimensions.heightTiny(context),
-                        dataRowMaxHeight: AppDimensions.heightSmall(context),
+                        dataRowMinHeight: AppDimensions.heightTiny(),
+                        dataRowMaxHeight: AppDimensions.heightSmall(),
                         columns: [
                           DataColumn(
                             label: SizedBox(
@@ -240,29 +217,21 @@ class _ContractDetailScreenState extends State<CompletedPickupDetail> {
           ///Danh sách hàng hóa
           SliverToBoxAdapter(
             child: BorderedContainer(
-              margin: EdgeInsets.all(AppDimensions.paddingSmall(context)),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text("Danh sách hàng hóa",
-                      style: AppTextStyles.titleMedium(context)),
-                  const SizedBox(height: 10),
-
-                  ///Widget search
-                  CustomSearch(
-                    controller: searchItemController,
-                    onChanged: (value) => setState(() {}),
-                  ),
-
+                      style: AppTextStyles.titleMedium()),
+                  const Divider(),
                   LayoutBuilder(
                     builder: (context, constraints) {
                       final columnWidth = constraints.maxWidth / 4.5;
                       return DataTable(
-                        headingTextStyle: AppTextStyles.titleSmall(context),
-                        dataTextStyle: AppTextStyles.bodySmall(context),
+                        headingTextStyle: AppTextStyles.titleSmall(),
+                        dataTextStyle: AppTextStyles.bodySmall(),
                         columnSpacing: 0,
-                        dataRowMaxHeight: AppDimensions.heightSmall(context),
-                        dataRowMinHeight: AppDimensions.heightTiny(context),
+                        dataRowMaxHeight: AppDimensions.heightSmall(),
+                        dataRowMinHeight: AppDimensions.heightTiny(),
                         columns: [
                           DataColumn(
                             label: SizedBox(
@@ -329,13 +298,11 @@ class _ContractDetailScreenState extends State<CompletedPickupDetail> {
 
           SliverToBoxAdapter(
             child: BorderedContainer(
-              margin: EdgeInsets.all(AppDimensions.paddingSmall(context)),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Hình ảnh đi kèm",
-                      style: AppTextStyles.titleMedium(context)),
-                  const SizedBox(height: 8),
+                  Text("Hình ảnh đi kèm", style: AppTextStyles.titleMedium()),
+                  SizedBox(height: 7.h),
                   GridView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),

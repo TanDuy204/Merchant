@@ -1,29 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:merchant/common/app_dimensions.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:merchant/common/app_style.dart';
 
 class BorderedContainer extends StatelessWidget {
   final Widget child;
-  final EdgeInsetsGeometry? margin;
+
   final double? width;
 
   const BorderedContainer({
     super.key,
     required this.child,
     this.width,
-    this.margin,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: margin,
+      margin: EdgeInsets.fromLTRB(10.h, 10.h, 10.h, 0.h),
       width: width,
       constraints: const BoxConstraints(),
-      padding: EdgeInsets.all(AppDimensions.paddingSmall(context)),
+      padding: EdgeInsets.all(10.h),
       decoration: BoxDecoration(
         color: AppColors.whiteColor,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(10.r),
         boxShadow: const [
           BoxShadow(
             color: Colors.black12,

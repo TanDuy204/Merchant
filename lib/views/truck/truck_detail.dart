@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:merchant/common/app_dimensions.dart';
 import 'package:merchant/common/custom_status_badge.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
@@ -19,9 +20,12 @@ class _TruckDetailState extends State<TruckDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF6F6F6),
+      backgroundColor: Colors.grey.shade100,
       appBar: AppBar(
-        title: const Text("Chi tiết xe"),
+        title: Text(
+          "Chi tiết xe",
+          style: AppTextStyles.titleMedium(),
+        ),
         backgroundColor: Colors.white,
         centerTitle: true,
       ),
@@ -30,17 +34,16 @@ class _TruckDetailState extends State<TruckDetail> {
           ///Hình ảnh xe
           SliverToBoxAdapter(
             child: BorderedContainer(
-              margin: EdgeInsets.all(AppDimensions.paddingSmall(context)),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Image.asset(
                     'assets/images/truck.png',
-                    height: AppDimensions.heightMediumLarge(context),
+                    height: AppDimensions.heightMediumLarge(),
                     width: double.infinity,
                     fit: BoxFit.contain,
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 15.h),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -49,9 +52,9 @@ class _TruckDetailState extends State<TruckDetail> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text("Hino-0123",
-                                style: AppTextStyles.bodyLarge(context)),
+                                style: AppTextStyles.bodyMedium()),
                             Text("51H1-24680",
-                                style: AppTextStyles.titleMedium(context)),
+                                style: AppTextStyles.titleXSmall()),
                           ],
                         ),
                       ),
@@ -67,7 +70,6 @@ class _TruckDetailState extends State<TruckDetail> {
           ///Thông tin xe
           SliverToBoxAdapter(
             child: BorderedContainer(
-              margin: EdgeInsets.all(AppDimensions.paddingSmall(context)),
               child: Column(
                 children: [
                   _infoRow(context, Icons.local_shipping, "Loại xe",
@@ -91,83 +93,76 @@ class _TruckDetailState extends State<TruckDetail> {
 
           ///Thông số xe
           SliverToBoxAdapter(
-            child: Padding(
-              padding: EdgeInsets.all(AppDimensions.paddingSmall(context)),
-              child: Row(
-                children: [
-                  Expanded(
-                      child: buildPieCard(
-                    context: context,
-                    title: "Nhiên liệu hiện có",
-                    percent: 0.6,
-                    color: const Color(0xFFA162F7),
-                  )),
-                  const SizedBox(width: 20),
-                  Expanded(
-                      child: buildPieCard(
-                          context: context,
-                          title: "Trọng tải hiện thời",
-                          percent: 0.25,
-                          color: const Color(0xFFF6CC0D))),
-                ],
-              ),
+            child: Row(
+              children: [
+                Expanded(
+                    child: buildPieCard(
+                  context: context,
+                  title: "Nhiên liệu hiện có",
+                  percent: 0.6,
+                  color: const Color(0xFFA162F7),
+                )),
+                Expanded(
+                    child: buildPieCard(
+                        context: context,
+                        title: "Trọng tải hiện thời",
+                        percent: 0.25,
+                        color: const Color(0xFFF6CC0D))),
+              ],
             ),
           ),
 
           ///Lịch sử vi phạm
-          SliverPadding(
-            padding: EdgeInsets.all(AppDimensions.paddingSmall(context)),
-            sliver: SliverToBoxAdapter(
-              child: BorderedContainer(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Lịch sử vi phạm",
-                      style: AppTextStyles.titleMedium(context),
-                    ),
-                    const SizedBox(height: 10),
-                    Row(
-                      children: [
-                        Container(
-                          width: AppDimensions.heightTiny(context),
-                          height: AppDimensions.heightTiny(context),
-                          decoration: BoxDecoration(
-                            color: Colors.red.withOpacity(0.1),
-                            shape: BoxShape.circle,
-                          ),
-                          child: const Center(
-                            child: Icon(
-                              Icons.error_outline,
-                              color: Colors.red,
-                              size: 24,
-                            ),
+          SliverToBoxAdapter(
+            child: BorderedContainer(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Lịch sử vi phạm",
+                    style: AppTextStyles.titleMedium(),
+                  ),
+                  const Divider(),
+                  Row(
+                    children: [
+                      Container(
+                        width: AppDimensions.heightTiny(),
+                        height: AppDimensions.heightTiny(),
+                        decoration: BoxDecoration(
+                          color: Colors.red.withOpacity(0.1),
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Center(
+                          child: Icon(
+                            Icons.error_outline,
+                            color: Colors.red,
+                            size: 24,
                           ),
                         ),
-                        const SizedBox(width: 10),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Thứ 2, ngày 06 tháng 02 năm 2025",
-                              style: AppTextStyles.bodyLarge(context),
+                      ),
+                      SizedBox(width: 10.w),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Thứ 2, ngày 06 tháng 02 năm 2025",
+                            style: AppTextStyles.bodyLarge(),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 6),
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade200,
+                              borderRadius: BorderRadius.circular(8),
                             ),
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 6),
-                              decoration: BoxDecoration(
-                                color: Colors.grey.shade200,
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Text("14:07 -21/11/2011",
-                                  style: AppTextStyles.bodyMedium(context)),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ],
-                ),
+                            child: Text("14:07 -21/11/2011",
+                                style: AppTextStyles.bodyMedium()),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ],
               ),
             ),
           ),
@@ -175,13 +170,12 @@ class _TruckDetailState extends State<TruckDetail> {
           ///Lịch sử thu gom
           SliverToBoxAdapter(
             child: BorderedContainer(
-              margin: EdgeInsets.all(AppDimensions.paddingSmall(context)),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     'Lịch sử thu gom',
-                    style: AppTextStyles.titleMedium(context),
+                    style: AppTextStyles.titleMedium(),
                   ),
                   const Divider(),
                   ListView.builder(
@@ -208,7 +202,7 @@ class _TruckDetailState extends State<TruckDetail> {
                                   color: openIndex == index
                                       ? AppColors.lightBlue
                                       : Colors.transparent,
-                                  borderRadius: BorderRadius.circular(5),
+                                  borderRadius: BorderRadius.circular(10.r),
                                 ),
                                 child: ListTile(
                                   title: Row(
@@ -216,11 +210,9 @@ class _TruckDetailState extends State<TruckDetail> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text('Mã thu gom: CTG-456450',
-                                          style: AppTextStyles.titleSmall(
-                                              context)),
+                                          style: AppTextStyles.titleSmall()),
                                       Text('25-7-2025',
-                                          style: AppTextStyles.titleSmall(
-                                              context)),
+                                          style: AppTextStyles.titleSmall()),
                                     ],
                                   ),
                                 ),
@@ -230,39 +222,25 @@ class _TruckDetailState extends State<TruckDetail> {
                                 curve: Curves.easeInOut,
                                 child: openIndex == index
                                     ? Padding(
-                                        padding: EdgeInsets.all(
-                                            AppDimensions.paddingSmall(
-                                                context)),
+                                        padding: EdgeInsets.all(10.h),
                                         child: Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
                                             const CustomInfoRow(
-                                                useExpanded: true,
                                                 title: "Tên công ty:",
                                                 value:
                                                     "TNHH Jones Lang Lasalle (Việt Nam)"),
-                                            SizedBox(
-                                                height:
-                                                    AppDimensions.paddingTiny(
-                                                        context)),
+                                            SizedBox(height: 7.h),
                                             const CustomInfoRow(
-                                                useExpanded: true,
                                                 title: "Địa điểm:",
                                                 value:
                                                     "KCN Quang Minh, Hà Nội"),
-                                            SizedBox(
-                                                height:
-                                                    AppDimensions.paddingTiny(
-                                                        context)),
+                                            SizedBox(height: 7.h),
                                             const CustomInfoRow(
-                                                useExpanded: true,
                                                 title: "Tài xế",
                                                 value: "Taixe1-034567567"),
-                                            SizedBox(
-                                                height:
-                                                    AppDimensions.paddingTiny(
-                                                        context)),
+                                            SizedBox(height: 7.h),
                                             statusBadge(context, "Đã sắp"),
                                           ],
                                         ),
@@ -291,15 +269,13 @@ class _TruckDetailState extends State<TruckDetail> {
         Expanded(
           child: Row(
             children: [
-              Icon(icon1,
-                  size: AppDimensions.iconMedium(context),
-                  color: AppColors.blueColor),
+              Icon(icon1, size: 22.sp, color: AppColors.blueColor),
               const SizedBox(width: 8),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(label1, style: AppTextStyles.titleSmall(context)),
-                  Text(value1, style: AppTextStyles.bodySmall(context)),
+                  Text(label1, style: AppTextStyles.titleSmall()),
+                  Text(value1, style: AppTextStyles.bodySmall()),
                 ],
               ),
             ],
@@ -308,15 +284,13 @@ class _TruckDetailState extends State<TruckDetail> {
         Expanded(
           child: Row(
             children: [
-              Icon(icon2,
-                  size: AppDimensions.iconMedium(context),
-                  color: AppColors.blueColor),
+              Icon(icon2, size: 22.sp, color: AppColors.blueColor),
               const SizedBox(width: 8),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(label2, style: AppTextStyles.titleSmall(context)),
-                  Text(value2, style: AppTextStyles.bodySmall(context)),
+                  Text(label2, style: AppTextStyles.titleSmall()),
+                  Text(value2, style: AppTextStyles.bodySmall()),
                 ],
               ),
             ],
@@ -336,7 +310,7 @@ class _TruckDetailState extends State<TruckDetail> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(title, style: AppTextStyles.titleSmall(context)),
+          Text(title, style: AppTextStyles.titleSmall()),
           const SizedBox(height: 10),
           CircularPercentIndicator(
             radius: 40,
@@ -345,7 +319,7 @@ class _TruckDetailState extends State<TruckDetail> {
             percent: percent,
             center: Text(
               "${(percent * 100).toInt()}%",
-              style: AppTextStyles.titleSmall(context),
+              style: AppTextStyles.titleSmall(),
             ),
             circularStrokeCap: CircularStrokeCap.round,
             backgroundColor: Colors.grey.shade200,
@@ -372,11 +346,11 @@ Widget statusBadge(BuildContext context, String status) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
-      Text("Trạng thái:", style: AppTextStyles.bodyMedium(context)),
+      Text("Trạng thái:", style: AppTextStyles.bodyMedium()),
       Container(
         padding: EdgeInsets.symmetric(
-          horizontal: AppDimensions.paddingSmall(context),
-          vertical: AppDimensions.paddingXTiny(context),
+          horizontal: 10.w,
+          vertical: 3.h,
         ),
         decoration: BoxDecoration(
           color: badgeColor,
@@ -384,8 +358,8 @@ Widget statusBadge(BuildContext context, String status) {
         ),
         child: Text(
           status,
-          style: AppTextStyles.bodyMedium(context)
-              .copyWith(color: AppColors.whiteColor),
+          style:
+              AppTextStyles.bodyMedium().copyWith(color: AppColors.whiteColor),
         ),
       ),
     ],

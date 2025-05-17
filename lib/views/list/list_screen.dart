@@ -14,12 +14,13 @@ class ListScreen extends StatelessWidget {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
+        backgroundColor: Colors.grey.shade100,
         appBar: AppBar(
           backgroundColor: Colors.white,
           centerTitle: true,
           title: Text(
             "Bảng kê",
-            style: AppTextStyles.titleMedium(context),
+            style: AppTextStyles.titleMedium(),
           ),
           bottom: TabBar(
             tabs: const [
@@ -28,7 +29,7 @@ class ListScreen extends StatelessWidget {
               Tab(text: 'Trả lại'),
             ],
             indicatorColor: AppColors.lightBlueColor,
-            labelStyle: AppTextStyles.bodyMedium(context),
+            labelStyle: AppTextStyles.bodyMedium(),
           ),
         ),
         body: TabBarView(

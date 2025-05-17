@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:merchant/common/app_dimensions.dart';
 import 'package:merchant/common/app_style.dart';
 import 'package:timeline_tile/timeline_tile.dart';
@@ -28,7 +29,7 @@ class CustomTimeline extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: AppDimensions.heightSmallMedium(context),
+      height: AppDimensions.heightSmallMedium(),
       child: TimelineTile(
         isFirst: isFirst,
         isLast: isLast,
@@ -37,7 +38,7 @@ class CustomTimeline extends StatelessWidget {
         afterLineStyle: LineStyle(
             color: isPast ? AppColors.blueColor : Colors.grey.shade200),
         indicatorStyle: IndicatorStyle(
-          width: AppDimensions.heightTiny(context),
+          width: 35.w,
           color: isReturn
               ? Colors.red
               : (isPast ? AppColors.blueColor : Colors.grey.shade200),
@@ -46,17 +47,17 @@ class CustomTimeline extends StatelessWidget {
             color: isReturn
                 ? Colors.white
                 : (isPast ? AppColors.whiteColor : AppColors.greyColor),
-            fontSize: AppDimensions.iconSmall(context),
+            fontSize: 18.h,
           ),
         ),
         endChild: Padding(
-          padding: EdgeInsets.only(left: AppDimensions.paddingMedium(context)),
+          padding: EdgeInsets.only(left: 15.h),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(title, style: AppTextStyles.titleSmall(context)),
-              Text(value, style: AppTextStyles.bodyMedium(context)),
+              Text(title, style: AppTextStyles.titleXSmall()),
+              Text(value, style: AppTextStyles.bodyMedium()),
             ],
           ),
         ),

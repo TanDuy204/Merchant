@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:merchant/common/app_dimensions.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:merchant/common/bordered_container.dart';
+import 'package:merchant/common/custom_status_badge.dart';
 
 import '../../../common/app_style.dart';
 import '../../../common/custom_info_row.dart';
@@ -18,75 +19,73 @@ class _PendingListDetailState extends State<PendingListDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey.shade100,
       appBar: AppBar(
         backgroundColor: AppColors.whiteColor,
         centerTitle: true,
         title: Text(
           "Chi tiết bảng kê",
-          style: AppTextStyles.titleMedium(context),
+          style: AppTextStyles.titleMedium(),
         ),
       ),
       body: CustomScrollView(
         slivers: [
           ///Thông tin bản kê
           SliverToBoxAdapter(
-            child: Padding(
-              padding: EdgeInsets.all(AppDimensions.paddingSmall(context)),
-              child: BorderedContainer(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Thông tin bảng kê",
-                        style: AppTextStyles.titleMedium(context)),
-                    const Divider(),
-                    const CustomInfoRow(title: "Mã bảng kê:", value: "BK-3837"),
-                    SizedBox(height: AppDimensions.paddingTiny(context)),
-                    const CustomInfoRow(title: "Ngày gửi:", value: "-"),
-                    SizedBox(height: AppDimensions.paddingTiny(context)),
-                    const CustomInfoRow(title: "Nội dung:", value: "-"),
-                    SizedBox(height: AppDimensions.paddingTiny(context)),
-                    const CustomInfoRow(title: "Ghi chú:", value: "-"),
-                    SizedBox(height: AppDimensions.paddingTiny(context)),
-                    const CustomInfoRow(
-                        title: "Loại hàng:", value: "Chất thải nguy hại"),
-                  ],
-                ),
+            child: BorderedContainer(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Thông tin bảng kê", style: AppTextStyles.titleMedium()),
+                  const Divider(),
+                  const CustomInfoRow(title: "Mã bảng kê:", value: "BK-3837"),
+                  SizedBox(height: 7.h),
+                  const CustomInfoRow(title: "Ngày gửi:", value: "-"),
+                  SizedBox(height: 7.h),
+                  const CustomInfoRow(title: "Nội dung:", value: "-"),
+                  SizedBox(height: 7.h),
+                  const CustomInfoRow(title: "Ghi chú:", value: "-"),
+                  SizedBox(height: 7.h),
+                  const CustomInfoRow(
+                      title: "Loại hàng:", value: "Chất thải nguy hại"),
+                ],
               ),
             ),
           ),
 
           ///Tổng quan bảng kê
           SliverToBoxAdapter(
-            child: Padding(
-              padding: EdgeInsets.all(AppDimensions.paddingSmall(context)),
-              child: BorderedContainer(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Tổng quan",
-                        style: AppTextStyles.titleMedium(context)),
-                    const Divider(),
-                    statusBadge("Bảng kê chưa gửi", context),
-                    SizedBox(height: AppDimensions.paddingTiny(context)),
-                    const CustomInfoRow(
-                        title: "Ngày MTAC nhận bảng kê:", value: "-"),
-                    SizedBox(height: AppDimensions.paddingTiny(context)),
-                    const CustomInfoRow(
-                        title: "Ngày MATC phản hồi:", value: "-"),
-                    SizedBox(height: AppDimensions.paddingTiny(context)),
-                    const CustomInfoRow(
-                        title: "Tổng số chuyến:",
-                        value: "1",
-                        isBold: true,
-                        valueColor: AppColors.redColor),
-                    SizedBox(height: AppDimensions.paddingTiny(context)),
-                    const CustomInfoRow(
-                        title: "Tổng số tiền:",
-                        value: "3.000.000đ",
-                        isBold: true,
-                        valueColor: AppColors.lightBlueColor),
-                  ],
-                ),
+            child: BorderedContainer(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("Tổng quan", style: AppTextStyles.titleMedium()),
+                      const CustomStatusBadge(
+                          status: "Bảng kê chưa gửi", color: Colors.orange)
+                    ],
+                  ),
+                  SizedBox(height: 3.h),
+                  const Divider(),
+                  const CustomInfoRow(
+                      title: "Ngày MTAC nhận bảng kê:", value: "-"),
+                  SizedBox(height: 7.h),
+                  const CustomInfoRow(title: "Ngày MATC phản hồi:", value: "-"),
+                  SizedBox(height: 7.h),
+                  const CustomInfoRow(
+                      title: "Tổng số chuyến:",
+                      value: "1",
+                      isBold: true,
+                      valueColor: AppColors.redColor),
+                  SizedBox(height: 7.h),
+                  const CustomInfoRow(
+                      title: "Tổng số tiền:",
+                      value: "3.000.000đ",
+                      isBold: true,
+                      valueColor: AppColors.lightBlueColor),
+                ],
               ),
             ),
           ),
@@ -94,13 +93,12 @@ class _PendingListDetailState extends State<PendingListDetail> {
           ///Tiến độ xử lý
           SliverToBoxAdapter(
             child: BorderedContainer(
-              margin: EdgeInsets.all(AppDimensions.paddingSmall(context)),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     'Tiến độ xử lý',
-                    style: AppTextStyles.titleMedium(context),
+                    style: AppTextStyles.titleMedium(),
                   ),
                   const Divider(),
                   const Column(
@@ -139,13 +137,12 @@ class _PendingListDetailState extends State<PendingListDetail> {
           ///Danh sách chuyến thu gom
           SliverToBoxAdapter(
             child: BorderedContainer(
-              margin: EdgeInsets.all(AppDimensions.paddingSmall(context)),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     'Danh sách chuyến thu gom',
-                    style: AppTextStyles.titleMedium(context),
+                    style: AppTextStyles.titleMedium(),
                   ),
                   const Divider(),
                   ListView.builder(
@@ -172,7 +169,7 @@ class _PendingListDetailState extends State<PendingListDetail> {
                                   color: openIndex == index
                                       ? AppColors.lightBlue
                                       : Colors.transparent,
-                                  borderRadius: BorderRadius.circular(5),
+                                  borderRadius: BorderRadius.circular(10.r),
                                 ),
                                 child: ListTile(
                                   title: Row(
@@ -180,11 +177,9 @@ class _PendingListDetailState extends State<PendingListDetail> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text('Mã thu gom: CTG-456450',
-                                          style: AppTextStyles.titleSmall(
-                                              context)),
+                                          style: AppTextStyles.titleSmall()),
                                       Text('25-7-2025',
-                                          style: AppTextStyles.titleSmall(
-                                              context)),
+                                          style: AppTextStyles.titleSmall()),
                                     ],
                                   ),
                                 ),
@@ -194,50 +189,31 @@ class _PendingListDetailState extends State<PendingListDetail> {
                                 curve: Curves.easeInOut,
                                 child: openIndex == index
                                     ? Padding(
-                                        padding: EdgeInsets.all(
-                                            AppDimensions.paddingSmall(
-                                                context)),
+                                        padding: EdgeInsets.all(10.h),
                                         child: Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
                                             const CustomInfoRow(
-                                                useExpanded: true,
                                                 title: "Tên công ty:",
                                                 value:
                                                     "TNHH Jones Lang Lasalle (Việt Nam)"),
-                                            SizedBox(
-                                                height:
-                                                    AppDimensions.paddingTiny(
-                                                        context)),
+                                            SizedBox(height: 7.h),
                                             const CustomInfoRow(
-                                                useExpanded: true,
                                                 title: "Nội dung:",
                                                 value: "Vận chuyển"),
-                                            SizedBox(
-                                                height:
-                                                    AppDimensions.paddingTiny(
-                                                        context)),
+                                            SizedBox(height: 7.h),
                                             const CustomInfoRow(
-                                                useExpanded: true,
                                                 title: "Biển số xe:",
                                                 value: "50h-10869"),
-                                            SizedBox(
-                                                height:
-                                                    AppDimensions.paddingTiny(
-                                                        context)),
+                                            SizedBox(height: 7.h),
                                             const CustomInfoRow(
-                                                useExpanded: true,
                                                 title: "Khối lượng:",
                                                 value: "1",
                                                 isBold: true,
                                                 valueColor: AppColors.redColor),
-                                            SizedBox(
-                                                height:
-                                                    AppDimensions.paddingTiny(
-                                                        context)),
+                                            SizedBox(height: 7.h),
                                             const CustomInfoRow(
-                                                useExpanded: true,
                                                 title: "Số tiền:",
                                                 value: "3.000.000đ",
                                                 isBold: true,
@@ -262,28 +238,4 @@ class _PendingListDetailState extends State<PendingListDetail> {
       ),
     );
   }
-}
-
-///Widget build status
-Widget statusBadge(String status, BuildContext context) {
-  return Row(
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    children: [
-      Text("Trạng thái:", style: AppTextStyles.bodyMedium(context)),
-      Container(
-        padding: EdgeInsets.symmetric(
-            horizontal: AppDimensions.paddingSmall(context),
-            vertical: AppDimensions.paddingXTiny(context)),
-        decoration: BoxDecoration(
-          color: Colors.orange,
-          borderRadius: BorderRadius.circular(5),
-        ),
-        child: Text(
-          status,
-          style: AppTextStyles.bodyMedium(context)
-              .copyWith(color: AppColors.whiteColor),
-        ),
-      ),
-    ],
-  );
 }

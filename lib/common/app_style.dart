@@ -1,72 +1,71 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppTextStyles {
-  static double _getResponsiveFontSize(BuildContext context, double baseSize) {
-    final screenWidth = MediaQuery.of(context).size.width;
-
-    if (screenWidth < 375) {
-      return baseSize * 0.70;
-    } else if (screenWidth < 400) {
-      return baseSize * 0.75;
-    } else if (screenWidth < 480) {
-      return baseSize * 0.83;
-    } else if (screenWidth < 600) {
-      return baseSize;
-    } else if (screenWidth < 850) {
-      return baseSize * 1.4;
-    } else {
-      return baseSize * 1.8;
-    }
-  }
-
-  static TextStyle titleLarge(BuildContext context) => TextStyle(
-      fontSize: _getResponsiveFontSize(context, 26),
-      fontWeight: FontWeight.bold,
-      color: Colors.black);
-
-  static TextStyle titleMedium(BuildContext context) => TextStyle(
-      fontSize: _getResponsiveFontSize(context, 22),
-      fontWeight: FontWeight.bold,
-      color: Colors.black);
-
-  static TextStyle titleXSmall(BuildContext context) => TextStyle(
-      fontSize: _getResponsiveFontSize(context, 20),
-      color: Colors.black,
-      fontWeight: FontWeight.bold);
-
-  static TextStyle titleSmall(BuildContext context) => TextStyle(
-      fontSize: _getResponsiveFontSize(context, 18),
-      color: Colors.black,
-      fontWeight: FontWeight.bold);
-
-  static TextStyle titleTini(BuildContext context) => TextStyle(
-      fontSize: _getResponsiveFontSize(context, 13),
-      color: Colors.black,
-      fontWeight: FontWeight.bold);
-
-  static TextStyle bodyLarge(BuildContext context) => TextStyle(
-        fontSize: _getResponsiveFontSize(context, 22),
+  static TextStyle titleLarge() => TextStyle(
+        fontSize: 19.sp,
+        fontWeight: FontWeight.bold,
         color: Colors.black,
+        fontFamily: 'Roboto',
       );
 
-  static TextStyle bodyMedium(BuildContext context) => TextStyle(
-        fontSize: _getResponsiveFontSize(context, 19),
+  static TextStyle titleMedium() => TextStyle(
+        fontSize: 17.sp,
+        fontWeight: FontWeight.bold,
         color: Colors.black,
+        fontFamily: 'Roboto',
       );
 
-  static TextStyle bodySmall(BuildContext context) => TextStyle(
-        fontSize: _getResponsiveFontSize(context, 17),
+  static TextStyle titleXSmall() => TextStyle(
+        fontSize: 15.sp,
         color: Colors.black,
-      );
-  static TextStyle bodyXSmall(BuildContext context) => TextStyle(
-        fontSize: _getResponsiveFontSize(context, 16),
-        color: Colors.black,
+        fontWeight: FontWeight.bold,
+        fontFamily: 'Roboto',
       );
 
-  static TextStyle buttonLabel(BuildContext context) => TextStyle(
-        fontSize: _getResponsiveFontSize(context, 20),
+  static TextStyle titleSmall() => TextStyle(
+        fontSize: 13.sp,
+        color: Colors.black,
+        fontWeight: FontWeight.bold,
+        fontFamily: 'Roboto',
+      );
+
+  static TextStyle titleTini() => TextStyle(
+        fontSize: 11.sp,
+        color: Colors.black,
+        fontWeight: FontWeight.bold,
+        fontFamily: 'Roboto',
+      );
+
+  static TextStyle bodyLarge() => TextStyle(
+        fontSize: 17.sp,
+        color: Colors.black,
+        fontFamily: 'Roboto',
+      );
+
+  static TextStyle bodyMedium() => TextStyle(
+        fontSize: 15.sp,
+        color: Colors.black,
+        fontFamily: 'Roboto',
+      );
+
+  static TextStyle bodySmall() => TextStyle(
+        fontSize: 13.sp,
+        color: Colors.black,
+        fontFamily: 'Roboto',
+      );
+
+  static TextStyle bodyXSmall() => TextStyle(
+        fontSize: 11.sp,
+        color: Colors.black,
+        fontFamily: 'Roboto',
+      );
+
+  static TextStyle buttonLabel() => TextStyle(
+        fontSize: 16.sp,
         fontWeight: FontWeight.w500,
         color: Colors.white,
+        fontFamily: 'Roboto',
       );
 }
 

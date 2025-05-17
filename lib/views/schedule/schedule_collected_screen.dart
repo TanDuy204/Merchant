@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:merchant/models/schedule_model.dart';
@@ -17,7 +18,7 @@ class CollectionScheduleScreen extends StatelessWidget {
         centerTitle: true,
         title: Text(
           "Sắp lịch gom",
-          style: AppTextStyles.titleMedium(context),
+          style: AppTextStyles.titleMedium(),
         ),
       ),
       body: Column(
@@ -25,13 +26,13 @@ class CollectionScheduleScreen extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(10),
             color: AppColors.lightBlue,
-            height: 50,
+            height: 50.h,
             child: Row(
               children: [
-                Image.asset(
-                  "assets/icons/info_icon.png",
-                  width: 30,
-                  height: 30,
+                Icon(
+                  Icons.info,
+                  size: 25.sp,
+                  color: AppColors.blueColor,
                 ),
                 const SizedBox(width: 15),
                 const Text("Danh sách lịch gom chưa sắp trong ngày")
@@ -52,17 +53,16 @@ class CollectionScheduleScreen extends StatelessWidget {
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
-                              Image.asset(
-                                "assets/icons/car_icon.png",
-                                width: 30,
-                                height: 30,
+                              Icon(
+                                Icons.local_shipping_outlined,
+                                size: 23.sp,
                               ),
                               const SizedBox(width: 8),
                               Text("Chuyến thu gom",
-                                  style: AppTextStyles.titleSmall(context)),
+                                  style: AppTextStyles.titleSmall()),
                               const Spacer(),
                               Text("CTG_22223",
-                                  style: AppTextStyles.titleSmall(context)),
+                                  style: AppTextStyles.titleSmall()),
                             ],
                           ),
                           const Divider(),
@@ -91,7 +91,7 @@ class CollectionScheduleScreen extends StatelessWidget {
                                     ),
                                   ),
                                   child: Text("Chi tiết",
-                                      style: AppTextStyles.buttonLabel(context)
+                                      style: AppTextStyles.buttonLabel()
                                           .copyWith(
                                               color: AppColors.greyColor)),
                                 ),
@@ -111,7 +111,7 @@ class CollectionScheduleScreen extends StatelessWidget {
                                     ),
                                   ),
                                   child: Text("Sắp lịch",
-                                      style: AppTextStyles.buttonLabel(context)
+                                      style: AppTextStyles.buttonLabel()
                                           .copyWith(
                                               color: AppColors.blueColor)),
                                 ),
@@ -141,15 +141,15 @@ Widget _list(
       Text(
         text1,
         style: text1 == "Đơn giá:"
-            ? AppTextStyles.titleSmall(context)
-            : AppTextStyles.bodyMedium(context),
+            ? AppTextStyles.titleSmall()
+            : AppTextStyles.bodyMedium(),
       ),
       const Spacer(),
       Text(
         formattedText,
         style: text1 == "Đơn giá:"
-            ? AppTextStyles.titleSmall(context)
-            : AppTextStyles.bodyMedium(context),
+            ? AppTextStyles.titleSmall()
+            : AppTextStyles.bodyMedium(),
       ),
     ],
   );

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:merchant/common/app_dimensions.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:merchant/views/payment/payment_screen.dart';
 
 import 'home/home_screen.dart';
@@ -33,24 +33,19 @@ class _MainScreenState extends State<MainScreen> {
         type: BottomNavigationBarType.fixed,
         selectedItemColor: Colors.blue,
         unselectedItemColor: Colors.grey,
-        selectedFontSize: AppDimensions.paddingMedium(context),
-        unselectedFontSize: AppDimensions.paddingMedium(context),
+        unselectedFontSize: 13.h,
+        selectedFontSize: 14.h,
         items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home, size: AppDimensions.iconMedium(context)),
+            icon: Icon(Icons.home, size: 23.sp),
             label: "Trang chủ",
           ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.credit_card,
-                  size: AppDimensions.iconMedium(context)),
-              label: "Thanh toán"),
+              icon: Icon(Icons.credit_card, size: 23.sp), label: "Thanh toán"),
           BottomNavigationBarItem(
-              icon: Icon(Icons.mail_outline,
-                  size: AppDimensions.iconMedium(context)),
-              label: "Hộp thư"),
+              icon: Icon(Icons.mail_outline, size: 23.sp), label: "Hộp thư"),
           BottomNavigationBarItem(
-              icon: Icon(Icons.person_outline,
-                  size: AppDimensions.iconMedium(context)),
+              icon: Icon(Icons.person_outline, size: 23.sp),
               label: "Tài khoản"),
         ],
       ),

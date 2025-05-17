@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:merchant/common/app_dimensions.dart';
 import 'package:merchant/common/bordered_container.dart';
 
 import '../../../common/app_style.dart';
@@ -14,60 +14,57 @@ class PendingList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      slivers: [
-        SliverList(
-          delegate: SliverChildBuilderDelegate(childCount: 2, (context, index) {
-            return GestureDetector(
-                onTap: () {
-                  Get.toNamed('/pendingList');
-                },
-                child: BorderedContainer(
-                  margin: EdgeInsets.all(AppDimensions.paddingSmall(context)),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text("Mã thu gom: CTG_22223",
-                              style: AppTextStyles.titleXSmall(context)),
-                          const Spacer(),
-                          const CustomStatusBadge(
-                              status: "Đã thu gom", color: Colors.green)
-                        ],
-                      ),
-                      const Divider(),
-                      const CustomInfoRow(
-                          useExpanded: true,
-                          title: "Tên công ty:",
-                          value: "Công ty TNHH Sản xuất Việt Nam"),
-                      SizedBox(height: AppDimensions.paddingTiny(context)),
-                      const CustomInfoRow(
-                          useExpanded: true,
-                          title: "Địa chỉ gom:",
-                          value: "Khu công nghiệp Quang Minh, Hà Nội"),
-                      SizedBox(height: AppDimensions.paddingTiny(context)),
-                      const CustomInfoRow(
-                          useExpanded: true,
-                          title: "Loại hàng:",
-                          value: "Chất thải sinh hoạt"),
-                      SizedBox(height: AppDimensions.paddingTiny(context)),
-                      const CustomInfoRow(
-                          useExpanded: true,
-                          title: "Tài xế:",
-                          value: "Nguyễn Văn A"),
-                      SizedBox(height: AppDimensions.paddingTiny(context)),
-                      const CustomInfoRow(
-                          useExpanded: true,
-                          title: "Biển số xe:",
-                          value: "29H1-45621"),
-                    ],
-                  ),
-                ));
-          }),
-        ),
-      ],
+    return Scaffold(
+      backgroundColor: Colors.grey.shade100,
+      body: CustomScrollView(
+        slivers: [
+          SliverList(
+            delegate:
+                SliverChildBuilderDelegate(childCount: 2, (context, index) {
+              return GestureDetector(
+                  onTap: () {
+                    Get.toNamed('/pendingList');
+                  },
+                  child: BorderedContainer(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Flexible(
+                              child: Text("Mã thu gom: CTG_22223",
+                                  style: AppTextStyles.titleXSmall()),
+                            ),
+                            const CustomStatusBadge(
+                                status: "Đã thu gom", color: Colors.green)
+                          ],
+                        ),
+                        SizedBox(height: 3.h),
+                        const Divider(),
+                        const CustomInfoRow(
+                            title: "Tên công ty:",
+                            value: "Công ty TNHH Sản xuất Việt Nam"),
+                        SizedBox(height: 7.h),
+                        const CustomInfoRow(
+                            title: "Địa chỉ gom:",
+                            value: "Khu công nghiệp Quang Minh, Hà Nội"),
+                        SizedBox(height: 7.h),
+                        const CustomInfoRow(
+                            title: "Loại hàng:", value: "Chất thải sinh hoạt"),
+                        SizedBox(height: 7.h),
+                        const CustomInfoRow(
+                            title: "Tài xế:", value: "Nguyễn Văn A"),
+                        SizedBox(height: 7.h),
+                        const CustomInfoRow(
+                            title: "Biển số xe:", value: "29H1-45621"),
+                      ],
+                    ),
+                  ));
+            }),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -82,8 +79,7 @@ Widget statusBadge(String status, BuildContext context) {
     ),
     child: Text(
       status,
-      style: AppTextStyles.bodyMedium(context)
-          .copyWith(color: AppColors.whiteColor),
+      style: AppTextStyles.bodyMedium().copyWith(color: AppColors.whiteColor),
     ),
   );
 }

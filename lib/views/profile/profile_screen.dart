@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
-import 'package:merchant/common/app_dimensions.dart';
 import 'package:merchant/common/app_style.dart';
-import 'package:merchant/common/bordered_container.dart';
 import 'package:merchant/views/profile/profile_account.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -12,149 +10,140 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: AppColors.whiteColor,
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        elevation: 0,
         title: Text(
           "Thông tin tài khoản",
-          style: AppTextStyles.titleMedium(context),
+          style: AppTextStyles.titleMedium(),
         ),
       ),
       body: SafeArea(
         child: CustomScrollView(
           slivers: [
             SliverToBoxAdapter(
-              child: Padding(
-                padding: EdgeInsets.all(AppDimensions.paddingSmall(context)),
-                child: GestureDetector(
-                  onTap: () {
-                    Get.to(() => const ProfileAccount());
-                  },
-                  child: BorderedContainer(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const SizedBox(height: 20),
-                        CircleAvatar(
-                          radius: AppDimensions.heightSmall(context),
-                          backgroundImage:
-                              const AssetImage('assets/images/images.png'),
-                        ),
-                        const SizedBox(height: 10),
-                        Text(
-                          "Trần Đức Thành",
-                          style: AppTextStyles.titleMedium(context),
-                        ),
-                        const SizedBox(height: 5),
-                        Text(
-                          "merchant@gmail.com",
-                          style: AppTextStyles.bodyMedium(context)
-                              .copyWith(color: AppColors.greyColor),
-                        ),
-                        const SizedBox(height: 20),
-                      ],
+              // child: Padding(
+              //   padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+              //   child: GestureDetector(
+              //     onTap: () => Get.to(() => const ProfileAccount()),
+              //     child: Column(
+              //       children: [
+              //         CircleAvatar(
+              //           radius: 32.r,
+              //           backgroundImage:
+              //               const AssetImage('assets/images/images.png'),
+              //         ),
+              //         SizedBox(height: 12.h),
+              //         Text(
+              //           "Trần Đức Thành",
+              //           style: AppTextStyles.titleMedium(),
+              //         ),
+              //         SizedBox(height: 4.h),
+              //         Text(
+              //           "merchant@gmail.com",
+              //           style: AppTextStyles.bodyMedium().copyWith(
+              //             color: AppColors.greyColor,
+              //           ),
+              //         ),
+              //       ],
+              //     ),
+              //   ),
+              // ),
+              child: Column(
+                children: [
+                  GestureDetector(
+                    onTap: () => Get.to(() => const ProfileAccount()),
+                    child: CircleAvatar(
+                      radius: 50.r,
+                      backgroundImage:
+                          const AssetImage('assets/images/images.png'),
                     ),
                   ),
-                ),
+                  SizedBox(height: 10.h),
+                  Text(
+                    "Trần Đức Thành",
+                    style: AppTextStyles.titleMedium(),
+                  ),
+                  SizedBox(height: 4.h),
+                  Text(
+                    "merchant@gmail.com",
+                    style: AppTextStyles.bodyMedium().copyWith(
+                      color: AppColors.greyColor,
+                    ),
+                  ),
+                ],
               ),
             ),
             SliverToBoxAdapter(
+              child: SizedBox(height: 40.h),
+            ),
+            SliverToBoxAdapter(
               child: Padding(
-                padding: EdgeInsets.all(AppDimensions.paddingSmall(context)),
-                child: BorderedContainer(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                        const SizedBox(height: 10),
-                        _item(
-                          context,
-                          Icons.local_shipping_outlined,
-                          'Tài khoản tài xế',
-                          () {
-                            Get.toNamed('/driverAccount');
-                          },
-                          backgroundColor: Colors.grey.shade200,
-                        ),
-                        const SizedBox(height: 10),
-                        _item(
-                          context,
-                          Icons.person_add_alt,
-                          'Tạo tài khoản tài xế',
-                          () {
-                            Get.toNamed('/createAccount');
-                          },
-                          backgroundColor: Colors.grey.shade200,
-                        ),
-                        const SizedBox(height: 10),
-                        _item(
-                          context,
-                          Icons.send_outlined,
-                          'Gửi lời mời tài khoản tài xế',
-                          () {
-                            Get.toNamed('/inviteAccount');
-                          },
-                          backgroundColor: Colors.grey.shade200,
-                        ),
-                        const Divider(),
-                        _item(
-                          context,
-                          Icons.logout,
-                          'Đăng xuất',
-                          () {},
-                          backgroundColor: Colors.red.shade100,
-                          iconColor: AppColors.redColor,
-                        ),
-                      ],
+                padding: EdgeInsets.all(10.h),
+                child: Column(
+                  children: [
+                    customCard(
+                      leadingIcon: Icons.local_shipping_outlined,
+                      title: "Tài khoản tài xế",
+                      trailingIcon: Icons.chevron_right_outlined,
+                      onTap: () => Get.toNamed('/driverAccount'),
                     ),
-                  ),
+                    SizedBox(height: 5.h),
+                    customCard(
+                      leadingIcon: Icons.person_add_alt,
+                      title: "Tạo tài khoản tài xế",
+                      trailingIcon: Icons.chevron_right_outlined,
+                      onTap: () => Get.toNamed('/createAccount'),
+                    ),
+                    SizedBox(height: 5.h),
+                    customCard(
+                      leadingIcon: Icons.send_outlined,
+                      title: "Gửi lời mời tài khoản tài xế",
+                      trailingIcon: Icons.chevron_right_outlined,
+                      onTap: () => Get.toNamed('/inviteAccount'),
+                    ),
+                    SizedBox(height: 5.h),
+                    customCard(
+                        leadingIcon: Icons.logout,
+                        title: "Đăng xuất",
+                        trailingIcon: Icons.chevron_right_outlined,
+                        onTap: () {}),
+                  ],
                 ),
               ),
             ),
+            SliverToBoxAdapter(child: SizedBox(height: 30.h)),
           ],
         ),
       ),
     );
   }
-}
 
-Widget _item(
-  BuildContext context,
-  IconData icon,
-  String title,
-  Callback onTap, {
-  Color backgroundColor = const Color(0xFFE0E0E0),
-  Color iconColor = Colors.black,
-}) {
-  return GestureDetector(
-    onTap: onTap,
-    child: Row(
-      children: [
-        Container(
-          padding: EdgeInsets.all(AppDimensions.paddingSmall(context)),
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: backgroundColor,
-          ),
-          child: Icon(
-            icon,
-            color: iconColor,
-            size: AppDimensions.iconMedium(context),
-          ),
+  Widget customCard({
+    required IconData leadingIcon,
+    required String title,
+    required IconData trailingIcon,
+    required VoidCallback onTap,
+  }) {
+    return Card(
+      elevation: 5,
+      color: Colors.grey.shade300,
+      shadowColor: Colors.black12,
+      child: ListTile(
+        leading: Icon(leadingIcon, size: 24.sp),
+        title: Text(
+          title,
+          style: AppTextStyles.bodyMedium(),
         ),
-        const SizedBox(width: 12),
-        Expanded(
-          child: Text(
-            title,
-            style: AppTextStyles.titleMedium(context),
-          ),
+        trailing: Icon(
+          trailingIcon,
+          size: 24.sp,
         ),
-        Icon(
-          Icons.arrow_forward_ios,
-          size: AppDimensions.iconMedium(context),
-          color: Colors.grey,
-        ),
-      ],
-    ),
-  );
+        onTap: onTap,
+      ),
+    );
+  }
 }

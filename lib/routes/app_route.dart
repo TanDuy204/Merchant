@@ -28,7 +28,9 @@ class AppRoutes {
     GetPage(name: '/main', page: () => const MainScreen()),
     GetPage(
         name: '/schedule',
-        page: () => ScheduleScreen(schedules: schedules),
+        page: () => ScheduleScreen(
+              schedules: schedules,
+            ),
         transition: Transition.fadeIn),
     GetPage(
         name: '/collectSchedule',
@@ -37,7 +39,7 @@ class AppRoutes {
     GetPage(
         name: '/truck',
         page: () => TruckScreen(
-              trucks: trucks,
+              trucks: mockTrucks,
             ),
         transition: Transition.fadeIn),
     GetPage(

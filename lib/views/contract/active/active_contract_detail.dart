@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:merchant/common/app_dimensions.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:merchant/common/app_style.dart';
 import 'package:merchant/common/bordered_container.dart';
+import 'package:merchant/common/custom_status_badge.dart';
 
 import '../../../common/custom_info_row.dart';
 import '../../../common/custom_timeline.dart';
@@ -19,45 +20,38 @@ class _ActiveContractDetailState extends State<ActiveContractDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey.shade100,
       appBar: AppBar(
           backgroundColor: AppColors.whiteColor,
           centerTitle: true,
           title: Text(
             'Chi tiết hợp đồng',
-            style: AppTextStyles.titleMedium(context),
+            style: AppTextStyles.titleMedium(),
           )),
       body: CustomScrollView(
         slivers: [
           ///Thông tin hợp đồng
           SliverToBoxAdapter(
             child: BorderedContainer(
-              margin: EdgeInsets.all(AppDimensions.paddingSmall(context)),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text("Thông tin hợp đồng",
-                      style: AppTextStyles.titleXSmall(context)),
+                      style: AppTextStyles.titleXSmall()),
                   const Divider(),
                   const CustomInfoRow(
-                      useExpanded: true,
-                      title: "Số hợp đồng:",
-                      value: "HĐKHĐC.2024.8"),
-                  SizedBox(height: AppDimensions.paddingTiny(context)),
+                      title: "Số hợp đồng:", value: "HĐKHĐC.2024.8"),
+                  SizedBox(height: 7.h),
                   const CustomInfoRow(
-                      useExpanded: true,
                       title: "Nhà cung cấp:",
                       value: "Doanh nghiệp tư nhân Minh Hoàng"),
-                  SizedBox(height: AppDimensions.paddingTiny(context)),
+                  SizedBox(height: 7.h),
                   const CustomInfoRow(
-                      useExpanded: true,
-                      title: "Người tạo:",
-                      value: "Nguyễn Thị Cẩm Tuyền"),
-                  SizedBox(height: AppDimensions.paddingTiny(context)),
+                      title: "Người tạo:", value: "Nguyễn Thị Cẩm Tuyền"),
+                  SizedBox(height: 7.h),
+                  const CustomInfoRow(title: "Khu vực:", value: "Miền Đông"),
+                  SizedBox(height: 7.h),
                   const CustomInfoRow(
-                      useExpanded: true, title: "Khu vực:", value: "Miền Đông"),
-                  SizedBox(height: AppDimensions.paddingTiny(context)),
-                  const CustomInfoRow(
-                      useExpanded: true,
                       title: "Nội dung:",
                       value: "Cung ứng lao động làm việc tại kho"),
                 ],
@@ -68,25 +62,30 @@ class _ActiveContractDetailState extends State<ActiveContractDetail> {
           ///Nội dung hợp đồng
           SliverToBoxAdapter(
             child: BorderedContainer(
-              margin: EdgeInsets.all(AppDimensions.paddingSmall(context)),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Nội dung hợp đồng",
-                      style: AppTextStyles.titleXSmall(context)),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("Nội dung hợp đồng",
+                          style: AppTextStyles.titleXSmall()),
+                      const CustomStatusBadge(
+                          status: "Đang thực hiện", color: Colors.green)
+                    ],
+                  ),
+                  SizedBox(height: 3.h),
                   const Divider(),
-                  statusBadge(context, "  Đang thực hiện"),
-                  SizedBox(height: AppDimensions.paddingTiny(context)),
                   const CustomInfoRow(
                       title: 'Loại dịch vụ:',
                       value: 'Vận chuyển, xử lý chất thải'),
-                  SizedBox(height: AppDimensions.paddingTiny(context)),
+                  SizedBox(height: 7.h),
                   const CustomInfoRow(
                       title: 'Nhóm dịch vụ:', value: 'Nhóm nhân lực'),
-                  SizedBox(height: AppDimensions.paddingTiny(context)),
+                  SizedBox(height: 7.h),
                   const CustomInfoRow(
                       title: 'Số hợp đồng khách hàng:', value: 'KH5055'),
-                  SizedBox(height: AppDimensions.paddingTiny(context)),
+                  SizedBox(height: 7.h),
                 ],
               ),
             ),
@@ -95,28 +94,21 @@ class _ActiveContractDetailState extends State<ActiveContractDetail> {
           ///Thông tin liên hệ
           SliverToBoxAdapter(
             child: BorderedContainer(
-              margin: EdgeInsets.all(AppDimensions.paddingSmall(context)),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Thông tin liên hệ",
-                      style: AppTextStyles.titleMedium(context)),
+                  Text("Thông tin liên hệ", style: AppTextStyles.titleXSmall()),
                   const Divider(),
                   const CustomInfoRow(
-                      useExpanded: true,
                       title: 'Địa chỉ gửi thư:',
                       value: '789 Điện Biên Phủ, Quận Bình Thạnh, TP HCM'),
-                  SizedBox(height: AppDimensions.paddingTiny(context)),
+                  SizedBox(height: 7.h),
                   const CustomInfoRow(
-                      useExpanded: true,
-                      title: 'Người liên hệ:',
-                      value: 'Chị Thiên'),
-                  SizedBox(height: AppDimensions.paddingTiny(context)),
+                      title: 'Người liên hệ:', value: 'Chị Thiên'),
+                  SizedBox(height: 7.h),
                   const CustomInfoRow(
-                      useExpanded: true,
-                      title: 'Số điện thoại:',
-                      value: '0971188322'),
-                  SizedBox(height: AppDimensions.paddingTiny(context)),
+                      title: 'Số điện thoại:', value: '0971188322'),
+                  SizedBox(height: 7.h),
                 ],
               ),
             ),
@@ -125,13 +117,12 @@ class _ActiveContractDetailState extends State<ActiveContractDetail> {
           ///Thời gian hợp đồng
           SliverToBoxAdapter(
             child: BorderedContainer(
-              margin: EdgeInsets.all(AppDimensions.paddingSmall(context)),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     'Thời gian hợp đồng',
-                    style: AppTextStyles.titleMedium(context),
+                    style: AppTextStyles.titleXSmall(),
                   ),
                   const Divider(),
                   const Column(
@@ -170,12 +161,10 @@ class _ActiveContractDetailState extends State<ActiveContractDetail> {
           /// File hợp đồng
           SliverToBoxAdapter(
             child: BorderedContainer(
-              margin: EdgeInsets.all(AppDimensions.paddingSmall(context)),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("File hợp đồng",
-                      style: AppTextStyles.titleMedium(context)),
+                  Text("File hợp đồng", style: AppTextStyles.titleXSmall()),
                   const Divider(),
                   Row(
                     children: [
@@ -185,7 +174,7 @@ class _ActiveContractDetailState extends State<ActiveContractDetail> {
                       Expanded(
                         child: Text(
                           "HĐKHĐC.2024.8.pdf",
-                          style: AppTextStyles.bodyMedium(context),
+                          style: AppTextStyles.bodyMedium(),
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
@@ -199,13 +188,12 @@ class _ActiveContractDetailState extends State<ActiveContractDetail> {
           ///Phụ lục hợp đồng
           SliverToBoxAdapter(
             child: BorderedContainer(
-              margin: EdgeInsets.all(AppDimensions.paddingSmall(context)),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     'Phụ lục hợp đồng',
-                    style: AppTextStyles.titleMedium(context),
+                    style: AppTextStyles.titleXSmall(),
                   ),
                   const Divider(),
                   ListView.builder(
@@ -232,11 +220,11 @@ class _ActiveContractDetailState extends State<ActiveContractDetail> {
                                   color: openIndex == index
                                       ? AppColors.lightBlue
                                       : Colors.transparent,
-                                  borderRadius: BorderRadius.circular(5),
+                                  borderRadius: BorderRadius.circular(10.r),
                                 ),
                                 child: ListTile(
                                   title: Text('Mã phụ lục: PL-01-2025',
-                                      style: AppTextStyles.titleSmall(context)),
+                                      style: AppTextStyles.titleSmall()),
                                 ),
                               ),
                               AnimatedSize(
@@ -244,9 +232,7 @@ class _ActiveContractDetailState extends State<ActiveContractDetail> {
                                 curve: Curves.easeInOut,
                                 child: openIndex == index
                                     ? Padding(
-                                        padding: EdgeInsets.all(
-                                            AppDimensions.paddingSmall(
-                                                context)),
+                                        padding: EdgeInsets.all(10.h),
                                         child: Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
@@ -255,24 +241,15 @@ class _ActiveContractDetailState extends State<ActiveContractDetail> {
                                                 title: "Tên phụ lục:",
                                                 value:
                                                     "Phụ lục giá vận chuyển"),
-                                            SizedBox(
-                                                height:
-                                                    AppDimensions.paddingTiny(
-                                                        context)),
+                                            SizedBox(height: 7.h),
                                             const CustomInfoRow(
                                                 title: "Ngày tạo:",
                                                 value: "01-01-2024"),
-                                            SizedBox(
-                                                height:
-                                                    AppDimensions.paddingTiny(
-                                                        context)),
+                                            SizedBox(height: 7.h),
                                             const CustomInfoRow(
                                                 title: "Ngày hiệu lục:",
                                                 value: "01-01-2024"),
-                                            SizedBox(
-                                                height:
-                                                    AppDimensions.paddingTiny(
-                                                        context)),
+                                            SizedBox(height: 7.h),
                                             statusBadge(
                                                 context, "Chờ hiệu lực"),
                                           ],
@@ -311,19 +288,19 @@ class _ActiveContractDetailState extends State<ActiveContractDetail> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text("Trạng thái:", style: AppTextStyles.bodyMedium(context)),
+        Text("Trạng thái:", style: AppTextStyles.bodyMedium()),
         Container(
           padding: EdgeInsets.symmetric(
-            horizontal: AppDimensions.paddingSmall(context),
-            vertical: AppDimensions.paddingXTiny(context),
+            horizontal: 10.w,
+            vertical: 3.h,
           ),
           decoration: BoxDecoration(
             color: badgeColor,
-            borderRadius: BorderRadius.circular(5),
+            borderRadius: BorderRadius.circular(10.r),
           ),
           child: Text(
             status,
-            style: AppTextStyles.bodyMedium(context)
+            style: AppTextStyles.bodyMedium()
                 .copyWith(color: AppColors.whiteColor),
           ),
         ),

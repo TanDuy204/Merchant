@@ -22,6 +22,8 @@ dependencies:
   flutter_slidable: ^3.1.2   # Tạo hiệu ứng trượt cho các item
   timeline_tile: ^2.0.0      # Tạo dòng thời gian (timeline) cho giao diện
   dropdown_button2: ^2.3.9   # Tạo Dropdown tùy biến
+  flutter_screenutil: ^5.9.3 # Dùng để reponsive kích thước từng màn hình
+
 
 
 dev_dependencies:
@@ -30,6 +32,8 @@ dev_dependencies:
 
 
   flutter_lints: ^4.0.0
+  flutter_localizations:
+    sdk: flutter
 
 
 flutter:
@@ -37,6 +41,5 @@ flutter:
 
   uses-material-design: true
   assets:
-    - assets/icons/
     - assets/images/
 

@@ -19,7 +19,7 @@ class ContractScreen extends StatelessWidget {
           centerTitle: true,
           title: Text(
             "Hợp đồng",
-            style: AppTextStyles.titleMedium(context),
+            style: AppTextStyles.titleMedium(),
           ),
           bottom: TabBar(
             tabs: const [
@@ -29,7 +29,7 @@ class ContractScreen extends StatelessWidget {
               Tab(text: 'Phụ lục'),
             ],
             indicatorColor: AppColors.lightBlueColor,
-            labelStyle: AppTextStyles.bodyMedium(context),
+            labelStyle: AppTextStyles.bodyMedium(),
           ),
         ),
         body: const TabBarView(

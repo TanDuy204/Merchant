@@ -1,13 +1,12 @@
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
-import 'package:merchant/common/app_dimensions.dart';
 import 'package:merchant/common/app_style.dart';
 import 'package:merchant/common/bordered_container.dart';
 import 'package:merchant/views/driver/create_account_screen.dart';
 import 'package:merchant/views/driver/edit_diver_screen.dart';
-
-import '../../common/sliver_header.dart';
 
 class DriverAccountScreen extends StatefulWidget {
   const DriverAccountScreen({super.key});
@@ -48,7 +47,12 @@ class _DriverAccountScreenState extends State<DriverAccountScreen> {
   ];
 
   String selectedValue = 'Tất cả';
-  final List<String> debtTypes = ['Hoạt động', 'Tạm ngưng', 'Khóa vĩnh viễn'];
+  final List<String> debtTypes = [
+    'Tất cả',
+    'Hoạt động',
+    'Tạm ngưng',
+    'Khóa vĩnh viễn'
+  ];
 
   Color getStatusColor(String status) {
     switch (status) {
@@ -66,82 +70,104 @@ class _DriverAccountScreenState extends State<DriverAccountScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey.shade100,
       appBar: AppBar(
         backgroundColor: AppColors.whiteColor,
         centerTitle: true,
         title: Text(
           "Danh sách tài xế",
-          style: AppTextStyles.titleMedium(context),
+          style: AppTextStyles.titleMedium(),
         ),
-      ),
-      body: CustomScrollView(
-        slivers: [
-          SliverPersistentHeader(
-            pinned: true,
-            floating: false,
-            delegate: SliverHeader(
-              maxHeight: AppDimensions.heightSmallMedium(context),
-              minHeight: AppDimensions.heightSmallMedium(context),
-              child: Container(
-                color: AppColors.whiteColor,
-                child: Container(
-                  margin: const EdgeInsets.all(10),
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(145.h),
+          child: Container(
+            color: Colors.white,
+            child: Column(
+              children: [
+                BorderedContainer(
+                  child: Row(
+                    children: [
+                      CircleAvatar(
+                        backgroundColor: Colors.blue.shade50,
+                        child: Icon(
+                          Icons.person,
+                          color: Colors.blue,
+                          size: 24.sp,
+                        ),
+                      ),
+                      SizedBox(width: 12.w),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Tổng số tài xế',
+                            style: AppTextStyles.bodyMedium().copyWith(
+                              color: Colors.grey.shade600,
+                            ),
+                          ),
+                          Text(
+                            '3 Tài Xế',
+                            style: AppTextStyles.titleXSmall(),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 12.h),
+                Container(
+                  width: double.infinity,
+                  margin: EdgeInsets.fromLTRB(10.h, 0.h, 10.h, 10.h),
                   decoration: BoxDecoration(
                     color: AppColors.whiteColor,
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: AppColors.greyColor, width: 1),
+                    borderRadius: BorderRadius.circular(10.r),
+                    border: Border.all(color: Colors.grey.shade300, width: 0.5),
                     boxShadow: const [
                       BoxShadow(
                         color: Colors.black12,
                         blurRadius: 4,
                         offset: Offset(0, 2),
-                      )
+                      ),
                     ],
                   ),
                   child: DropdownButtonHideUnderline(
-                    child: DropdownButton<String>(
-                      value: selectedValue,
-                      icon: const Icon(Icons.arrow_drop_down),
-                      onChanged: (String? newValue) {
-                        if (newValue != null) {
-                          setState(() {
-                            selectedValue = newValue;
-                          });
-                        }
-                      },
-                      items: [
-                        DropdownMenuItem(
-                          value: 'Tất cả',
-                          enabled: false,
-                          child: Row(
-                            children: [
-                              Text('Tất cả',
-                                  style: AppTextStyles.bodyLarge(context)),
-                            ],
+                    child: DropdownButton2(
+                      isExpanded: true,
+                      value: 'Tất cả',
+                      items: debtTypes.map((status) {
+                        return DropdownMenuItem(
+                          value: status,
+                          child: Text(
+                            status,
+                            style: AppTextStyles.bodyMedium(),
                           ),
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        selectedValue = value!;
+                      },
+                      dropdownStyleData: DropdownStyleData(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                        ...debtTypes.map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value,
-                                style: AppTextStyles.bodyLarge(context)),
-                          );
-                        }),
-                      ],
+                      ),
                     ),
                   ),
                 ),
-              ),
+              ],
             ),
           ),
+        ),
+      ),
+      body: CustomScrollView(
+        slivers: [
           SliverList(
             delegate: SliverChildBuilderDelegate(
               childCount: drivers.length,
               (context, index) {
                 final driver = drivers[index];
                 return Padding(
-                  padding: EdgeInsets.all(AppDimensions.paddingSmall(context)),
+                  padding: EdgeInsets.fromLTRB(10.h, 10.h, 10.h, 0.h),
                   child: Slidable(
                     key: ValueKey(driver["phone"]),
                     endActionPane: ActionPane(
@@ -152,25 +178,16 @@ class _DriverAccountScreenState extends State<DriverAccountScreen> {
                             Get.to(() => const EditDiverScreen());
                           },
                           backgroundColor: Colors.blue,
-                          padding: EdgeInsets.symmetric(
-                            horizontal: AppDimensions.paddingSmall(context),
-                          ),
+                          padding: EdgeInsets.symmetric(horizontal: 10.w),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(
-                                Icons.edit,
-                                size: AppDimensions.iconMedium(context),
-                                color: Colors.white,
-                              ),
+                              Icon(Icons.edit,
+                                  size: 28.sp, color: Colors.white),
                               const SizedBox(height: 4),
-                              Text(
-                                'Sửa',
-                                style:
-                                    AppTextStyles.bodySmall(context).copyWith(
-                                  color: Colors.white,
-                                ),
-                              ),
+                              Text('Sửa',
+                                  style: AppTextStyles.bodySmall()
+                                      .copyWith(color: Colors.white)),
                             ],
                           ),
                         ),
@@ -179,26 +196,17 @@ class _DriverAccountScreenState extends State<DriverAccountScreen> {
                             _showConfirmDialog(context);
                           },
                           backgroundColor: Colors.red,
-                          padding: EdgeInsets.symmetric(
-                            horizontal: AppDimensions.paddingSmall(context),
-                          ),
+                          padding: EdgeInsets.symmetric(horizontal: 10.w),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(
-                                Icons.delete,
-                                size: AppDimensions.iconMedium(context),
-                                color: Colors.white,
-                              ),
+                              Icon(Icons.delete,
+                                  size: 28.sp, color: Colors.white),
                               const SizedBox(height: 4),
-                              Text(
-                                'Xoá',
-                                style:
-                                    AppTextStyles.bodySmall(context).copyWith(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
+                              Text('Xoá',
+                                  style: AppTextStyles.bodySmall().copyWith(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600)),
                             ],
                           ),
                         ),
@@ -206,11 +214,35 @@ class _DriverAccountScreenState extends State<DriverAccountScreen> {
                     ),
                     child: GestureDetector(
                       onTap: () => _showDriverDetails(context, driver),
-                      child: BorderedContainer(
+                      child: Container(
+                        padding: EdgeInsets.all(10.w),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10.r),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Colors.black12,
+                              blurRadius: 4,
+                              offset: Offset(0, 2),
+                            )
+                          ],
+                        ),
                         child: Row(
                           children: [
+                            Container(
+                              width: 6.w,
+                              height: 70.h,
+                              decoration: BoxDecoration(
+                                color: getStatusColor(driver["active"]),
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(10.r),
+                                  bottomLeft: Radius.circular(10.r),
+                                ),
+                              ),
+                            ),
+                            SizedBox(width: 6.w),
                             CircleAvatar(
-                              radius: AppDimensions.iconMedium(context),
+                              radius: 25.r,
                               backgroundColor: Colors.blue.shade100,
                               child: Text(
                                 driver["initial"].toUpperCase(),
@@ -220,62 +252,47 @@ class _DriverAccountScreenState extends State<DriverAccountScreen> {
                                 ),
                               ),
                             ),
-                            const SizedBox(width: 12),
+                            SizedBox(width: 12.w),
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Row(
                                     children: [
-                                      Text(
-                                        driver["name"],
-                                        style:
-                                            AppTextStyles.titleSmall(context),
-                                      ),
+                                      Text(driver["name"],
+                                          style: AppTextStyles.titleSmall()),
                                       const Spacer(),
                                       Container(
                                         padding: EdgeInsets.symmetric(
-                                          horizontal:
-                                              AppDimensions.paddingSmall(
-                                                  context),
-                                          vertical: AppDimensions.paddingXTiny(
-                                              context),
-                                        ),
+                                            horizontal: 10.w, vertical: 3.h),
                                         decoration: BoxDecoration(
                                           color:
                                               getStatusColor(driver["active"]),
                                           borderRadius:
-                                              BorderRadius.circular(12),
+                                              BorderRadius.circular(10.r),
                                         ),
                                         child: Text(
                                           driver["active"],
-                                          style:
-                                              AppTextStyles.bodySmall(context)
-                                                  .copyWith(
-                                            color: Colors.white,
-                                          ),
+                                          style: AppTextStyles.bodySmall()
+                                              .copyWith(color: Colors.white),
                                         ),
                                       ),
                                     ],
                                   ),
-                                  const SizedBox(height: 4),
+                                  SizedBox(height: 7.h),
                                   Row(
                                     children: [
                                       Icon(Icons.phone,
-                                          size:
-                                              AppDimensions.iconSmall(context)),
-                                      const SizedBox(width: 4),
+                                          size: 20.sp, color: Colors.grey),
+                                      SizedBox(width: 4.w),
                                       Text(driver["phone"],
-                                          style:
-                                              AppTextStyles.bodySmall(context)),
-                                      const SizedBox(width: 12),
+                                          style: AppTextStyles.bodySmall()),
+                                      SizedBox(width: 12.w),
                                       Icon(Icons.badge,
-                                          size:
-                                              AppDimensions.iconSmall(context)),
-                                      const SizedBox(width: 4),
+                                          size: 20.sp, color: Colors.grey),
+                                      SizedBox(width: 4.w),
                                       Text(driver["cccd"],
-                                          style:
-                                              AppTextStyles.bodySmall(context)),
+                                          style: AppTextStyles.bodySmall()),
                                     ],
                                   ),
                                 ],
@@ -299,7 +316,7 @@ class _DriverAccountScreenState extends State<DriverAccountScreen> {
         backgroundColor: AppColors.blueColor,
         child: Icon(
           Icons.add,
-          size: AppDimensions.iconLarge(context),
+          size: 32.sp,
           color: AppColors.whiteColor,
         ),
       ),
@@ -329,10 +346,10 @@ class _DriverAccountScreenState extends State<DriverAccountScreen> {
                   Center(
                     child: Text(
                       'Thông tin tài xế',
-                      style: AppTextStyles.titleMedium(context),
+                      style: AppTextStyles.titleMedium(),
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  const Divider(),
                   _buildDetailRow(context, Icons.person, "Tên", driver["name"]),
                   _buildDetailRow(context, Icons.phone, "SĐT", driver["phone"]),
                   _buildDetailRow(context, Icons.badge, "CCCD", driver["cccd"]),
@@ -358,17 +375,16 @@ class _DriverAccountScreenState extends State<DriverAccountScreen> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Icon(icon,
-              size: AppDimensions.iconMedium(context), color: Colors.blue),
+          Icon(icon, size: 25.sp, color: Colors.blue),
           const SizedBox(width: 12),
           Text(
             "$label: ",
-            style: AppTextStyles.titleSmall(context),
+            style: AppTextStyles.titleSmall(),
           ),
           Expanded(
             child: Text(
               value,
-              style: AppTextStyles.bodyMedium(context),
+              style: AppTextStyles.bodyMedium(),
             ),
           ),
         ],

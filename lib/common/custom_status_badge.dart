@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'app_dimensions.dart';
 import 'app_style.dart';
 
 class CustomStatusBadge extends StatelessWidget {
@@ -12,17 +12,14 @@ class CustomStatusBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(
-          horizontal: AppDimensions.paddingSmall(context),
-          vertical: AppDimensions.paddingXTiny(context)),
+      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 3.h),
       decoration: BoxDecoration(
         color: color,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(10.r),
       ),
       child: Text(
         status,
-        style: AppTextStyles.bodyMedium(context)
-            .copyWith(color: AppColors.whiteColor),
+        style: AppTextStyles.bodyMedium().copyWith(color: AppColors.whiteColor),
       ),
     );
   }

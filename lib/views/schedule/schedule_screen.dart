@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:merchant/common/app_dimensions.dart';
 import 'package:merchant/common/app_style.dart';
 import 'package:merchant/models/schedule_model.dart';
 
@@ -16,7 +16,7 @@ class ScheduleScreen extends StatelessWidget {
         centerTitle: true,
         title: Text(
           "Xếp lịch",
-          style: AppTextStyles.titleMedium(context),
+          style: AppTextStyles.titleMedium(),
         ),
         actions: const [
           Padding(
@@ -33,7 +33,7 @@ class ScheduleScreen extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Text("Lịch", style: AppTextStyles.titleMedium(context)),
+                  Text("Lịch", style: AppTextStyles.titleMedium()),
                   const Spacer(),
                   ElevatedButton(
                     onPressed: () {},
@@ -47,7 +47,7 @@ class ScheduleScreen extends StatelessWidget {
                     ),
                     child: Text(
                       "Chọn lịch",
-                      style: AppTextStyles.buttonLabel(context),
+                      style: AppTextStyles.buttonLabel(),
                     ),
                   )
                 ],
@@ -76,13 +76,10 @@ class ScheduleScreen extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Icon(Icons.radio_button_off,
-                                        size: AppDimensions.iconSmallMedium(
-                                            context),
-                                        color: Colors.purple),
+                                        size: 25.sp, color: Colors.purple),
                                     const SizedBox(width: 8),
                                     Text(schedule.from,
-                                        style:
-                                            AppTextStyles.bodyMedium(context)),
+                                        style: AppTextStyles.bodyMedium()),
                                   ],
                                 ),
                                 Row(
@@ -94,17 +91,12 @@ class ScheduleScreen extends StatelessWidget {
                                         children: [
                                           const SizedBox(height: 2),
                                           Container(
-                                            height: AppDimensions.paddingMedium(
-                                                context),
-                                            width: AppDimensions.paddingXTiny(
-                                                context),
+                                            height: 10.h,
+                                            width: 3.w,
                                             color: Colors.grey.shade400,
                                           ),
                                           Icon(Icons.location_on,
-                                              size:
-                                                  AppDimensions.iconSmallMedium(
-                                                      context),
-                                              color: Colors.red),
+                                              size: 25.sp, color: Colors.red),
                                         ],
                                       ),
                                     ),
@@ -114,8 +106,7 @@ class ScheduleScreen extends StatelessWidget {
                                         const SizedBox(height: 19),
                                         Text(
                                           schedule.to,
-                                          style:
-                                              AppTextStyles.bodyMedium(context),
+                                          style: AppTextStyles.bodyMedium(),
                                         ),
                                       ],
                                     )
@@ -133,7 +124,7 @@ class ScheduleScreen extends StatelessWidget {
                                     Expanded(
                                       child: Text(
                                         schedule.note,
-                                        style: AppTextStyles.bodySmall(context),
+                                        style: AppTextStyles.bodySmall(),
                                       ),
                                     ),
                                   ],
@@ -154,15 +145,13 @@ class ScheduleScreen extends StatelessWidget {
                                                   BorderRadius.circular(20),
                                             ),
                                             child: Text(schedule.cargoType,
-                                                style:
-                                                    AppTextStyles.buttonLabel(
-                                                        context)),
+                                                style: AppTextStyles
+                                                    .buttonLabel()),
                                           ),
                                           const Spacer(),
                                           Text(
                                             "${schedule.price}",
-                                            style: AppTextStyles.bodyMedium(
-                                                context),
+                                            style: AppTextStyles.bodyMedium(),
                                           ),
                                         ],
                                       ),
@@ -196,8 +185,7 @@ class ScheduleScreen extends StatelessWidget {
                                     children: [
                                       Text(
                                         schedule.companyName,
-                                        style:
-                                            AppTextStyles.titleSmall(context),
+                                        style: AppTextStyles.titleSmall(),
                                       ),
                                       const SizedBox(height: 4),
                                       Row(
@@ -213,8 +201,7 @@ class ScheduleScreen extends StatelessWidget {
                                           const SizedBox(width: 4),
                                           Text(
                                             schedule.contactName,
-                                            style: AppTextStyles.bodyMedium(
-                                                    context)
+                                            style: AppTextStyles.bodyMedium()
                                                 .copyWith(
                                                     color: AppColors.greyColor),
                                           ),

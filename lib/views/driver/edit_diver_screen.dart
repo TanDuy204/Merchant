@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:merchant/common/app_dimensions.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:merchant/common/app_style.dart';
 import 'package:merchant/common/custom_text_field.dart';
 
@@ -16,16 +16,17 @@ class EditDiverScreen extends StatelessWidget {
     final List<String> statusOptions = ['Hoạt động', 'Tạm ngưng', 'Nghỉ'];
     final TextEditingController oldController = TextEditingController();
     return Scaffold(
+      backgroundColor: Colors.grey.shade100,
       appBar: AppBar(
         backgroundColor: AppColors.whiteColor,
         centerTitle: true,
         title: Text(
           "Chỉnh sửa thông tin tài xế",
-          style: AppTextStyles.titleMedium(context),
+          style: AppTextStyles.titleMedium(),
         ),
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(AppDimensions.paddingSmall(context)),
+        padding: EdgeInsets.all(10.h),
         child: BorderedContainer(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -56,13 +57,13 @@ class EditDiverScreen extends StatelessWidget {
                     Icon(
                       Icons.upload_file,
                       color: Colors.blue,
-                      size: AppDimensions.iconMedium(context),
+                      size: 28.sp,
                     ),
                     const SizedBox(width: 12),
                     Expanded(
                       child: Text(
                         "Chưa có tệp nào được chọn",
-                        style: AppTextStyles.bodyMedium(context)
+                        style: AppTextStyles.bodyMedium()
                             .copyWith(color: AppColors.greyColor),
                       ),
                     ),
@@ -80,8 +81,8 @@ class EditDiverScreen extends StatelessWidget {
                 }).toList(),
                 onChanged: (value) {},
                 decoration: InputDecoration(
-                  hintStyle: AppTextStyles.bodyMedium(context)
-                      .copyWith(color: Colors.grey),
+                  hintStyle:
+                      AppTextStyles.bodyMedium().copyWith(color: Colors.grey),
                   filled: true,
                   fillColor: const Color(0xFFF1F7FF),
                   contentPadding:
@@ -105,13 +106,13 @@ class EditDiverScreen extends StatelessWidget {
                         BorderSide(color: Colors.grey.shade900, width: 2),
                   ),
                 ),
-                style: AppTextStyles.bodyMedium(context),
+                style: AppTextStyles.bodyMedium(),
                 dropdownColor: Colors.white,
               ),
               Row(
                 children: [
                   Transform.scale(
-                    scale: AppDimensions.paddingXXTiny(context),
+                    scale: 1.r,
                     child: Checkbox(
                       value: false,
                       onChanged: (_) {},
@@ -119,7 +120,7 @@ class EditDiverScreen extends StatelessWidget {
                   ),
                   const SizedBox(width: 5),
                   Text("Đặt mặt khẩu về mặc định",
-                      style: AppTextStyles.bodySmall(context)),
+                      style: AppTextStyles.bodySmall()),
                 ],
               ),
               const SizedBox(height: 16),
@@ -131,7 +132,7 @@ class EditDiverScreen extends StatelessWidget {
                   ),
                   child: Text(
                     'Cập nhật',
-                    style: AppTextStyles.buttonLabel(context),
+                    style: AppTextStyles.buttonLabel(),
                   ),
                 ),
               ),
@@ -146,6 +147,6 @@ class EditDiverScreen extends StatelessWidget {
 Widget _buildLabel(BuildContext context, String label) {
   return Padding(
     padding: const EdgeInsets.only(top: 12, bottom: 4),
-    child: Text(label, style: AppTextStyles.bodyMedium(context)),
+    child: Text(label, style: AppTextStyles.bodyMedium()),
   );
 }
