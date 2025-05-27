@@ -63,7 +63,6 @@ class DriverController extends GetxController {
           await _driverRepository.updateDriver(driverId, data);
 
       if (updatedDriver != null) {
-        // Cập nhật driver trong danh sách
         final index = drivers.indexWhere((d) => d.id == driverId);
         if (index != -1) {
           drivers[index] = updatedDriver;
@@ -83,7 +82,6 @@ class DriverController extends GetxController {
     }
   }
 
-// Thêm hàm clearError
   void clearError() {
     errorMessage.value = '';
   }

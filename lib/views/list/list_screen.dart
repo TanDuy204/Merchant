@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:merchant/service/uidata.dart';
 import 'package:merchant/views/list/pending/pending_list.dart';
 import 'package:merchant/views/list/return/return_list.dart';
 import 'package:merchant/views/list/sent/sent_list.dart';
@@ -35,9 +34,7 @@ class ListScreen extends StatelessWidget {
         body: TabBarView(
           children: [
             const SentList(),
-            PendingList(
-              schedules: schedules,
-            ),
+            PendingList(),
             const ReturnList(),
           ],
         ),

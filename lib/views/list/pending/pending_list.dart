@@ -6,11 +6,9 @@ import 'package:merchant/common/bordered_container.dart';
 import '../../../common/app_style.dart';
 import '../../../common/custom_info_row.dart';
 import '../../../common/custom_status_badge.dart';
-import '../../../models/schedule_model.dart';
 
 class PendingList extends StatelessWidget {
-  final List<Schedule> schedules;
-  const PendingList({super.key, required this.schedules});
+  const PendingList({super.key});
 
   @override
   Widget build(BuildContext context) {
