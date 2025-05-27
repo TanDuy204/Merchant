@@ -1,4 +1,4 @@
-class goods {
+class Goods {
   int? id;
   int? collectionPointId;
   String? code;
@@ -6,10 +6,10 @@ class goods {
   double? klGom;
   String? deliveryPoint;
 
-  goods(this.id, this.collectionPointId, this.code, this.name, this.klGom,
+  Goods(this.id, this.collectionPointId, this.code, this.name, this.klGom,
       this.deliveryPoint);
 
-  goods.fromJson(Map<String, dynamic> json) {
+  Goods.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     collectionPointId = json['collection_point_id'];
     code = json['code'];

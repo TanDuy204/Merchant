@@ -3,35 +3,41 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:merchant/common/app_dimensions.dart';
 import 'package:merchant/common/app_style.dart';
+import 'package:merchant/controllers/auth_controller.dart';
 
 import '../../service/uidata.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  final AuthController authController = Get.find<AuthController>();
+  HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
       appBar: AppBar(
-        toolbarHeight: AppDimensions.heightSmall(),
-        backgroundColor: AppColors.whiteColor,
-        centerTitle: false,
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Chào, Trần Đức Thành",
-              style: AppTextStyles.titleMedium(),
-            ),
-            Text(
-              "MTAC Merchant",
-              style: AppTextStyles.bodyLarge()
-                  .copyWith(color: AppColors.greyColor),
-            ),
-          ],
-        ),
-      ),
+          toolbarHeight: AppDimensions.heightSmall(),
+          backgroundColor: AppColors.whiteColor,
+          centerTitle: false,
+          title: Obx(
+            () {
+              final user = authController.users.value;
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Chào, ${user?.name ?? "Khách"}",
+                    style: AppTextStyles.titleMedium(),
+                  ),
+                  Text(
+                    "MTAC Merchant",
+                    style: AppTextStyles.bodyLarge()
+                        .copyWith(color: AppColors.greyColor),
+                  ),
+                ],
+              );
+            },
+          )),
       body: CustomScrollView(
         slivers: [
           SliverPadding(

@@ -38,9 +38,7 @@ class AppRoutes {
         transition: Transition.fadeIn),
     GetPage(
         name: '/truck',
-        page: () => TruckScreen(
-              trucks: mockTrucks,
-            ),
+        page: () => const TruckScreen(),
         transition: Transition.fadeIn),
     GetPage(
         name: '/truckDetail',
@@ -98,7 +96,7 @@ class AppRoutes {
         transition: Transition.fadeIn),
     GetPage(
         name: '/driverAccount',
-        page: () => const DriverAccountScreen(),
+        page: () => DriverAccountScreen(),
         transition: Transition.fadeIn),
     GetPage(
         name: '/createAccount',

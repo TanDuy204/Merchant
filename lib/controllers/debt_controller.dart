@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 
 import '../models/debt_model.dart';
 import '../service/uidata.dart';
@@ -30,7 +29,7 @@ class DebtController extends GetxController {
 
     return mockDebts.where((d) {
       final statusMatch = status == 'Tất cả' || d.status == status;
-      final debtDate = onlyDate(DateFormat('dd/MM/yyyy').parse(d.date));
+      final debtDate = onlyDate(d.date);
 
       final dateMatch = (from == null || !debtDate.isBefore(onlyDate(from))) &&
           (to == null || !debtDate.isAfter(onlyDate(to)));

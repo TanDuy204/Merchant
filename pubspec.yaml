@@ -23,7 +23,7 @@ dependencies:
   timeline_tile: ^2.0.0      # Tạo dòng thời gian (timeline) cho giao diện
   dropdown_button2: ^2.3.9   # Tạo Dropdown tùy biến
   flutter_screenutil: ^5.9.3 # Dùng để reponsive kích thước từng màn hình
-
+  image_picker: ^1.1.2
 
 
 dev_dependencies:

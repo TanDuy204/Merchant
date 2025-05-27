@@ -8,7 +8,6 @@ import 'package:merchant/views/collected/pending/pending_pickup.dart';
 import 'package:merchant/views/collected/today/today_pickup.dart';
 
 import '../../common/custom_datapicker.dart';
-import '../../service/uidata.dart';
 
 class CollectedScreen extends StatefulWidget {
   const CollectedScreen({super.key});
@@ -27,8 +26,9 @@ class _CollectedScreenState extends State<CollectedScreen>
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
+
     _tabController.addListener(() {
-      if (_tabController.index != 2) {
+      if (_tabController.index != 0) {
         dateFilterController.resetFilter();
       }
       setState(() {});
@@ -100,15 +100,11 @@ class _CollectedScreenState extends State<CollectedScreen>
       body: TabBarView(
         controller: _tabController,
         children: [
-          CompletedPickupScreen(
-            points: mockPoints,
-          ),
-          PendingPickupScreen(
-            points: mockPoints,
-          ),
-          TodayPickupScreen(
-            points: mockPoints,
-          ),
+          const CompletedPickupScreen(),
+          const PendingPickupScreen(),
+
+          const TodayPickupScreen()
+          // TodayPickupScreen(),
         ],
       ),
     );

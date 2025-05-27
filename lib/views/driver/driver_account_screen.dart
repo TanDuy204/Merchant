@@ -5,8 +5,11 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:merchant/common/app_style.dart';
 import 'package:merchant/common/bordered_container.dart';
+import 'package:merchant/controllers/driver_controller.dart';
 import 'package:merchant/views/driver/create_account_screen.dart';
-import 'package:merchant/views/driver/edit_diver_screen.dart';
+import 'package:merchant/views/driver/edit_driver_screen.dart';
+
+import '../../models/user.dart';
 
 class DriverAccountScreen extends StatefulWidget {
   const DriverAccountScreen({super.key});
@@ -16,43 +19,21 @@ class DriverAccountScreen extends StatefulWidget {
 }
 
 class _DriverAccountScreenState extends State<DriverAccountScreen> {
-  final List<Map<String, dynamic>> drivers = [
-    {
-      "name": "Tài xế 01",
-      "phone": "0375441340",
-      "license": "352283023562",
-      "cccd": "352283023562",
-      "initial": "T",
-      "active": "Hoạt động",
-      "address": "123 Đường A, Quận B, TP.HCM",
-    },
-    {
-      "name": "Tài xế 02",
-      "phone": "0912345678",
-      "license": "123456789012",
-      "cccd": "123456789012",
-      "initial": "N",
-      "active": "Tạm ngưng",
-      "address": "456 Đường B, Quận C, TP.HCM",
-    },
-    {
-      "name": "Tài xế 03",
-      "phone": "0977654321",
-      "license": "987654321098",
-      "cccd": "987654321098",
-      "initial": "H",
-      "active": "Khóa vĩnh viễn",
-      "address": "789 Đường C, Quận D, TP.HCM",
-    },
-  ];
+  final DriverController driverController = Get.find<DriverController>();
 
   String selectedValue = 'Tất cả';
-  final List<String> debtTypes = [
+  final List<String> statusTypes = [
     'Tất cả',
     'Hoạt động',
     'Tạm ngưng',
     'Khóa vĩnh viễn'
   ];
+
+  String getFirstLetterOfLastName(String fullName) {
+    if (fullName.trim().isEmpty) return '';
+    List<String> parts = fullName.trim().split(' ');
+    return parts.last[0].toUpperCase();
+  }
 
   Color getStatusColor(String status) {
     switch (status) {
@@ -63,8 +44,26 @@ class _DriverAccountScreenState extends State<DriverAccountScreen> {
       case "Khóa vĩnh viễn":
         return Colors.red;
       default:
-        return Colors.grey;
+        return AppColors.blueColor;
     }
+  }
+
+  List<User> getFilteredDrivers() {
+    if (selectedValue == 'Tất cả') {
+      return driverController.drivers;
+    } else {
+      return driverController.drivers
+          .where((driver) => driver.status == selectedValue)
+          .toList();
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      driverController.loadDrivers();
+    });
   }
 
   @override
@@ -84,36 +83,36 @@ class _DriverAccountScreenState extends State<DriverAccountScreen> {
             color: Colors.white,
             child: Column(
               children: [
-                BorderedContainer(
-                  child: Row(
-                    children: [
-                      CircleAvatar(
-                        backgroundColor: Colors.blue.shade50,
-                        child: Icon(
-                          Icons.person,
-                          color: Colors.blue,
-                          size: 24.sp,
-                        ),
-                      ),
-                      SizedBox(width: 12.w),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                Obx(() => BorderedContainer(
+                      child: Row(
                         children: [
-                          Text(
-                            'Tổng số tài xế',
-                            style: AppTextStyles.bodyMedium().copyWith(
-                              color: Colors.grey.shade600,
+                          CircleAvatar(
+                            backgroundColor: Colors.blue.shade50,
+                            child: Icon(
+                              Icons.person,
+                              color: Colors.blue,
+                              size: 24.sp,
                             ),
                           ),
-                          Text(
-                            '3 Tài Xế',
-                            style: AppTextStyles.titleXSmall(),
+                          SizedBox(width: 12.w),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Tổng số tài xế',
+                                style: AppTextStyles.bodyMedium().copyWith(
+                                  color: Colors.grey.shade600,
+                                ),
+                              ),
+                              Text(
+                                '${driverController.totalDrivers} Tài Xế',
+                                style: AppTextStyles.titleXSmall(),
+                              ),
+                            ],
                           ),
                         ],
                       ),
-                    ],
-                  ),
-                ),
+                    )),
                 SizedBox(height: 12.h),
                 Container(
                   width: double.infinity,
@@ -133,8 +132,8 @@ class _DriverAccountScreenState extends State<DriverAccountScreen> {
                   child: DropdownButtonHideUnderline(
                     child: DropdownButton2(
                       isExpanded: true,
-                      value: 'Tất cả',
-                      items: debtTypes.map((status) {
+                      value: selectedValue,
+                      items: statusTypes.map((status) {
                         return DropdownMenuItem(
                           value: status,
                           child: Text(
@@ -144,7 +143,9 @@ class _DriverAccountScreenState extends State<DriverAccountScreen> {
                         );
                       }).toList(),
                       onChanged: (value) {
-                        selectedValue = value!;
+                        setState(() {
+                          selectedValue = value!;
+                        });
                       },
                       dropdownStyleData: DropdownStyleData(
                         decoration: BoxDecoration(
@@ -159,159 +160,197 @@ class _DriverAccountScreenState extends State<DriverAccountScreen> {
           ),
         ),
       ),
-      body: CustomScrollView(
-        slivers: [
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              childCount: drivers.length,
-              (context, index) {
-                final driver = drivers[index];
-                return Padding(
-                  padding: EdgeInsets.fromLTRB(10.h, 10.h, 10.h, 0.h),
-                  child: Slidable(
-                    key: ValueKey(driver["phone"]),
-                    endActionPane: ActionPane(
-                      motion: const DrawerMotion(),
-                      children: [
-                        CustomSlidableAction(
-                          onPressed: (_) {
-                            Get.to(() => const EditDiverScreen());
-                          },
-                          backgroundColor: Colors.blue,
-                          padding: EdgeInsets.symmetric(horizontal: 10.w),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(Icons.edit,
-                                  size: 28.sp, color: Colors.white),
-                              const SizedBox(height: 4),
-                              Text('Sửa',
-                                  style: AppTextStyles.bodySmall()
-                                      .copyWith(color: Colors.white)),
+      body: Obx(() {
+        if (driverController.isLoading.value) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        final filteredDrivers = getFilteredDrivers();
+
+        if (filteredDrivers.isEmpty) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.people_outline,
+                  size: 60,
+                  color: Colors.grey.shade400,
+                ),
+                SizedBox(height: 16.h),
+                Text(
+                  'Tất cả',
+                  style: AppTextStyles.bodyMedium().copyWith(
+                    color: Colors.grey.shade600,
+                  ),
+                ),
+              ],
+            ),
+          );
+        }
+
+        return CustomScrollView(
+          slivers: [
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                childCount: filteredDrivers.length,
+                (context, index) {
+                  final driver = filteredDrivers[index];
+                  return Padding(
+                    padding: EdgeInsets.fromLTRB(10.h, 10.h, 10.h, 0.h),
+                    child: Slidable(
+                      key: ValueKey(driver.id),
+                      endActionPane: ActionPane(
+                        motion: const DrawerMotion(),
+                        children: [
+                          CustomSlidableAction(
+                            onPressed: (_) {
+                              driverController.selectedDriver.value = driver;
+                              Get.to(() => EditDriverScreen(driver: driver));
+                            },
+                            backgroundColor: Colors.blue,
+                            padding: EdgeInsets.symmetric(horizontal: 10.w),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.edit,
+                                    size: 28.sp, color: Colors.white),
+                                const SizedBox(height: 4),
+                                Text('Sửa',
+                                    style: AppTextStyles.bodySmall()
+                                        .copyWith(color: Colors.white)),
+                              ],
+                            ),
+                          ),
+                          CustomSlidableAction(
+                            onPressed: (_) {
+                              _showConfirmDialog(context, driver);
+                            },
+                            backgroundColor: Colors.red,
+                            padding: EdgeInsets.symmetric(horizontal: 10.w),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.delete,
+                                    size: 28.sp, color: Colors.white),
+                                const SizedBox(height: 4),
+                                Text('Xoá',
+                                    style: AppTextStyles.bodySmall().copyWith(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600)),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      child: GestureDetector(
+                        onTap: () => _showDriverDetails(context, driver),
+                        child: Container(
+                          padding: EdgeInsets.all(10.w),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10.r),
+                            boxShadow: const [
+                              BoxShadow(
+                                color: Colors.black12,
+                                blurRadius: 4,
+                                offset: Offset(0, 2),
+                              )
                             ],
                           ),
-                        ),
-                        CustomSlidableAction(
-                          onPressed: (_) {
-                            _showConfirmDialog(context);
-                          },
-                          backgroundColor: Colors.red,
-                          padding: EdgeInsets.symmetric(horizontal: 10.w),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                          child: Row(
                             children: [
-                              Icon(Icons.delete,
-                                  size: 28.sp, color: Colors.white),
-                              const SizedBox(height: 4),
-                              Text('Xoá',
-                                  style: AppTextStyles.bodySmall().copyWith(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w600)),
+                              Container(
+                                width: 6.w,
+                                height: 70.h,
+                                decoration: BoxDecoration(
+                                  color: getStatusColor(driver.status ?? ''),
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(10.r),
+                                    bottomLeft: Radius.circular(10.r),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 6.w),
+                              CircleAvatar(
+                                radius: 25.r,
+                                backgroundColor: Colors.blue.shade100,
+                                child: Text(
+                                  getFirstLetterOfLastName(driver.name ?? ''),
+                                  style: const TextStyle(
+                                    color: Colors.blue,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 12.w),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Text(driver.name ?? 'N/A',
+                                            style: AppTextStyles.titleSmall()),
+                                        const Spacer(),
+                                        Container(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 10.w, vertical: 3.h),
+                                          decoration: BoxDecoration(
+                                            color: getStatusColor(
+                                                driver.status ?? ''),
+                                            borderRadius:
+                                                BorderRadius.circular(10.r),
+                                          ),
+                                          child: Text(
+                                            driver.status ?? '',
+                                            style: AppTextStyles.bodySmall()
+                                                .copyWith(color: Colors.white),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(height: 7.h),
+                                    Row(
+                                      children: [
+                                        Icon(Icons.phone,
+                                            size: 20.sp, color: Colors.grey),
+                                        SizedBox(width: 4.w),
+                                        Text(driver.phone ?? 'N/A',
+                                            style: AppTextStyles.bodySmall()),
+                                        SizedBox(width: 12.w),
+                                        Icon(Icons.badge,
+                                            size: 20.sp, color: Colors.grey),
+                                        SizedBox(width: 4.w),
+                                        Text(driver.soCCCD ?? 'N/A',
+                                            style: AppTextStyles.bodySmall()),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ],
                           ),
-                        ),
-                      ],
-                    ),
-                    child: GestureDetector(
-                      onTap: () => _showDriverDetails(context, driver),
-                      child: Container(
-                        padding: EdgeInsets.all(10.w),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10.r),
-                          boxShadow: const [
-                            BoxShadow(
-                              color: Colors.black12,
-                              blurRadius: 4,
-                              offset: Offset(0, 2),
-                            )
-                          ],
-                        ),
-                        child: Row(
-                          children: [
-                            Container(
-                              width: 6.w,
-                              height: 70.h,
-                              decoration: BoxDecoration(
-                                color: getStatusColor(driver["active"]),
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(10.r),
-                                  bottomLeft: Radius.circular(10.r),
-                                ),
-                              ),
-                            ),
-                            SizedBox(width: 6.w),
-                            CircleAvatar(
-                              radius: 25.r,
-                              backgroundColor: Colors.blue.shade100,
-                              child: Text(
-                                driver["initial"].toUpperCase(),
-                                style: const TextStyle(
-                                  color: Colors.blue,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                            SizedBox(width: 12.w),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Text(driver["name"],
-                                          style: AppTextStyles.titleSmall()),
-                                      const Spacer(),
-                                      Container(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 10.w, vertical: 3.h),
-                                        decoration: BoxDecoration(
-                                          color:
-                                              getStatusColor(driver["active"]),
-                                          borderRadius:
-                                              BorderRadius.circular(10.r),
-                                        ),
-                                        child: Text(
-                                          driver["active"],
-                                          style: AppTextStyles.bodySmall()
-                                              .copyWith(color: Colors.white),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(height: 7.h),
-                                  Row(
-                                    children: [
-                                      Icon(Icons.phone,
-                                          size: 20.sp, color: Colors.grey),
-                                      SizedBox(width: 4.w),
-                                      Text(driver["phone"],
-                                          style: AppTextStyles.bodySmall()),
-                                      SizedBox(width: 12.w),
-                                      Icon(Icons.badge,
-                                          size: 20.sp, color: Colors.grey),
-                                      SizedBox(width: 4.w),
-                                      Text(driver["cccd"],
-                                          style: AppTextStyles.bodySmall()),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
                         ),
                       ),
                     ),
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             ),
-          ),
-        ],
-      ),
+            SliverToBoxAdapter(
+              child: SizedBox(height: 10.h),
+            )
+          ],
+        );
+      }),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Get.to(() => const CreateAccountScreen());
+          Get.to(() => const CreateAccountScreen())?.then((_) {
+            driverController.refresh();
+          });
         },
         backgroundColor: AppColors.blueColor,
         child: Icon(
@@ -323,7 +362,7 @@ class _DriverAccountScreenState extends State<DriverAccountScreen> {
     );
   }
 
-  void _showDriverDetails(BuildContext context, Map<String, dynamic> driver) {
+  void _showDriverDetails(BuildContext context, User driver) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -350,15 +389,22 @@ class _DriverAccountScreenState extends State<DriverAccountScreen> {
                     ),
                   ),
                   const Divider(),
-                  _buildDetailRow(context, Icons.person, "Tên", driver["name"]),
-                  _buildDetailRow(context, Icons.phone, "SĐT", driver["phone"]),
-                  _buildDetailRow(context, Icons.badge, "CCCD", driver["cccd"]),
                   _buildDetailRow(
-                      context, Icons.car_rental, "GPLX", driver["license"]),
+                      context, Icons.person, "Tên", driver.name ?? 'N/A'),
                   _buildDetailRow(
-                      context, Icons.place, "Địa chỉ", driver["address"]),
+                      context, Icons.phone, "SĐT", driver.phone ?? 'N/A'),
                   _buildDetailRow(
-                      context, Icons.info, "Trạng thái", driver["active"]),
+                      context, Icons.email, "Email", driver.email ?? 'N/A'),
+                  _buildDetailRow(
+                      context, Icons.badge, "CCCD", driver.soCCCD ?? 'N/A'),
+                  _buildDetailRow(context, Icons.car_rental, "GPLX",
+                      driver.soGPLX ?? 'N/A'),
+                  _buildDetailRow(
+                      context, Icons.place, "Địa chỉ", driver.adress ?? 'N/A'),
+                  _buildDetailRow(context, Icons.business, "Mã số thuế",
+                      driver.masothue ?? 'N/A'),
+                  _buildDetailRow(
+                      context, Icons.info, "Trạng thái", driver.status ?? '')
                 ],
               ),
             );
@@ -391,29 +437,60 @@ class _DriverAccountScreenState extends State<DriverAccountScreen> {
       ),
     );
   }
-}
 
-void _showConfirmDialog(BuildContext context) {
-  showDialog(
-    context: context,
-    builder: (context) => AlertDialog(
-      title: const Text("Xoá tài khoản tài xế"),
-      content:
-          const Text("Bạn có chắc muốn xoá vĩnh viễn tài khoản tài xế này? "),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(context),
-          child: const Text("HUỶ"),
+  void _showConfirmDialog(BuildContext context, User driver) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(
+          "Xoá tài khoản tài xế",
+          style: AppTextStyles.titleMedium(),
         ),
-        TextButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          style: TextButton.styleFrom(
-              foregroundColor: Colors.white, backgroundColor: Colors.red),
-          child: const Text("Xoá"),
+        content: Text(
+          "Bạn có chắc muốn xoá vĩnh viễn tài khoản của ${driver.name}?",
+          style: AppTextStyles.bodyMedium(),
         ),
-      ],
-    ),
-  );
+        actions: [
+          TextButton(
+            onPressed: () => Get.back(),
+            child: const Text("HUỶ"),
+          ),
+          TextButton(
+            onPressed: () async {
+              Get.back();
+              Get.dialog(
+                const Center(child: CircularProgressIndicator()),
+                barrierDismissible: false,
+              );
+              bool success = await driverController.deleteDriver(driver.id!);
+              Get.back();
+
+              if (success) {
+                Get.snackbar(
+                  'Thành công',
+                  'Đã xóa tài xế thành công',
+                  snackPosition: SnackPosition.TOP,
+                  backgroundColor: Colors.green,
+                  colorText: Colors.white,
+                );
+              } else {
+                Get.snackbar(
+                  'Lỗi',
+                  driverController.errorMessage.value.isNotEmpty
+                      ? driverController.errorMessage.value
+                      : 'Không thể xóa tài xế',
+                  snackPosition: SnackPosition.TOP,
+                  backgroundColor: Colors.red,
+                  colorText: Colors.white,
+                );
+              }
+            },
+            style: TextButton.styleFrom(
+                foregroundColor: Colors.white, backgroundColor: Colors.red),
+            child: const Text("Xoá"),
+          ),
+        ],
+      ),
+    );
+  }
 }

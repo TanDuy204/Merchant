@@ -1,4 +1,4 @@
-class truck {
+class Truck {
   int? id;
   String? plateNumber;
   String? name;
@@ -7,10 +7,10 @@ class truck {
   int? capacity;
   String? status;
 
-  truck(this.id, this.plateNumber, this.name, this.brand, this.type,
+  Truck(this.id, this.plateNumber, this.name, this.brand, this.type,
       this.capacity, this.status);
 
-  truck.fromJson(Map<String, dynamic> json) {
+  Truck.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     plateNumber = json['plate_number'];
     name = json['name'];

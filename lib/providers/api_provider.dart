@@ -1,11 +1,13 @@
 import 'dart:convert';
-import 'package:http/http.dart' as http;
+
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:http/http.dart' as http;
 
 class ApiProvider {
-  final String _baseUrl = 'http://10.0.2.2/www/Partner/public/api';
+  //final String _baseUrl = 'http://10.0.2.2/www/Partner/public/api';
+  final String _baseUrl = 'http://partner.moitruongachau.vn/api';
   final GetStorage _storage = GetStorage();
 
   Future<Map<String, String>> getHeaders() async {
@@ -88,7 +90,8 @@ class ApiProvider {
   }
 
   // Multipart POST request (for uploading files)
-  Future<dynamic> multipartPost(String endpoint, Map<String, String> fields, List<http.MultipartFile> files) async {
+  Future<dynamic> multipartPost(String endpoint, Map<String, String> fields,
+      List<http.MultipartFile> files) async {
     var url = Uri.parse('$_baseUrl/$endpoint');
     var headers = await getHeaders();
 
@@ -118,7 +121,7 @@ class ApiProvider {
         throw Exception('Bad request: ${response.body}');
       case 401:
       case 403:
-      // Handle unauthorized or forbidden
+        // Handle unauthorized or forbidden
         Get.offAllNamed('/login');
         throw Exception('Unauthorized: ${response.body}');
       case 404:
@@ -138,14 +141,13 @@ class ApiProvider {
   }
 
   // Helper method for uploading images
-  Future<List<String>> uploadImages(List<String> localPaths, String endpoint) async {
+  Future<List<String>> uploadImages(
+      List<String> localPaths, String endpoint) async {
     List<String> uploadedUrls = [];
 
     for (var imagePath in localPaths) {
-      var request = http.MultipartRequest(
-          'POST',
-          Uri.parse('$_baseUrl/$endpoint')
-      );
+      var request =
+          http.MultipartRequest('POST', Uri.parse('$_baseUrl/$endpoint'));
 
       var headers = await getHeaders();
       request.headers.addAll(headers);

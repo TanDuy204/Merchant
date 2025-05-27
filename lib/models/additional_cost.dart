@@ -1,4 +1,4 @@
-class additional_cost {
+class AdditionalCost {
   int? id;
   int? collectionPointId;
   String? category;
@@ -7,11 +7,10 @@ class additional_cost {
   double? totalPrice;
   String? note;
 
-  additional_cost(this.id, this.collectionPointId, this.category, this.quantity,
+  AdditionalCost(this.id, this.collectionPointId, this.category, this.quantity,
       this.unitPrice, this.totalPrice, this.note);
 
-
-  additional_cost.fromJson(Map<String, dynamic> json) {
+  AdditionalCost.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     collectionPointId = json['collection_point_id'];
     category = json['category'];

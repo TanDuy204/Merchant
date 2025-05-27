@@ -1,13 +1,14 @@
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import '../providers/api_provider.dart';
+
 import '../models/user.dart';
+import '../providers/api_provider.dart';
 
 class AuthRepository {
-  final ApiProvider   _apiProvider = Get.find<ApiProvider>();
+  final ApiProvider _apiProvider = Get.find<ApiProvider>();
   final GetStorage _storage = GetStorage();
 
-  Future<user?> login(String username, String password) async {
+  Future<User?> login(String username, String password) async {
     try {
       print('Attempting login for username: $username');
       final response = await _apiProvider.post('login', {
@@ -27,12 +28,13 @@ class AuthRepository {
 
         // Kiểm tra cấu trúc dữ liệu
         if (response['user'] is! Map<String, dynamic>) {
-          print('ERROR: User data is not a Map: ${response['user'].runtimeType}');
+          print(
+              'ERROR: User data is not a Map: ${response['user'].runtimeType}');
           return null;
         }
 
         // Tạo đối tượng user
-        var users = user.fromJson(response['user']);
+        var users = User.fromJson(response['user']);
 
         // Xử lý roles
         if (response['roles'] != null) {
@@ -40,7 +42,8 @@ class AuthRepository {
           if (response['roles'] is List) {
             users.roles = List<String>.from(response['roles']);
           } else {
-            print('WARNING: Roles is not a List: ${response['roles'].runtimeType}');
+            print(
+                'WARNING: Roles is not a List: ${response['roles'].runtimeType}');
             users.roles = [];
           }
         }
@@ -79,7 +82,7 @@ class AuthRepository {
     }
   }
 
-  Future<user?> getCurrentUser() async {
+  Future<User?> getCurrentUser() async {
     // Kiểm tra xem có token không
     String? token = _storage.read('access_token');
     if (token == null) {
@@ -91,7 +94,7 @@ class AuthRepository {
       var userData = _storage.read('user');
       if (userData != null) {
         if (userData is Map<String, dynamic>) {
-          return user.fromJson(userData);
+          return User.fromJson(userData);
         } else {
           print('ERROR: userData is not a Map: ${userData.runtimeType}');
         }
@@ -104,7 +107,7 @@ class AuthRepository {
     try {
       final response = await _apiProvider.get('user');
       if (response != null && response['user'] != null) {
-        var users = user.fromJson(response['user']);
+        var users = User.fromJson(response['user']);
         if (response['roles'] != null) {
           users.roles = List<String>.from(response['roles']);
         }
@@ -118,6 +121,7 @@ class AuthRepository {
       return null;
     }
   }
+
   bool isLoggedIn() {
     return _storage.read('access_token') != null;
   }

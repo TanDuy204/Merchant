@@ -1,28 +1,63 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../models/truck.dart';
+import 'package:merchant/models/truck.dart';
+import 'package:merchant/reponsitories/truck_repository.dart';
 
 class TruckController extends GetxController {
   var filter = 'Tổng xe'.obs;
 
-  void setFilter(String value) {
-    filter.value = value;
+  final TruckRepository _truckRepository = Get.find<TruckRepository>();
+
+  final RxList<Truck> allTrucks = <Truck>[].obs;
+  RxList<Truck> filteredTrucks = <Truck>[].obs;
+  final RxBool isLoading = false.obs;
+  final RxString errorMessage = ''.obs;
+  @override
+  void onInit() {
+    super.onInit();
+    getAllTrucks();
+    ever(filter, (_) => applyFilter());
   }
 
-  List<truck> allTrucks = [];
-
-  /// Lọc danh sách theo bộ lọc hiện tại
-  List<truck> get filteredTrucks {
-    if (filter.value == 'Đã sắp') {
-      return allTrucks.where((t) => t.status == 'Đã sắp lịch').toList();
-    } else if (filter.value == 'Chưa sắp') {
-      return allTrucks.where((t) => t.status == 'Chưa sắp lịch').toList();
+  Future<void> getAllTrucks() async {
+    try {
+      isLoading.value = true;
+      errorMessage.value = '';
+      final trucks = await _truckRepository.getAllTruck();
+      allTrucks.assignAll(trucks);
+      applyFilter();
+    } catch (e) {
+      errorMessage.value = 'Lỗi khi tải dữ liệu: ${e.toString()}';
+      allTrucks.clear();
+      filteredTrucks.clear();
+    } finally {
+      isLoading.value = false;
     }
-    return allTrucks;
   }
 
-  int get filteredCount => filteredTrucks.length;
+  void setFilter(String newFilter) {
+    filter.value = newFilter;
+  }
+
+  void applyFilter() {
+    if (filter.value == 'Đã sắp') {
+      filteredTrucks.value =
+          allTrucks.where((t) => t.status == 'đã sắp lịch').toList();
+    } else if (filter.value == 'Chưa sắp') {
+      filteredTrucks.value =
+          allTrucks.where((t) => t.status == 'chưa sắp lịch').toList();
+    } else {
+      filteredTrucks.value = List.from(allTrucks);
+    }
+  }
+
+  int get totalCount => allTrucks.length;
+
+  int get assignedCount =>
+      allTrucks.where((t) => t.status == 'đã sắp lịch').length;
+
+  int get unassignedCount =>
+      allTrucks.where((t) => t.status == 'chưa sắp lịch').length;
 
   double get progressValue {
     if (totalCount == 0) return 0;
@@ -38,9 +73,9 @@ class TruckController extends GetxController {
 
   int get displayCount {
     switch (filter.value) {
-      case 'Đã sắp':
+      case 'đã sắp lịch':
         return assignedCount;
-      case 'Chưa sắp':
+      case 'chưa sắp lịch':
         return unassignedCount;
       default:
         return totalCount;
@@ -49,29 +84,20 @@ class TruckController extends GetxController {
 
   String get countLabel {
     switch (filter.value) {
-      case 'Đã sắp':
+      case 'đã sắp lịch':
         return 'Đã sắp';
-      case 'Chưa sắp':
+      case 'chưa sắp lịch':
         return 'Chưa sắp';
       default:
         return 'Tổng';
     }
   }
 
-  /// Đếm số lượng tổng, đã sắp và chưa sắp
-  int get totalCount => allTrucks.length;
-
-  int get assignedCount =>
-      allTrucks.where((t) => t.status == 'Đã sắp lịch').length;
-
-  int get unassignedCount =>
-      allTrucks.where((t) => t.status == 'Chưa sắp lịch').length;
-
   Color getStatusColor(String status) {
     switch (status) {
-      case 'Đã sắp lịch':
+      case 'đã sắp lịch':
         return Colors.green;
-      case 'Chưa sắp lịch':
+      case 'chưa sắp lịch':
         return Colors.orange;
       default:
         return Colors.grey;
@@ -80,12 +106,12 @@ class TruckController extends GetxController {
 
   Color getBackgroundTintColor(String status) {
     switch (status) {
-      case 'Đã sắp lịch':
+      case 'đã sắp lịch':
         return Colors.green.shade50;
-      case 'Chưa sắp lịch':
+      case 'chưa sắp lịch':
         return Colors.orange.shade50;
       default:
-        return Colors.grey;
+        return Colors.grey.shade200;
     }
   }
 }

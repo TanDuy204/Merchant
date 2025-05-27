@@ -1,46 +1,126 @@
-class contracts {
-  final int id;
-  final String contract_number;
-  final String region;
-  final String content;
-  final String customer_contract_number;
-  final String mailing_address;
-  final String service_group;
-  final String service_type;
-  final String status;
-  final String supplier_name;
-  final String reponsible_person_name;
-  final String contact_name;
-  final String contact_phone;
-  final String contact_email;
-  final String customer_address;
-  final String file_path;
-  final DateTime signed_date;
-  final DateTime end_date;
-  final DateTime effective_date;
-  final DateTime created_date;
-  final DateTime updated_date;
+// To parse this JSON data, do
+//
+//     final contracts = contractsFromJson(jsonString);
 
-  contracts(
-      this.id,
-      this.contract_number,
-      this.region,
-      this.content,
-      this.customer_contract_number,
-      this.mailing_address,
-      this.service_group,
-      this.service_type,
-      this.status,
-      this.supplier_name,
-      this.reponsible_person_name,
-      this.contact_name,
-      this.contact_phone,
-      this.contact_email,
-      this.customer_address,
-      this.file_path,
-      this.signed_date,
-      this.end_date,
-      this.effective_date,
-      this.created_date,
-      this.updated_date);
+import 'dart:convert';
+
+Contract contractsFromJson(String str) => Contract.fromJson(json.decode(str));
+
+String contractToJson(Contract data) => json.encode(data.toJson());
+
+class Contract {
+  int? id;
+  String? contractNumber;
+  String? region;
+  String? content;
+  String? customerContractNumber;
+  String? mailingAddress;
+  String? serviceGroup;
+  String? serviceType;
+  String? status;
+  String? supplierName;
+  String? responsiblePersonName;
+  String? contactName;
+  String? contactPhone;
+  String? contactEmail;
+  String? contactAddress;
+  String? customerName;
+  String? customerEmail;
+  String? customerAddress;
+  String? filePath;
+  DateTime? signedDate;
+  DateTime? endDate;
+  DateTime? effectiveDate;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+
+  Contract({
+    this.id,
+    this.contractNumber,
+    this.region,
+    this.content,
+    this.customerContractNumber,
+    this.mailingAddress,
+    this.serviceGroup,
+    this.serviceType,
+    this.status,
+    this.supplierName,
+    this.responsiblePersonName,
+    this.contactName,
+    this.contactPhone,
+    this.contactEmail,
+    this.contactAddress,
+    this.customerName,
+    this.customerEmail,
+    this.customerAddress,
+    this.filePath,
+    this.signedDate,
+    this.endDate,
+    this.effectiveDate,
+    this.createdAt,
+    this.updatedAt,
+  });
+
+  factory Contract.fromJson(Map<String, dynamic> json) => Contract(
+        id: json["id"],
+        contractNumber: json["contract_number"],
+        region: json["region"],
+        content: json["content"],
+        customerContractNumber: json["customer_contract_number"],
+        mailingAddress: json["mailing_address"],
+        serviceGroup: json["service_group"],
+        serviceType: json["service_type"],
+        status: json["status"],
+        supplierName: json["supplier_name"],
+        responsiblePersonName: json["responsible_person_name"],
+        contactName: json["contact_name"],
+        contactPhone: json["contact_phone"],
+        contactEmail: json["contact_email"],
+        contactAddress: json["contact_address"],
+        customerName: json["customer_name"],
+        customerEmail: json["customer_email"],
+        customerAddress: json["customer_address"],
+        filePath: json["file_path"],
+        signedDate: json["signed_date"] == null
+            ? null
+            : DateTime.parse(json["signed_date"]),
+        endDate:
+            json["end_date"] == null ? null : DateTime.parse(json["end_date"]),
+        effectiveDate: json["effective_date"] == null
+            ? null
+            : DateTime.parse(json["effective_date"]),
+        createdAt: json["created_at"] == null
+            ? null
+            : DateTime.parse(json["created_at"]),
+        updatedAt: json["updated_at"] == null
+            ? null
+            : DateTime.parse(json["updated_at"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "contract_number": contractNumber,
+        "region": region,
+        "content": content,
+        "customer_contract_number": customerContractNumber,
+        "mailing_address": mailingAddress,
+        "service_group": serviceGroup,
+        "service_type": serviceType,
+        "status": status,
+        "supplier_name": supplierName,
+        "responsible_person_name": responsiblePersonName,
+        "contact_name": contactName,
+        "contact_phone": contactPhone,
+        "contact_email": contactEmail,
+        "contact_address": contactAddress,
+        "customer_name": customerName,
+        "customer_email": customerEmail,
+        "customer_address": customerAddress,
+        "file_path": filePath,
+        "signed_date": signedDate?.toIso8601String(),
+        "end_date": endDate?.toIso8601String(),
+        "effective_date": effectiveDate?.toIso8601String(),
+        "created_at": createdAt?.toIso8601String(),
+        "updated_at": updatedAt?.toIso8601String(),
+      };
 }

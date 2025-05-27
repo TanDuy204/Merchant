@@ -74,7 +74,7 @@ class _TruckDetailState extends State<TruckDetail> {
                 children: [
                   _infoRow(context, Icons.local_shipping, "Loại xe",
                       "Xe tải lớn", Icons.scale, "Trọng tải", "15 tấn"),
-                  const SizedBox(height: 12),
+                  SizedBox(height: 12.h),
                   _infoRow(
                       context,
                       Icons.calendar_today,
@@ -83,7 +83,7 @@ class _TruckDetailState extends State<TruckDetail> {
                       Icons.build,
                       "Bảo dưỡng gần nhất",
                       "28/01/2024"),
-                  const SizedBox(height: 12),
+                  SizedBox(height: 12.h),
                   _infoRow(context, Icons.alt_route, "Quãng đường đã đi",
                       "245.630 km", Icons.access_time, "Tuổi xe", "3 năm"),
                 ],
@@ -120,7 +120,7 @@ class _TruckDetailState extends State<TruckDetail> {
                 children: [
                   Text(
                     "Lịch sử vi phạm",
-                    style: AppTextStyles.titleMedium(),
+                    style: AppTextStyles.titleXSmall(),
                   ),
                   const Divider(),
                   Row(
@@ -146,14 +146,14 @@ class _TruckDetailState extends State<TruckDetail> {
                         children: [
                           Text(
                             "Thứ 2, ngày 06 tháng 02 năm 2025",
-                            style: AppTextStyles.bodyLarge(),
+                            style: AppTextStyles.bodyMedium(),
                           ),
                           Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 6),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 10.w, vertical: 6.h),
                             decoration: BoxDecoration(
                               color: Colors.grey.shade200,
-                              borderRadius: BorderRadius.circular(8),
+                              borderRadius: BorderRadius.circular(10.r),
                             ),
                             child: Text("14:07 -21/11/2011",
                                 style: AppTextStyles.bodyMedium()),
@@ -175,7 +175,7 @@ class _TruckDetailState extends State<TruckDetail> {
                 children: [
                   Text(
                     'Lịch sử thu gom',
-                    style: AppTextStyles.titleMedium(),
+                    style: AppTextStyles.titleXSmall(),
                   ),
                   const Divider(),
                   ListView.builder(
@@ -354,7 +354,7 @@ Widget statusBadge(BuildContext context, String status) {
         ),
         decoration: BoxDecoration(
           color: badgeColor,
-          borderRadius: BorderRadius.circular(5),
+          borderRadius: BorderRadius.circular(10.r),
         ),
         child: Text(
           status,

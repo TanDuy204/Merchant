@@ -6,7 +6,7 @@ import '../reponsitories/auth_repository.dart';
 class AuthController extends GetxController {
   final AuthRepository _authRepository = Get.find<AuthRepository>();
 
-  final Rx<user?> users = Rx<user?>(null);
+  final Rx<User?> users = Rx<User?>(null);
   final RxBool isLoading = false.obs;
   final RxString errorMessage = ''.obs;
 
@@ -20,7 +20,7 @@ class AuthController extends GetxController {
     isLoading.value = true;
 
     try {
-      user? currentUser = await _authRepository.getCurrentUser();
+      User? currentUser = await _authRepository.getCurrentUser();
       if (currentUser != null) {
         users.value = currentUser;
       }
@@ -36,13 +36,14 @@ class AuthController extends GetxController {
     errorMessage.value = '';
 
     try {
-      user? loggedInUser = await _authRepository.login(username, password);
+      User? loggedInUser = await _authRepository.login(username, password);
 
       if (loggedInUser != null) {
         users.value = loggedInUser;
         return true;
       } else {
-        errorMessage.value = 'Đăng nhập thất bại. Vui lòng kiểm tra thông tin đăng nhập';
+        errorMessage.value =
+            'Đăng nhập thất bại. Vui lòng kiểm tra thông tin đăng nhập';
         return false;
       }
     } catch (e) {

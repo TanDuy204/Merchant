@@ -250,7 +250,7 @@ class DebtScreen extends StatelessWidget {
                             ),
                             SizedBox(height: 5.h),
                             Text(
-                              debt.date,
+                              FormatHelper.formatDate(debt.date),
                               style: AppTextStyles.bodyMedium().copyWith(
                                 color: Colors.grey.shade600,
                               ),

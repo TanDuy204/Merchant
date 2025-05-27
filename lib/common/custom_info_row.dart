@@ -24,7 +24,7 @@ class CustomInfoRow extends StatelessWidget {
       children: [
         Text(title, style: AppTextStyles.bodyMedium()),
         SizedBox(
-          width: 10.w,
+          width: 8.w,
         ),
         Flexible(
           child: Text(

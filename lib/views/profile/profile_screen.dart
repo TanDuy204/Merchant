@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:merchant/common/app_style.dart';
+import 'package:merchant/controllers/auth_controller.dart';
 import 'package:merchant/views/profile/profile_account.dart';
 
 class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
+  final AuthController _authController = Get.find<AuthController>();
+
+  ProfileScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,57 +28,49 @@ class ProfileScreen extends StatelessWidget {
         child: CustomScrollView(
           slivers: [
             SliverToBoxAdapter(
-              // child: Padding(
-              //   padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
-              //   child: GestureDetector(
-              //     onTap: () => Get.to(() => const ProfileAccount()),
-              //     child: Column(
-              //       children: [
-              //         CircleAvatar(
-              //           radius: 32.r,
-              //           backgroundImage:
-              //               const AssetImage('assets/images/images.png'),
-              //         ),
-              //         SizedBox(height: 12.h),
-              //         Text(
-              //           "Trần Đức Thành",
-              //           style: AppTextStyles.titleMedium(),
-              //         ),
-              //         SizedBox(height: 4.h),
-              //         Text(
-              //           "merchant@gmail.com",
-              //           style: AppTextStyles.bodyMedium().copyWith(
-              //             color: AppColors.greyColor,
-              //           ),
-              //         ),
-              //       ],
-              //     ),
-              //   ),
-              // ),
-              child: Column(
-                children: [
-                  GestureDetector(
-                    onTap: () => Get.to(() => const ProfileAccount()),
-                    child: CircleAvatar(
-                      radius: 50.r,
-                      backgroundImage:
-                          const AssetImage('assets/images/images.png'),
+              child: Obx(() {
+                final user = _authController.users.value;
+
+                if (user == null) {
+                  return Center(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: 50.h),
+                      child: Text(
+                        'Bạn chưa đăng nhập',
+                        style: AppTextStyles.titleMedium(),
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 10.h),
-                  Text(
-                    "Trần Đức Thành",
-                    style: AppTextStyles.titleMedium(),
-                  ),
-                  SizedBox(height: 4.h),
-                  Text(
-                    "merchant@gmail.com",
-                    style: AppTextStyles.bodyMedium().copyWith(
-                      color: AppColors.greyColor,
+                  );
+                }
+
+                return Column(
+                  children: [
+                    GestureDetector(
+                      onTap: () => Get.to(() => const ProfileAccount()),
+                      child: CircleAvatar(
+                        radius: 50.r,
+                        backgroundImage: (user.profilePhotoPath != null &&
+                                user.profilePhotoPath!.isNotEmpty)
+                            ? NetworkImage(user.profilePhotoPath!)
+                            : const AssetImage('assets/images/images.png')
+                                as ImageProvider,
+                      ),
                     ),
-                  ),
-                ],
-              ),
+                    SizedBox(height: 10.h),
+                    Text(
+                      user.name ?? "Không có tên",
+                      style: AppTextStyles.titleMedium(),
+                    ),
+                    SizedBox(height: 4.h),
+                    Text(
+                      user.email ?? "Không có email",
+                      style: AppTextStyles.bodyMedium().copyWith(
+                        color: AppColors.greyColor,
+                      ),
+                    ),
+                  ],
+                );
+              }),
             ),
             SliverToBoxAdapter(
               child: SizedBox(height: 40.h),
@@ -107,10 +102,22 @@ class ProfileScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 5.h),
                     customCard(
-                        leadingIcon: Icons.logout,
-                        title: "Đăng xuất",
-                        trailingIcon: Icons.chevron_right_outlined,
-                        onTap: () {}),
+                      leadingIcon: Icons.logout,
+                      title: "Đăng xuất",
+                      trailingIcon: Icons.chevron_right_outlined,
+                      onTap: () async {
+                        bool success = await _authController.logout();
+                        if (success) {
+                          Get.offAllNamed('/login');
+                          Get.snackbar('Thông báo', 'Đăng xuất thành công');
+                        } else {
+                          Get.snackbar(
+                            'Lỗi',
+                            'Đăng xuất thất bại, vui lòng thử lại',
+                          );
+                        }
+                      },
+                    ),
                   ],
                 ),
               ),

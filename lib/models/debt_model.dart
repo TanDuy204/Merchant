@@ -1,9 +1,9 @@
 class DebtModel {
   final String code;
   final String title;
-  final String date;
+  final DateTime date;
   final int amount;
-  final String status; // "Chưa thanh toán", "Đã thanh toán", "Hết hạn"
+  final String status;
   final String progress;
 
   DebtModel({
