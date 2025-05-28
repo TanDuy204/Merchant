@@ -139,13 +139,13 @@ class _PendingPickupScreenState extends State<PendingPickupScreen> {
                                           ),
                                           Container(
                                             padding: EdgeInsets.symmetric(
-                                                horizontal: 12.w,
+                                                horizontal: 10.w,
                                                 vertical: 4.h),
                                             decoration: BoxDecoration(
                                               color: AppColors.blueColor
                                                   .withOpacity(0.1),
                                               borderRadius:
-                                                  BorderRadius.circular(12.r),
+                                                  BorderRadius.circular(10.r),
                                             ),
                                             child: Text(
                                               wasteType,
@@ -294,7 +294,7 @@ class _PendingPickupScreenState extends State<PendingPickupScreen> {
                                                     ],
                                                   ),
                                                 );
-                                              }).toList(),
+                                              }),
                                             ],
                                           ),
                                         )

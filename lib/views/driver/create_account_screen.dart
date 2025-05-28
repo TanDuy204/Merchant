@@ -103,7 +103,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
 
     if (success) {
       _clearForm();
-      Navigator.pop(context);
+      Get.back();
     }
   }
 

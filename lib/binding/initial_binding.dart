@@ -20,24 +20,15 @@ class InitialBinding implements Bindings {
 
     // Khởi tạo repositories
     Get.put(AuthRepository(), permanent: true);
-
+    Get.put(DriverRepository());
+    Get.put(PointRepository());
+    Get.put(ContractRepository());
+    Get.put(TruckRepository());
     // Khởi tạo controllers
     Get.put(AuthController(), permanent: true);
-
-    Get.put(DriverRepository());
-
     Get.put(DriverController());
-
-    Get.put(PointRepository());
-
     Get.put(PointController());
-
-    Get.put(ContractRepository());
-
     Get.put(ContractController());
-
-    Get.put(TruckRepository());
-
     Get.put(TruckController());
   }
 }

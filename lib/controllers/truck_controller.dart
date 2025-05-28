@@ -10,6 +10,7 @@ class TruckController extends GetxController {
 
   final RxList<Truck> allTrucks = <Truck>[].obs;
   RxList<Truck> filteredTrucks = <Truck>[].obs;
+  final Rxn<Truck> truck = Rxn<Truck>();
   final RxBool isLoading = false.obs;
   final RxString errorMessage = ''.obs;
   @override
@@ -30,6 +31,19 @@ class TruckController extends GetxController {
       errorMessage.value = 'Lỗi khi tải dữ liệu: ${e.toString()}';
       allTrucks.clear();
       filteredTrucks.clear();
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  Future<void> getTruckDetail(int id) async {
+    isLoading.value = true;
+    errorMessage.value = '';
+    try {
+      Truck? result = await _truckRepository.getTruckDetail(id);
+      truck.value = result;
+    } catch (e) {
+      errorMessage.value = 'Lỗi: ${e.toString()}';
     } finally {
       isLoading.value = false;
     }

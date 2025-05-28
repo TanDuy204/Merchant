@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:merchant/common/app_dimensions.dart';
 import 'package:merchant/common/custom_status_badge.dart';
+import 'package:merchant/controllers/truck_controller.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 import '../../common/app_style.dart';
@@ -16,250 +18,291 @@ class TruckDetail extends StatefulWidget {
 }
 
 class _TruckDetailState extends State<TruckDetail> {
+  final truckController = Get.find<TruckController>();
   int? openIndex;
+  int? truckId;
+
+  @override
+  void initState() {
+    super.initState();
+    truckId = Get.arguments;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      truckController.getTruckDetail(truckId!);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade100,
-      appBar: AppBar(
-        title: Text(
-          "Chi tiết xe",
-          style: AppTextStyles.titleMedium(),
+        backgroundColor: Colors.grey.shade100,
+        appBar: AppBar(
+          title: Text(
+            "Chi tiết xe",
+            style: AppTextStyles.titleMedium(),
+          ),
+          backgroundColor: Colors.white,
+          centerTitle: true,
         ),
-        backgroundColor: Colors.white,
-        centerTitle: true,
-      ),
-      body: CustomScrollView(
-        slivers: [
-          ///Hình ảnh xe
-          SliverToBoxAdapter(
-            child: BorderedContainer(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Image.asset(
-                    'assets/images/truck.png',
-                    height: AppDimensions.heightMediumLarge(),
-                    width: double.infinity,
-                    fit: BoxFit.contain,
-                  ),
-                  SizedBox(height: 15.h),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+        body: Obx(
+          () {
+            if (truckController.isLoading.value) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            final truck = truckController.truck.value;
+
+            return CustomScrollView(
+              slivers: [
+                ///Hình ảnh xe
+                SliverToBoxAdapter(
+                  child: BorderedContainer(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Image.asset(
+                          'assets/images/truck.png',
+                          height: AppDimensions.heightMediumLarge(),
+                          width: double.infinity,
+                          fit: BoxFit.contain,
+                        ),
+                        SizedBox(height: 15.h),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Text("Hino-0123",
-                                style: AppTextStyles.bodyMedium()),
-                            Text("51H1-24680",
-                                style: AppTextStyles.titleXSmall()),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(truck!.name ?? 'N/A',
+                                      style: AppTextStyles.bodyMedium()),
+                                  Text(truck.plateNumber ?? 'N/A',
+                                      style: AppTextStyles.titleXSmall()),
+                                ],
+                              ),
+                            ),
+                            CustomStatusBadge(
+                                status: truck.status ?? 'N/A',
+                                color: Colors.green)
                           ],
                         ),
-                      ),
-                      const CustomStatusBadge(
-                          status: "Đã sắp lịch", color: Colors.green)
-                    ],
+                      ],
+                    ),
                   ),
-                ],
-              ),
-            ),
-          ),
+                ),
 
-          ///Thông tin xe
-          SliverToBoxAdapter(
-            child: BorderedContainer(
-              child: Column(
-                children: [
-                  _infoRow(context, Icons.local_shipping, "Loại xe",
-                      "Xe tải lớn", Icons.scale, "Trọng tải", "15 tấn"),
-                  SizedBox(height: 12.h),
-                  _infoRow(
-                      context,
-                      Icons.calendar_today,
-                      "Ngày đăng kiểm",
-                      "14/06/2023",
-                      Icons.build,
-                      "Bảo dưỡng gần nhất",
-                      "28/01/2024"),
-                  SizedBox(height: 12.h),
-                  _infoRow(context, Icons.alt_route, "Quãng đường đã đi",
-                      "245.630 km", Icons.access_time, "Tuổi xe", "3 năm"),
-                ],
-              ),
-            ),
-          ),
-
-          ///Thông số xe
-          SliverToBoxAdapter(
-            child: Row(
-              children: [
-                Expanded(
-                    child: buildPieCard(
-                  context: context,
-                  title: "Nhiên liệu hiện có",
-                  percent: 0.6,
-                  color: const Color(0xFFA162F7),
-                )),
-                Expanded(
-                    child: buildPieCard(
-                        context: context,
-                        title: "Trọng tải hiện thời",
-                        percent: 0.25,
-                        color: const Color(0xFFF6CC0D))),
-              ],
-            ),
-          ),
-
-          ///Lịch sử vi phạm
-          SliverToBoxAdapter(
-            child: BorderedContainer(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Lịch sử vi phạm",
-                    style: AppTextStyles.titleXSmall(),
+                ///Thông tin xe
+                SliverToBoxAdapter(
+                  child: BorderedContainer(
+                    child: Column(
+                      children: [
+                        _infoRow(
+                            context,
+                            Icons.local_shipping,
+                            "Loại xe",
+                            truck.type ?? 'N/A',
+                            Icons.scale,
+                            "Trọng tải",
+                            "${truck.capacity.toString()} tấn"),
+                        SizedBox(height: 12.h),
+                        _infoRow(
+                            context,
+                            Icons.calendar_today,
+                            "Ngày đăng kiểm",
+                            "14/06/2023",
+                            Icons.build,
+                            "Bảo dưỡng gần nhất",
+                            "28/01/2024"),
+                        SizedBox(height: 12.h),
+                        _infoRow(
+                            context,
+                            Icons.alt_route,
+                            "Quãng đường đã đi",
+                            "245.630 km",
+                            Icons.access_time,
+                            "Tuổi xe",
+                            "3 năm"),
+                      ],
+                    ),
                   ),
-                  const Divider(),
-                  Row(
+                ),
+
+                ///Thông số xe
+                SliverToBoxAdapter(
+                  child: Row(
                     children: [
-                      Container(
-                        width: AppDimensions.heightTiny(),
-                        height: AppDimensions.heightTiny(),
-                        decoration: BoxDecoration(
-                          color: Colors.red.withOpacity(0.1),
-                          shape: BoxShape.circle,
-                        ),
-                        child: const Center(
-                          child: Icon(
-                            Icons.error_outline,
-                            color: Colors.red,
-                            size: 24,
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 10.w),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Thứ 2, ngày 06 tháng 02 năm 2025",
-                            style: AppTextStyles.bodyMedium(),
-                          ),
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 10.w, vertical: 6.h),
-                            decoration: BoxDecoration(
-                              color: Colors.grey.shade200,
-                              borderRadius: BorderRadius.circular(10.r),
-                            ),
-                            child: Text("14:07 -21/11/2011",
-                                style: AppTextStyles.bodyMedium()),
-                          ),
-                        ],
-                      )
+                      Expanded(
+                          child: buildPieCard(
+                        context: context,
+                        title: "Nhiên liệu hiện có",
+                        percent: 0.6,
+                        color: const Color(0xFFA162F7),
+                      )),
+                      Expanded(
+                          child: buildPieCard(
+                              context: context,
+                              title: "Trọng tải hiện thời",
+                              percent: 0.25,
+                              color: const Color(0xFFF6CC0D))),
                     ],
                   ),
-                ],
-              ),
-            ),
-          ),
+                ),
 
-          ///Lịch sử thu gom
-          SliverToBoxAdapter(
-            child: BorderedContainer(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Lịch sử thu gom',
-                    style: AppTextStyles.titleXSmall(),
-                  ),
-                  const Divider(),
-                  ListView.builder(
-                    padding: EdgeInsets.zero,
-                    itemCount: 2,
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            if (openIndex == index) {
-                              openIndex = null;
-                            } else {
-                              openIndex = index;
-                            }
-                          });
-                        },
-                        child: Card(
-                          child: Column(
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                  color: openIndex == index
-                                      ? AppColors.lightBlue
-                                      : Colors.transparent,
-                                  borderRadius: BorderRadius.circular(10.r),
-                                ),
-                                child: ListTile(
-                                  title: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text('Mã thu gom: CTG-456450',
-                                          style: AppTextStyles.titleSmall()),
-                                      Text('25-7-2025',
-                                          style: AppTextStyles.titleSmall()),
-                                    ],
-                                  ),
+                ///Lịch sử vi phạm
+                SliverToBoxAdapter(
+                  child: BorderedContainer(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Lịch sử vi phạm",
+                          style: AppTextStyles.titleXSmall(),
+                        ),
+                        const Divider(),
+                        Row(
+                          children: [
+                            Container(
+                              width: AppDimensions.heightTiny(),
+                              height: AppDimensions.heightTiny(),
+                              decoration: BoxDecoration(
+                                color: Colors.red.withOpacity(0.1),
+                                shape: BoxShape.circle,
+                              ),
+                              child: const Center(
+                                child: Icon(
+                                  Icons.error_outline,
+                                  color: Colors.red,
+                                  size: 24,
                                 ),
                               ),
-                              AnimatedSize(
-                                duration: const Duration(milliseconds: 300),
-                                curve: Curves.easeInOut,
-                                child: openIndex == index
-                                    ? Padding(
-                                        padding: EdgeInsets.all(10.h),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                            ),
+                            SizedBox(width: 10.w),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Thứ 2, ngày 06 tháng 02 năm 2025",
+                                  style: AppTextStyles.bodyMedium(),
+                                ),
+                                Container(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 10.w, vertical: 6.h),
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey.shade200,
+                                    borderRadius: BorderRadius.circular(10.r),
+                                  ),
+                                  child: Text("14:07 -21/11/2011",
+                                      style: AppTextStyles.bodyMedium()),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+
+                ///Lịch sử thu gom
+                SliverToBoxAdapter(
+                  child: BorderedContainer(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Lịch sử thu gom',
+                          style: AppTextStyles.titleXSmall(),
+                        ),
+                        const Divider(),
+                        ListView.builder(
+                          padding: EdgeInsets.zero,
+                          itemCount: 2,
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            return GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  if (openIndex == index) {
+                                    openIndex = null;
+                                  } else {
+                                    openIndex = index;
+                                  }
+                                });
+                              },
+                              child: Card(
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        color: openIndex == index
+                                            ? AppColors.lightBlue
+                                            : Colors.transparent,
+                                        borderRadius:
+                                            BorderRadius.circular(10.r),
+                                      ),
+                                      child: ListTile(
+                                        title: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
-                                            const CustomInfoRow(
-                                                title: "Tên công ty:",
-                                                value:
-                                                    "TNHH Jones Lang Lasalle (Việt Nam)"),
-                                            SizedBox(height: 7.h),
-                                            const CustomInfoRow(
-                                                title: "Địa điểm:",
-                                                value:
-                                                    "KCN Quang Minh, Hà Nội"),
-                                            SizedBox(height: 7.h),
-                                            const CustomInfoRow(
-                                                title: "Tài xế",
-                                                value: "Taixe1-034567567"),
-                                            SizedBox(height: 7.h),
-                                            statusBadge(context, "Đã sắp"),
+                                            Text('Mã thu gom: CTG-456450',
+                                                style:
+                                                    AppTextStyles.titleSmall()),
+                                            Text('25-7-2025',
+                                                style:
+                                                    AppTextStyles.titleSmall()),
                                           ],
                                         ),
-                                      )
-                                    : const SizedBox.shrink(),
+                                      ),
+                                    ),
+                                    AnimatedSize(
+                                      duration:
+                                          const Duration(milliseconds: 300),
+                                      curve: Curves.easeInOut,
+                                      child: openIndex == index
+                                          ? Padding(
+                                              padding: EdgeInsets.all(10.h),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  const CustomInfoRow(
+                                                      title: "Tên công ty:",
+                                                      value:
+                                                          "TNHH Jones Lang Lasalle (Việt Nam)"),
+                                                  SizedBox(height: 7.h),
+                                                  const CustomInfoRow(
+                                                      title: "Địa điểm:",
+                                                      value:
+                                                          "KCN Quang Minh, Hà Nội"),
+                                                  SizedBox(height: 7.h),
+                                                  const CustomInfoRow(
+                                                      title: "Tài xế",
+                                                      value:
+                                                          "Taixe1-034567567"),
+                                                  SizedBox(height: 7.h),
+                                                  statusBadge(
+                                                      context, "Đã sắp"),
+                                                ],
+                                              ),
+                                            )
+                                          : const SizedBox.shrink(),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ],
-                          ),
+                            );
+                          },
                         ),
-                      );
-                    },
+                      ],
+                    ),
                   ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
+                ),
+              ],
+            );
+          },
+        ));
   }
 
   Widget _infoRow(BuildContext context, IconData icon1, String label1,

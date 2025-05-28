@@ -116,7 +116,7 @@ class TruckScreen extends StatelessWidget {
         slivers: [
           Obx(() {
             if (truckController.isLoading.value) {
-              return SliverFillRemaining(
+              return const SliverFillRemaining(
                 hasScrollBody: false,
                 child: Center(
                   child: CircularProgressIndicator(),
@@ -220,7 +220,8 @@ class TruckScreen extends StatelessWidget {
                                 SizedBox(height: 10.h),
                                 GestureDetector(
                                   onTap: () {
-                                    Get.to(() => const TruckDetail());
+                                    Get.to(() => const TruckDetail(),
+                                        arguments: truck.id);
                                   },
                                   child: const Align(
                                     alignment: Alignment.bottomRight,

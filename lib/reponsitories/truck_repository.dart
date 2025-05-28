@@ -19,4 +19,22 @@ class TruckRepository {
       return [];
     }
   }
+
+  Future<Truck?> getTruckDetail(int id) async {
+    try {
+      final response = await _apiProvider.get('trucks/$id');
+      print("response ${response}");
+      if (response['success'] == true && response['data'] != null) {
+        final truckDetailData = response['data']['truck'];
+        truckDetailData['schedule'] ??= [];
+
+        Truck truck = Truck.fromJson(truckDetailData);
+        return truck;
+      }
+      return null;
+    } catch (e) {
+      print('Error fetching schedule detail: $e');
+      return null;
+    }
+  }
 }
