@@ -28,18 +28,7 @@ class _PendingPickupScreenState extends State<PendingPickupScreen> {
     });
   }
 
-  String getGroupKey(dynamic point) {
-    if (point.collectionDate == null) return 'unknown_date|unknown_type';
-    final date = DateFormat('dd/MM/yyyy').format(point.collectionDate);
-    final wasteType = point.wasteType ?? 'unknown_type';
-    return '$date|$wasteType';
-  }
-
-  double extractWeight(String? weightStr) {
-    if (weightStr == null || weightStr.isEmpty) return 0;
-    final match = RegExp(r'[\d.]+').firstMatch(weightStr);
-    return double.tryParse(match?.group(0) ?? '0') ?? 0;
-  }
+  DateTime onlyDate(DateTime dt) => DateTime(dt.year, dt.month, dt.day);
 
   @override
   Widget build(BuildContext context) {
@@ -50,25 +39,38 @@ class _PendingPickupScreenState extends State<PendingPickupScreen> {
           return const Center(child: CircularProgressIndicator());
         }
 
-        final allPoints = pointController.points;
+        final fromDate = dateFilterController.fromDate.value;
+        final toDate = dateFilterController.toDate.value;
+
+        final allPoints = pointController.points.where((p) {
+          if (p.collectionDate == null) return false;
+          final pointDate = onlyDate(p.collectionDate!);
+          return (fromDate == null ||
+                  !pointDate.isBefore(onlyDate(fromDate))) &&
+              (toDate == null || !pointDate.isAfter(onlyDate(toDate)));
+        }).toList();
+
         if (allPoints.isEmpty) {
           return Center(
             child: Text("Không có lịch gom", style: AppTextStyles.bodyMedium()),
           );
         }
 
+        /// Nhóm các điểm gom theo ngày và loại rác
         final Map<String, List<dynamic>> groupedSchedules = {};
         for (var point in allPoints) {
-          final key = getGroupKey(point);
+          final dateStr =
+              DateFormat('dd/MM/yyyy').format(point.collectionDate!);
+          final wasteType = point.wasteType?.isNotEmpty == true
+              ? point.wasteType
+              : 'Chưa phân loại';
+          final key = '$dateStr|$wasteType';
           groupedSchedules.putIfAbsent(key, () => []).add(point);
         }
 
+        /// Sắp xếp nhóm theo ngày giảm dần
         final sortedGroups = groupedSchedules.entries.toList()
-          ..sort((a, b) {
-            final dateA = a.key.split('|')[0];
-            final dateB = b.key.split('|')[0];
-            return dateB.compareTo(dateA);
-          });
+          ..sort((a, b) => b.key.split('|')[0].compareTo(a.key.split('|')[0]));
 
         return CustomScrollView(
           slivers: [
@@ -86,16 +88,21 @@ class _PendingPickupScreenState extends State<PendingPickupScreen> {
                       itemCount: sortedGroups.length,
                       itemBuilder: (context, index) {
                         final group = sortedGroups[index];
-                        final points = group.value;
                         final isOpen = openIndex == index;
 
                         final keyParts = group.key.split('|');
                         final displayDate = keyParts[0];
                         final wasteType = keyParts[1];
+                        final points = group.value;
 
-                        final totalWeight = points
-                            .map((p) => extractWeight(p.weight))
-                            .fold(0.0, (sum, w) => sum + w);
+                        double totalWeight = 0;
+                        for (var p in points) {
+                          final rawWeight = p.weight ?? '';
+                          final match = RegExp(r'[\d.]+').firstMatch(rawWeight);
+                          final weight =
+                              double.tryParse(match?.group(0) ?? '0') ?? 0;
+                          totalWeight += weight;
+                        }
 
                         return GestureDetector(
                           onTap: () {
@@ -103,8 +110,6 @@ class _PendingPickupScreenState extends State<PendingPickupScreen> {
                               openIndex = isOpen ? null : index;
                             });
                           },
-
-                          /// Thẻ danh sách lịch gom
                           child: Card(
                             margin: EdgeInsets.only(bottom: 8.h),
                             child: Column(
@@ -112,7 +117,7 @@ class _PendingPickupScreenState extends State<PendingPickupScreen> {
                                 Container(
                                   decoration: BoxDecoration(
                                     color: isOpen
-                                        ? AppColors.lightBlue
+                                        ? Colors.blue.shade100
                                         : Colors.transparent,
                                     borderRadius: BorderRadius.circular(10.r),
                                   ),
@@ -134,7 +139,7 @@ class _PendingPickupScreenState extends State<PendingPickupScreen> {
                                               SizedBox(width: 8.w),
                                               Text(displayDate,
                                                   style: AppTextStyles
-                                                      .titleSmall()),
+                                                      .bodyMedium()),
                                             ],
                                           ),
                                           Container(
@@ -172,18 +177,18 @@ class _PendingPickupScreenState extends State<PendingPickupScreen> {
                                               Text(
                                                   '${totalWeight.toStringAsFixed(1)} KG',
                                                   style: AppTextStyles
-                                                      .titleSmall()),
+                                                      .titleXSmall()),
                                             ],
                                           ),
                                           Row(
                                             children: [
-                                              Icon(Icons.business,
+                                              Icon(Icons.person_outline,
                                                   size: 19.sp,
                                                   color: AppColors.blueColor),
                                               SizedBox(width: 6.w),
                                               Text('${points.length} nhân công',
                                                   style: AppTextStyles
-                                                      .titleSmall()),
+                                                      .bodyMedium()),
                                             ],
                                           ),
                                         ],
@@ -191,8 +196,6 @@ class _PendingPickupScreenState extends State<PendingPickupScreen> {
                                     ],
                                   ),
                                 ),
-
-                                ///Chi tiết các điểm gom
                                 AnimatedSize(
                                   duration: const Duration(milliseconds: 300),
                                   curve: Curves.easeInOut,
