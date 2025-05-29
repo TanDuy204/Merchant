@@ -139,26 +139,14 @@ class _PendingPickupScreenState extends State<PendingPickupScreen> {
                                               SizedBox(width: 8.w),
                                               Text(displayDate,
                                                   style: AppTextStyles
-                                                      .bodyMedium()),
+                                                      .titleXSmall()),
                                             ],
                                           ),
-                                          Container(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 10.w,
-                                                vertical: 4.h),
-                                            decoration: BoxDecoration(
-                                              color: AppColors.blueColor
-                                                  .withOpacity(0.1),
-                                              borderRadius:
-                                                  BorderRadius.circular(10.r),
-                                            ),
-                                            child: Text(
-                                              wasteType,
-                                              style: AppTextStyles.bodySmall()
-                                                  .copyWith(
-                                                color: AppColors.blueColor,
-                                                fontWeight: FontWeight.w600,
-                                              ),
+                                          Text(
+                                            wasteType,
+                                            style: AppTextStyles.titleXSmall()
+                                                .copyWith(
+                                              color: AppColors.blueColor,
                                             ),
                                           ),
                                         ],
@@ -188,7 +176,7 @@ class _PendingPickupScreenState extends State<PendingPickupScreen> {
                                               SizedBox(width: 6.w),
                                               Text('${points.length} nhân công',
                                                   style: AppTextStyles
-                                                      .bodyMedium()),
+                                                      .titleXSmall()),
                                             ],
                                           ),
                                         ],
@@ -325,20 +313,18 @@ Widget _detailRowH(BuildContext context, String title, String value) {
     padding: EdgeInsets.symmetric(vertical: 2.h),
     child: Row(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        SizedBox(
-          width: 80.w,
-          child: Text(
-            title,
-            style:
-                AppTextStyles.bodySmall().copyWith(color: Colors.grey.shade600),
-          ),
+        Text(
+          title,
+          style:
+              AppTextStyles.bodySmall().copyWith(color: Colors.grey.shade600),
         ),
-        Expanded(
+        Flexible(
           child: Text(
             value,
             style: AppTextStyles.bodySmall(),
-            softWrap: true,
+            textAlign: TextAlign.end,
           ),
         ),
       ],
